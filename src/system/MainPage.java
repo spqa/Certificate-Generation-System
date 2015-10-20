@@ -30,7 +30,7 @@ public class MainPage extends javax.swing.JFrame {
         lblStudent.setIcon(new ImageIcon(new ImageIcon("src/res/help.png").getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH)));
         lblSetting.setIcon(new ImageIcon(new ImageIcon("src/res/settings.png").getImage().getScaledInstance(width,height, Image.SCALE_SMOOTH)));
         lblHelp.setIcon(new ImageIcon(new ImageIcon("src/res/student.png").getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH)));
-        lblHelp.setHorizontalAlignment(SwingConstants.LEFT);
+        lblheader.setIcon(new ImageIcon(new ImageIcon("src/res/abclogon.png").getImage().getScaledInstance(75, 75, Image.SCALE_SMOOTH)));
         tabbedPane_Main.setTabComponentAt(0, lblAdmin);
         tabbedPane_Main.setTabComponentAt(1, lblCer);
         tabbedPane_Main.setTabComponentAt(2, lblStudent);
@@ -66,7 +66,7 @@ public class MainPage extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        jPasswordField1 = new javax.swing.JPasswordField();
         pnlCerLogin = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -75,6 +75,8 @@ public class MainPage extends javax.swing.JFrame {
         pnlStuLogin = new javax.swing.JPanel();
         pnlSetting = new javax.swing.JPanel();
         pnlHelp = new javax.swing.JPanel();
+        pnlHeader = new javax.swing.JPanel();
+        lblheader = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -82,7 +84,7 @@ public class MainPage extends javax.swing.JFrame {
 
         jLabel1.setText("Username:");
 
-        jLabel2.setText("Password");
+        jLabel2.setText("Password:");
 
         jButton1.setText("Submit");
 
@@ -97,20 +99,20 @@ public class MainPage extends javax.swing.JFrame {
         pnlAdminLoginLayout.setHorizontalGroup(
             pnlAdminLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlAdminLoginLayout.createSequentialGroup()
-                .addGap(140, 140, 140)
-                .addGroup(pnlAdminLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1))
                 .addGroup(pnlAdminLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlAdminLoginLayout.createSequentialGroup()
                         .addGap(140, 140, 140)
-                        .addComponent(jButton1))
-                    .addGroup(pnlAdminLoginLayout.createSequentialGroup()
+                        .addGroup(pnlAdminLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1))
                         .addGap(126, 126, 126)
                         .addGroup(pnlAdminLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
-                            .addComponent(jTextField1))))
-                .addContainerGap(190, Short.MAX_VALUE))
+                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+                            .addComponent(jPasswordField1)))
+                    .addGroup(pnlAdminLoginLayout.createSequentialGroup()
+                        .addGap(292, 292, 292)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(169, Short.MAX_VALUE))
         );
         pnlAdminLoginLayout.setVerticalGroup(
             pnlAdminLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -119,13 +121,13 @@ public class MainPage extends javax.swing.JFrame {
                 .addGroup(pnlAdminLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(69, 69, 69)
-                .addGroup(pnlAdminLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(66, 66, 66)
+                .addGroup(pnlAdminLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(69, 69, 69)
-                .addComponent(jButton1)
-                .addContainerGap(169, Short.MAX_VALUE))
+                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(54, 54, 54)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(84, Short.MAX_VALUE))
         );
 
         tabbedPane_Main.addTab("tab1", pnlAdminLogin);
@@ -160,7 +162,7 @@ public class MainPage extends javax.swing.JFrame {
                 .addGroup(pnlCerLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(249, Short.MAX_VALUE))
+                .addContainerGap(163, Short.MAX_VALUE))
         );
 
         tabbedPane_Main.addTab("tab2", pnlCerLogin);
@@ -173,7 +175,7 @@ public class MainPage extends javax.swing.JFrame {
         );
         pnlStuLoginLayout.setVerticalGroup(
             pnlStuLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 445, Short.MAX_VALUE)
+            .addGap(0, 359, Short.MAX_VALUE)
         );
 
         tabbedPane_Main.addTab("tab3", pnlStuLogin);
@@ -186,7 +188,7 @@ public class MainPage extends javax.swing.JFrame {
         );
         pnlSettingLayout.setVerticalGroup(
             pnlSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 445, Short.MAX_VALUE)
+            .addGap(0, 359, Short.MAX_VALUE)
         );
 
         tabbedPane_Main.addTab("tab4", pnlSetting);
@@ -199,7 +201,7 @@ public class MainPage extends javax.swing.JFrame {
         );
         pnlHelpLayout.setVerticalGroup(
             pnlHelpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 445, Short.MAX_VALUE)
+            .addGap(0, 359, Short.MAX_VALUE)
         );
 
         tabbedPane_Main.addTab("tab5", pnlHelp);
@@ -212,7 +214,28 @@ public class MainPage extends javax.swing.JFrame {
         );
         pnlContainerLayout.setVerticalGroup(
             pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tabbedPane_Main)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlContainerLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(tabbedPane_Main, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        pnlHeader.setBackground(new java.awt.Color(51, 0, 51));
+
+        lblheader.setBackground(new java.awt.Color(51, 0, 51));
+        lblheader.setFont(new java.awt.Font("Trajan Pro", 1, 18)); // NOI18N
+        lblheader.setForeground(new java.awt.Color(0, 51, 255));
+        lblheader.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblheader.setText("ABC institute -Certificate Department");
+
+        javax.swing.GroupLayout pnlHeaderLayout = new javax.swing.GroupLayout(pnlHeader);
+        pnlHeader.setLayout(pnlHeaderLayout);
+        pnlHeaderLayout.setHorizontalGroup(
+            pnlHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblheader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        pnlHeaderLayout.setVerticalGroup(
+            pnlHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblheader, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -220,10 +243,14 @@ public class MainPage extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(pnlContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlHeader, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(pnlHeader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -274,13 +301,15 @@ public class MainPage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
+    private javax.swing.JLabel lblheader;
     private javax.swing.JPanel pnlAdminLogin;
     private javax.swing.JPanel pnlCerLogin;
     private javax.swing.JPanel pnlContainer;
+    private javax.swing.JPanel pnlHeader;
     private javax.swing.JPanel pnlHelp;
     private javax.swing.JPanel pnlSetting;
     private javax.swing.JPanel pnlStuLogin;
