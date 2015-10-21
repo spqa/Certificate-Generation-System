@@ -34,7 +34,7 @@ public class DBConnect {
             if (!file.exists()) {
                 file.createNewFile();
                 p.setProperty("serverName", "localhost");
-                p.setProperty("dbName", "testDB");
+                p.setProperty("dbName", "Certificate");
                 p.setProperty("port", "1433");
                 p.setProperty("userName", "sa");
                 p.setProperty("password", "1234567");
@@ -92,10 +92,12 @@ public class DBConnect {
 //        }
 //    }
 
+    
+    //Test Connection
     public static void main(String[] args) throws SQLException {
         Connection conn = ConnectDatabase();
         Statement stmt = conn.createStatement();
-        String query = "Select * from [user]";
+        String query = "Select * from [Admin]";
         ResultSet rs = stmt.executeQuery(query);
         while (rs.next()) {
             int numColumns = rs.getMetaData().getColumnCount();
