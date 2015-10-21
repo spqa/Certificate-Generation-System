@@ -7,8 +7,14 @@ package system;
 
 import java.awt.CardLayout;
 import java.awt.Image;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 
 /**
@@ -16,19 +22,27 @@ import javax.swing.SwingConstants;
  * @author NamKhanh
  */
 public class MainPage extends javax.swing.JFrame {
+
+    //Connection
+    private Connection conn = null;
+    private PreparedStatement stmt = null;
+    private ResultSet rs = null;
+    public String userID = null;
+
     CardLayout cardMain;
-    JLabel lblAdmin,lblCer,lblStudent,lblSetting,lblHelp;
-    int width,height;
+    JLabel lblAdmin, lblCer, lblStudent, lblSetting, lblHelp;
+    int width, height;
+
     /**
      * Creates new form MainPage
      */
     public MainPage() {
         initComponents();
         InitOptionControl();
-        lblAdmin.setIcon(new ImageIcon(new ImageIcon("src/res/admin.png").getImage().getScaledInstance(width,height, Image.SCALE_SMOOTH)));        
+        lblAdmin.setIcon(new ImageIcon(new ImageIcon("src/res/admin.png").getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH)));
         lblCer.setIcon(new ImageIcon(new ImageIcon("src/res/certi.png").getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH)));
         lblStudent.setIcon(new ImageIcon(new ImageIcon("src/res/help.png").getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH)));
-        lblSetting.setIcon(new ImageIcon(new ImageIcon("src/res/settings.png").getImage().getScaledInstance(width,height, Image.SCALE_SMOOTH)));
+        lblSetting.setIcon(new ImageIcon(new ImageIcon("src/res/settings.png").getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH)));
         lblHelp.setIcon(new ImageIcon(new ImageIcon("src/res/student.png").getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH)));
         lblheader.setIcon(new ImageIcon(new ImageIcon("src/res/abclogon.png").getImage().getScaledInstance(75, 75, Image.SCALE_SMOOTH)));
         tabbedPane_Main.setTabComponentAt(0, lblAdmin);
@@ -38,18 +52,18 @@ public class MainPage extends javax.swing.JFrame {
         tabbedPane_Main.setTabComponentAt(4, lblHelp);
     }
 
-    private void InitOptionControl(){
-        width=60;
-        height=60;
-        cardMain=new CardLayout();
-        lblAdmin=new JLabel("Admin");
-        lblCer=new JLabel("Certificate Cell");
-        lblStudent=new JLabel("Student");
-        lblSetting=new JLabel("Settings");
-        lblHelp=new JLabel("Help     ");
-        
-        
+    private void InitOptionControl() {
+        width = 60;
+        height = 60;
+        cardMain = new CardLayout();
+        lblAdmin = new JLabel("Admin");
+        lblCer = new JLabel("Certificate Cell");
+        lblStudent = new JLabel("Student");
+        lblSetting = new JLabel("Settings");
+        lblHelp = new JLabel("Help     ");
+
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -64,14 +78,14 @@ public class MainPage extends javax.swing.JFrame {
         pnlAdminLogin = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        btnSubmitAdmin = new javax.swing.JButton();
+        txtLoginAdmin = new javax.swing.JTextField();
+        passLoginAdmin = new javax.swing.JPasswordField();
         pnlCerLogin = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
+        txtLoginCer = new javax.swing.JTextField();
+        passLoginCer = new javax.swing.JTextField();
         pnlStuLogin = new javax.swing.JPanel();
         pnlSetting = new javax.swing.JPanel();
         pnlHelp = new javax.swing.JPanel();
@@ -86,11 +100,16 @@ public class MainPage extends javax.swing.JFrame {
 
         jLabel2.setText("Password:");
 
-        jButton1.setText("Submit");
-
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        btnSubmitAdmin.setText("Submit");
+        btnSubmitAdmin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                btnSubmitAdminActionPerformed(evt);
+            }
+        });
+
+        txtLoginAdmin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtLoginAdminActionPerformed(evt);
             }
         });
 
@@ -107,11 +126,11 @@ public class MainPage extends javax.swing.JFrame {
                             .addComponent(jLabel1))
                         .addGap(126, 126, 126)
                         .addGroup(pnlAdminLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
-                            .addComponent(jPasswordField1)))
+                            .addComponent(txtLoginAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+                            .addComponent(passLoginAdmin)))
                     .addGroup(pnlAdminLoginLayout.createSequentialGroup()
                         .addGap(292, 292, 292)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnSubmitAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(169, Short.MAX_VALUE))
         );
         pnlAdminLoginLayout.setVerticalGroup(
@@ -120,13 +139,13 @@ public class MainPage extends javax.swing.JFrame {
                 .addGap(75, 75, 75)
                 .addGroup(pnlAdminLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtLoginAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(66, 66, 66)
                 .addGroup(pnlAdminLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(passLoginAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(54, 54, 54)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSubmitAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(84, Short.MAX_VALUE))
         );
 
@@ -147,8 +166,8 @@ public class MainPage extends javax.swing.JFrame {
                     .addComponent(jLabel4))
                 .addGap(141, 141, 141)
                 .addGroup(pnlCerLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
-                    .addComponent(jTextField4))
+                    .addComponent(txtLoginCer, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+                    .addComponent(passLoginCer))
                 .addContainerGap(191, Short.MAX_VALUE))
         );
         pnlCerLoginLayout.setVerticalGroup(
@@ -157,11 +176,11 @@ public class MainPage extends javax.swing.JFrame {
                 .addGap(96, 96, 96)
                 .addGroup(pnlCerLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtLoginCer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(60, 60, 60)
                 .addGroup(pnlCerLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(passLoginCer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(163, Short.MAX_VALUE))
         );
 
@@ -256,10 +275,61 @@ public class MainPage extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void txtLoginAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLoginAdminActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_txtLoginAdminActionPerformed
 
+    private void btnSubmitAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitAdminActionPerformed
+        //ADMIN Login
+        adminLogin();
+    }//GEN-LAST:event_btnSubmitAdminActionPerformed
+
+    public void adminLogin() {
+        userID = txtLoginAdmin.getText();
+        String pass = new String(passLoginAdmin.getPassword());
+        if (txtLoginAdmin.getText().trim().length() <= 0 | pass.trim().length() <= 0) {
+            txtLoginAdmin.setText("Username is Required");
+            passLoginAdmin.setText("");
+        } else if (pass.trim().length() <= 0) {
+            //Chờ Label
+        } else if (txtLoginAdmin.getText().trim().length() <= 0) {
+            //Cho Label
+        } else {
+            try {
+                System.setProperty("user", userID);
+                conn = DBConnect.ConnectDatabase();
+                stmt = conn.prepareCall("exec AdminLogin ?,?;");
+                stmt.setString(1, userID);
+                stmt.setString(2, pass);
+                rs = stmt.executeQuery();
+                if (rs.next()) {
+                    JOptionPane.showMessageDialog(null, "Login Successful"); //Dang nhap thanh cong
+                    //Cho Form ADMIN
+                    
+                } else {
+                    JOptionPane.showMessageDialog(null, "Login Failed");
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            } finally {
+                try {
+                    if(rs!=null)
+                        rs.close();
+                    if(stmt!=null)
+                        stmt.close();
+                    if(conn!=null)
+                        conn.close();
+                } catch (SQLException ex) {
+//                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(rootPane, ex);
+                }
+            }
+        }
+    };
+    
+    
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -296,16 +366,14 @@ public class MainPage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnSubmitAdmin;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JLabel lblheader;
+    private javax.swing.JPasswordField passLoginAdmin;
+    private javax.swing.JTextField passLoginCer;
     private javax.swing.JPanel pnlAdminLogin;
     private javax.swing.JPanel pnlCerLogin;
     private javax.swing.JPanel pnlContainer;
@@ -314,5 +382,7 @@ public class MainPage extends javax.swing.JFrame {
     private javax.swing.JPanel pnlSetting;
     private javax.swing.JPanel pnlStuLogin;
     private javax.swing.JTabbedPane tabbedPane_Main;
+    private javax.swing.JTextField txtLoginAdmin;
+    private javax.swing.JTextField txtLoginCer;
     // End of variables declaration//GEN-END:variables
 }
