@@ -7,11 +7,13 @@ package system;
 
 import java.awt.CardLayout;
 import java.awt.Image;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -25,9 +27,10 @@ public class MainPage extends javax.swing.JFrame {
 
     //Connection
     private Connection conn = null;
-    private PreparedStatement stmt = null;
+    private CallableStatement stmt = null;
     private ResultSet rs = null;
     public String userID = null;
+    public String userName = null;
 
     CardLayout cardMain;
     JLabel lblAdmin, lblCer, lblStudent, lblSetting, lblHelp;
@@ -298,14 +301,14 @@ public class MainPage extends javax.swing.JFrame {
             try {
                 System.setProperty("user", userID);
                 conn = DBConnect.ConnectDatabase();
-                stmt = conn.prepareCall("exec AdminLogin ?,?;");
+                stmt = conn.prepareCall("{call AdminLogin(?,?)};");
                 stmt.setString(1, userID);
                 stmt.setString(2, pass);
                 rs = stmt.executeQuery();
                 if (rs.next()) {
                     JOptionPane.showMessageDialog(null, "Login Successful"); //Dang nhap thanh cong
                     //Cho Form ADMIN
-                    
+                    this.dispose();
                 } else {
                     JOptionPane.showMessageDialog(null, "Login Failed");
                 }
@@ -326,6 +329,52 @@ public class MainPage extends javax.swing.JFrame {
             }
         }
     };
+    
+    
+    
+    public void cerLogin() {
+        userID = txtLoginCer.getText();
+        String pass = new String(passLoginAdmin.getPassword());
+        if (txtLoginAdmin.getText().trim().length() <= 0 | pass.trim().length() <= 0) {
+            txtLoginAdmin.setText("Username is Required");
+            passLoginAdmin.setText("");
+        } else if (pass.trim().length() <= 0) {
+            //Chờ Label
+        } else if (txtLoginAdmin.getText().trim().length() <= 0) {
+            //Cho Label
+        } else {
+            try {
+                System.setProperty("user", userID);
+                conn = DBConnect.ConnectDatabase();
+                stmt = conn.prepareCall("{call AdminLogin(?,?)};");
+                stmt.setString(1, userID);
+                stmt.setString(2, pass);
+                rs = stmt.executeQuery();
+                if (rs.next()) {
+                    JOptionPane.showMessageDialog(null, "Login Successful"); //Dang nhap thanh cong
+                    //Cho Form ADMIN
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Login Failed");
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            } finally {
+                try {
+                    if(rs!=null)
+                        rs.close();
+                    if(stmt!=null)
+                        stmt.close();
+                    if(conn!=null)
+                        conn.close();
+                } catch (SQLException ex) {
+//                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(rootPane, ex);
+                }
+            }
+        }
+    };
+    
     
     
     
