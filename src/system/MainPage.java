@@ -115,6 +115,8 @@ public class MainPage extends javax.swing.JFrame {
 
         tabbedPane_Main.setTabPlacement(javax.swing.JTabbedPane.LEFT);
 
+        pnlAdminLogin.setPreferredSize(new java.awt.Dimension(750, 450));
+
         jLabel1.setText("Username:");
 
         jLabel2.setText("Password:");
