@@ -80,8 +80,8 @@ public class MainPage extends javax.swing.JFrame {
         btnSubmitAdmin = new javax.swing.JButton();
         txtLoginAdmin = new javax.swing.JTextField();
         passLoginAdmin = new javax.swing.JPasswordField();
-        jLabel10 = new javax.swing.JLabel();
-        lblError = new javax.swing.JPanel();
+        lblError = new javax.swing.JLabel();
+        pnlCerLogin = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         txtLoginAdmin1 = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
@@ -150,7 +150,7 @@ public class MainPage extends javax.swing.JFrame {
                         .addGroup(pnlAdminLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(passLoginAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
                             .addComponent(txtLoginAdmin)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(lblError, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(169, Short.MAX_VALUE))
         );
         pnlAdminLoginLayout.setVerticalGroup(
@@ -165,7 +165,7 @@ public class MainPage extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(passLoginAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblError, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnSubmitAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(98, Short.MAX_VALUE))
@@ -190,36 +190,36 @@ public class MainPage extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout lblErrorLayout = new javax.swing.GroupLayout(lblError);
-        lblError.setLayout(lblErrorLayout);
-        lblErrorLayout.setHorizontalGroup(
-            lblErrorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(lblErrorLayout.createSequentialGroup()
-                .addGroup(lblErrorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(lblErrorLayout.createSequentialGroup()
+        javax.swing.GroupLayout pnlCerLoginLayout = new javax.swing.GroupLayout(pnlCerLogin);
+        pnlCerLogin.setLayout(pnlCerLoginLayout);
+        pnlCerLoginLayout.setHorizontalGroup(
+            pnlCerLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlCerLoginLayout.createSequentialGroup()
+                .addGroup(pnlCerLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlCerLoginLayout.createSequentialGroup()
                         .addGap(290, 290, 290)
                         .addComponent(btnSubmitAdmin2, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(lblErrorLayout.createSequentialGroup()
+                    .addGroup(pnlCerLoginLayout.createSequentialGroup()
                         .addGap(151, 151, 151)
                         .addComponent(jLabel5)
                         .addGap(127, 127, 127)
-                        .addGroup(lblErrorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(pnlCerLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtLoginAdmin1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(157, Short.MAX_VALUE))
-            .addGroup(lblErrorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(lblErrorLayout.createSequentialGroup()
+            .addGroup(pnlCerLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlCerLoginLayout.createSequentialGroup()
                     .addGap(154, 154, 154)
                     .addComponent(jLabel6)
                     .addGap(126, 126, 126)
                     .addComponent(passLoginAdmin1, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
                     .addGap(155, 155, 155)))
         );
-        lblErrorLayout.setVerticalGroup(
-            lblErrorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(lblErrorLayout.createSequentialGroup()
+        pnlCerLoginLayout.setVerticalGroup(
+            pnlCerLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlCerLoginLayout.createSequentialGroup()
                 .addGap(85, 85, 85)
-                .addGroup(lblErrorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnlCerLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtLoginAdmin1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
@@ -227,16 +227,16 @@ public class MainPage extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(btnSubmitAdmin2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(80, 80, 80))
-            .addGroup(lblErrorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(lblErrorLayout.createSequentialGroup()
+            .addGroup(pnlCerLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlCerLoginLayout.createSequentialGroup()
                     .addGap(169, 169, 169)
-                    .addGroup(lblErrorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addGroup(pnlCerLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel6)
                         .addComponent(passLoginAdmin1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addContainerGap(170, Short.MAX_VALUE)))
         );
 
-        tabbedPane_Main.addTab("tab2", lblError);
+        tabbedPane_Main.addTab("tab2", pnlCerLogin);
 
         jLabel7.setText("Username:");
 
@@ -499,7 +499,7 @@ public class MainPage extends javax.swing.JFrame {
     
     
     public void cerLogin() {
-        userID = txtLoginCer.getText();
+//        userID = txtLoginCer.getText();
         String pass = new String(passLoginAdmin.getPassword());
         if (txtLoginAdmin.getText().trim().length() <= 0 | pass.trim().length() <= 0) {
             txtLoginAdmin.setText("Username is Required");
@@ -587,7 +587,6 @@ public class MainPage extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel14;
@@ -604,12 +603,13 @@ public class MainPage extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
-    private javax.swing.JPanel lblError;
+    private javax.swing.JLabel lblError;
     private javax.swing.JLabel lblheader;
     private javax.swing.JPasswordField passLoginAdmin;
     private javax.swing.JPasswordField passLoginAdmin1;
     private javax.swing.JPasswordField passLoginAdmin2;
     private javax.swing.JPanel pnlAdminLogin;
+    private javax.swing.JPanel pnlCerLogin;
     private javax.swing.JPanel pnlContainer;
     private javax.swing.JPanel pnlHeader;
     private javax.swing.JPanel pnlHelp;

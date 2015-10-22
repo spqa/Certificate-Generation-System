@@ -91,7 +91,7 @@
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                       <Component id="passLoginAdmin" pref="270" max="32767" attributes="0"/>
                                       <Component id="txtLoginAdmin" max="32767" attributes="0"/>
-                                      <Component id="jLabel10" min="-2" pref="0" max="-2" attributes="0"/>
+                                      <Component id="lblError" min="-2" pref="0" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -113,7 +113,7 @@
                               <Component id="passLoginAdmin" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="jLabel10" min="-2" pref="4" max="-2" attributes="0"/>
+                          <Component id="lblError" min="-2" pref="4" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="btnSubmitAdmin" min="-2" pref="40" max="-2" attributes="0"/>
                           <EmptySpace pref="98" max="32767" attributes="0"/>
@@ -147,11 +147,11 @@
                 </Component>
                 <Component class="javax.swing.JPasswordField" name="passLoginAdmin">
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel10">
+                <Component class="javax.swing.JLabel" name="lblError">
                 </Component>
               </SubComponents>
             </Container>
-            <Container class="javax.swing.JPanel" name="lblError">
+            <Container class="javax.swing.JPanel" name="pnlCerLogin">
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
                   <JTabbedPaneConstraints tabName="tab2">
