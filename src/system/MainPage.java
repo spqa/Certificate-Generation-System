@@ -83,30 +83,30 @@ public class MainPage extends javax.swing.JFrame {
         lblError = new javax.swing.JLabel();
         pnlCerLogin = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        txtLoginAdmin1 = new javax.swing.JTextField();
+        txtLoginCer = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        passLoginAdmin1 = new javax.swing.JPasswordField();
-        btnSubmitAdmin2 = new javax.swing.JButton();
+        passLoginCer = new javax.swing.JPasswordField();
+        btnSubmitCer = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         pnlStuLogin = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        txtLoginAdmin2 = new javax.swing.JTextField();
+        txtLoginStudent = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        passLoginAdmin2 = new javax.swing.JPasswordField();
-        btnSubmitAdmin1 = new javax.swing.JButton();
+        passLoginStudent = new javax.swing.JPasswordField();
+        btnSubmitStudent = new javax.swing.JButton();
         pnlSetting = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        passConfigDB = new javax.swing.JPasswordField();
+        txtConfigDBUser = new javax.swing.JTextField();
+        txtConfigDBName = new javax.swing.JTextField();
+        txtConfigServerName = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        txtConfigDBPort = new javax.swing.JTextField();
         pnlHelp = new javax.swing.JPanel();
         pnlHeader = new javax.swing.JPanel();
         lblheader = new javax.swing.JLabel();
@@ -175,18 +175,18 @@ public class MainPage extends javax.swing.JFrame {
 
         jLabel5.setText("Username:");
 
-        txtLoginAdmin1.addActionListener(new java.awt.event.ActionListener() {
+        txtLoginCer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtLoginAdmin1ActionPerformed(evt);
+                txtLoginCerActionPerformed(evt);
             }
         });
 
         jLabel6.setText("Password:");
 
-        btnSubmitAdmin2.setText("Submit");
-        btnSubmitAdmin2.addActionListener(new java.awt.event.ActionListener() {
+        btnSubmitCer.setText("Submit");
+        btnSubmitCer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSubmitAdmin2ActionPerformed(evt);
+                btnSubmitCerActionPerformed(evt);
             }
         });
 
@@ -198,13 +198,13 @@ public class MainPage extends javax.swing.JFrame {
                 .addGroup(pnlCerLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlCerLoginLayout.createSequentialGroup()
                         .addGap(290, 290, 290)
-                        .addComponent(btnSubmitAdmin2, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnSubmitCer, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnlCerLoginLayout.createSequentialGroup()
                         .addGap(151, 151, 151)
                         .addComponent(jLabel5)
                         .addGap(127, 127, 127)
                         .addGroup(pnlCerLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtLoginAdmin1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtLoginCer, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(157, Short.MAX_VALUE))
             .addGroup(pnlCerLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -212,7 +212,7 @@ public class MainPage extends javax.swing.JFrame {
                     .addGap(154, 154, 154)
                     .addComponent(jLabel6)
                     .addGap(126, 126, 126)
-                    .addComponent(passLoginAdmin1, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
+                    .addComponent(passLoginCer, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
                     .addGap(155, 155, 155)))
         );
         pnlCerLoginLayout.setVerticalGroup(
@@ -220,19 +220,19 @@ public class MainPage extends javax.swing.JFrame {
             .addGroup(pnlCerLoginLayout.createSequentialGroup()
                 .addGap(85, 85, 85)
                 .addGroup(pnlCerLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtLoginAdmin1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtLoginCer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
                 .addComponent(jLabel11)
                 .addGap(18, 18, 18)
-                .addComponent(btnSubmitAdmin2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSubmitCer, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(80, 80, 80))
             .addGroup(pnlCerLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(pnlCerLoginLayout.createSequentialGroup()
                     .addGap(169, 169, 169)
                     .addGroup(pnlCerLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel6)
-                        .addComponent(passLoginAdmin1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(passLoginCer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addContainerGap(170, Short.MAX_VALUE)))
         );
 
@@ -240,18 +240,18 @@ public class MainPage extends javax.swing.JFrame {
 
         jLabel7.setText("Username:");
 
-        txtLoginAdmin2.addActionListener(new java.awt.event.ActionListener() {
+        txtLoginStudent.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtLoginAdmin2ActionPerformed(evt);
+                txtLoginStudentActionPerformed(evt);
             }
         });
 
         jLabel8.setText("Password:");
 
-        btnSubmitAdmin1.setText("Submit");
-        btnSubmitAdmin1.addActionListener(new java.awt.event.ActionListener() {
+        btnSubmitStudent.setText("Submit");
+        btnSubmitStudent.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSubmitAdmin1ActionPerformed(evt);
+                btnSubmitStudentActionPerformed(evt);
             }
         });
 
@@ -266,12 +266,12 @@ public class MainPage extends javax.swing.JFrame {
                     .addComponent(jLabel8))
                 .addGap(126, 126, 126)
                 .addGroup(pnlStuLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtLoginAdmin2, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
-                    .addComponent(passLoginAdmin2))
+                    .addComponent(txtLoginStudent, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+                    .addComponent(passLoginStudent))
                 .addGap(147, 147, 147))
             .addGroup(pnlStuLoginLayout.createSequentialGroup()
                 .addGap(289, 289, 289)
-                .addComponent(btnSubmitAdmin1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSubmitStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         pnlStuLoginLayout.setVerticalGroup(
@@ -280,13 +280,13 @@ public class MainPage extends javax.swing.JFrame {
                 .addGap(76, 76, 76)
                 .addGroup(pnlStuLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(txtLoginAdmin2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtLoginStudent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(62, 62, 62)
                 .addGroup(pnlStuLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(passLoginAdmin2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(passLoginStudent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
                 .addGap(46, 46, 46)
-                .addComponent(btnSubmitAdmin1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSubmitStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(95, Short.MAX_VALUE))
         );
 
@@ -311,26 +311,27 @@ public class MainPage extends javax.swing.JFrame {
         pnlSettingLayout.setHorizontalGroup(
             pnlSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlSettingLayout.createSequentialGroup()
-                .addGap(259, 259, 259)
-                .addComponent(jButton1)
-                .addGap(106, 106, 106)
-                .addComponent(jButton2)
-                .addGap(78, 294, Short.MAX_VALUE))
-            .addGroup(pnlSettingLayout.createSequentialGroup()
-                .addGap(186, 186, 186)
                 .addGroup(pnlSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel12)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel14))
-                .addGap(42, 42, 42)
-                .addGroup(pnlSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField1)
-                    .addComponent(jTextField2)
-                    .addComponent(jTextField3)
-                    .addComponent(jPasswordField1)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE))
+                    .addGroup(pnlSettingLayout.createSequentialGroup()
+                        .addGap(259, 259, 259)
+                        .addComponent(jButton1)
+                        .addGap(106, 106, 106)
+                        .addComponent(jButton2))
+                    .addGroup(pnlSettingLayout.createSequentialGroup()
+                        .addGap(186, 186, 186)
+                        .addGroup(pnlSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel14))
+                        .addGap(42, 42, 42)
+                        .addGroup(pnlSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtConfigDBUser)
+                            .addComponent(txtConfigDBName)
+                            .addComponent(txtConfigServerName)
+                            .addComponent(passConfigDB)
+                            .addComponent(txtConfigDBPort, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlSettingLayout.setVerticalGroup(
@@ -339,23 +340,23 @@ public class MainPage extends javax.swing.JFrame {
                 .addGap(50, 50, 50)
                 .addGroup(pnlSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtConfigServerName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24)
                 .addGroup(pnlSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtConfigDBName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24)
                 .addGroup(pnlSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtConfigDBPort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(25, 25, 25)
                 .addGroup(pnlSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtConfigDBUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
                 .addGroup(pnlSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(passConfigDB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(49, 49, 49)
                 .addGroup(pnlSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
@@ -437,21 +438,21 @@ public class MainPage extends javax.swing.JFrame {
         adminLogin();
     }//GEN-LAST:event_btnSubmitAdminActionPerformed
 
-    private void txtLoginAdmin1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLoginAdmin1ActionPerformed
+    private void txtLoginCerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLoginCerActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtLoginAdmin1ActionPerformed
+    }//GEN-LAST:event_txtLoginCerActionPerformed
 
-    private void txtLoginAdmin2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLoginAdmin2ActionPerformed
+    private void txtLoginStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLoginStudentActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtLoginAdmin2ActionPerformed
+    }//GEN-LAST:event_txtLoginStudentActionPerformed
 
-    private void btnSubmitAdmin1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitAdmin1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSubmitAdmin1ActionPerformed
+    private void btnSubmitStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitStudentActionPerformed
+        studentLogin();
+    }//GEN-LAST:event_btnSubmitStudentActionPerformed
 
-    private void btnSubmitAdmin2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitAdmin2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSubmitAdmin2ActionPerformed
+    private void btnSubmitCerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitCerActionPerformed
+        cerLogin();
+    }//GEN-LAST:event_btnSubmitCerActionPerformed
 
     public void adminLogin() {
         userID = txtLoginAdmin.getText();
@@ -499,23 +500,25 @@ public class MainPage extends javax.swing.JFrame {
     
     
     public void cerLogin() {
-//        userID = txtLoginCer.getText();
-        String pass = new String(passLoginAdmin.getPassword());
-        if (txtLoginAdmin.getText().trim().length() <= 0 | pass.trim().length() <= 0) {
-            txtLoginAdmin.setText("Username is Required");
-            passLoginAdmin.setText("");
+        System.out.println("0");
+        userID = txtLoginCer.getText();
+        String pass = new String(passLoginCer.getPassword());
+        if (txtLoginCer.getText().trim().length() <= 0 | pass.trim().length() <= 0) {
+            txtLoginCer.setText("Username is Required");
+            passLoginCer.setText("");
         } else if (pass.trim().length() <= 0) {
             //Chờ Label
-        } else if (txtLoginAdmin.getText().trim().length() <= 0) {
+        } else if (txtLoginCer.getText().trim().length() <= 0) {
             //Cho Label
         } else {
             try {
                 System.setProperty("user", userID);
                 conn = DBConnect.ConnectDatabase();
-                stmt = conn.prepareCall("{call AdminLogin(?,?)};");
+                stmt = conn.prepareCall("{call CerLogin(?,?)};");
                 stmt.setString(1, userID);
                 stmt.setString(2, pass);
                 rs = stmt.executeQuery();
+                System.out.println("1");
                 if (rs.next()) {
                     JOptionPane.showMessageDialog(null, "Login Successful"); //Dang nhap thanh cong
                     //Cho Form ADMIN
@@ -542,7 +545,50 @@ public class MainPage extends javax.swing.JFrame {
     };
     
     
-    
+    public void studentLogin() {
+        System.out.println("0");
+        userID = txtLoginStudent.getText();
+        String pass = new String(passLoginStudent.getPassword());
+        if (txtLoginStudent.getText().trim().length() <= 0 | pass.trim().length() <= 0) {
+            txtLoginStudent.setText("Username is Required");
+            passLoginStudent.setText("");
+        } else if (pass.trim().length() <= 0) {
+            //Chờ Label
+        } else if (txtLoginStudent.getText().trim().length() <= 0) {
+            //Cho Label
+        } else {
+            try {
+                System.setProperty("user", userID);
+                conn = DBConnect.ConnectDatabase();
+                stmt = conn.prepareCall("{call StudentLogin(?,?)};");
+                stmt.setString(1, userID);
+                stmt.setString(2, pass);
+                rs = stmt.executeQuery();
+                System.out.println("1");
+                if (rs.next()) {
+                    JOptionPane.showMessageDialog(null, "Login Successful"); //Dang nhap thanh cong
+                    //Cho Form ADMIN
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Login Failed");
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            } finally {
+                try {
+                    if(rs!=null)
+                        rs.close();
+                    if(stmt!=null)
+                        stmt.close();
+                    if(conn!=null)
+                        conn.close();
+                } catch (SQLException ex) {
+//                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(rootPane, ex);
+                }
+            }
+        }
+    };
     
     
     /**
@@ -582,8 +628,8 @@ public class MainPage extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSubmitAdmin;
-    private javax.swing.JButton btnSubmitAdmin1;
-    private javax.swing.JButton btnSubmitAdmin2;
+    private javax.swing.JButton btnSubmitCer;
+    private javax.swing.JButton btnSubmitStudent;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
@@ -598,16 +644,12 @@ public class MainPage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JLabel lblError;
     private javax.swing.JLabel lblheader;
+    private javax.swing.JPasswordField passConfigDB;
     private javax.swing.JPasswordField passLoginAdmin;
-    private javax.swing.JPasswordField passLoginAdmin1;
-    private javax.swing.JPasswordField passLoginAdmin2;
+    private javax.swing.JPasswordField passLoginCer;
+    private javax.swing.JPasswordField passLoginStudent;
     private javax.swing.JPanel pnlAdminLogin;
     private javax.swing.JPanel pnlCerLogin;
     private javax.swing.JPanel pnlContainer;
@@ -616,8 +658,12 @@ public class MainPage extends javax.swing.JFrame {
     private javax.swing.JPanel pnlSetting;
     private javax.swing.JPanel pnlStuLogin;
     private javax.swing.JTabbedPane tabbedPane_Main;
+    private javax.swing.JTextField txtConfigDBName;
+    private javax.swing.JTextField txtConfigDBPort;
+    private javax.swing.JTextField txtConfigDBUser;
+    private javax.swing.JTextField txtConfigServerName;
     private javax.swing.JTextField txtLoginAdmin;
-    private javax.swing.JTextField txtLoginAdmin1;
-    private javax.swing.JTextField txtLoginAdmin2;
+    private javax.swing.JTextField txtLoginCer;
+    private javax.swing.JTextField txtLoginStudent;
     // End of variables declaration//GEN-END:variables
 }
