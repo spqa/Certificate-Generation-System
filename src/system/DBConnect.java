@@ -33,7 +33,7 @@ public class DBConnect {
                 file.createNewFile();
                 p.setProperty("serverName", "localhost");
                 p.setProperty("dbName", "Certificate");
-                p.setProperty("port", "49174");
+                p.setProperty("port", "1433");
                 p.setProperty("userName", "sa");
                 p.setProperty("password", "1234567");
                 FileOutputStream fos = new FileOutputStream(file);
@@ -97,15 +97,10 @@ public class DBConnect {
         Statement stmt = conn.createStatement();
         String query = "Select * from [Admin]";
         ResultSet rs = stmt.executeQuery(query);
-        while (rs.next()) {
-            int numColumns = rs.getMetaData().getColumnCount();
-            for (int i = 1; i <= numColumns; i++) {
-               // Column numbers start at 1.
-                // Also there are many methods on the result set to return
-                //  the column as a particular type. Refer to the Sun documentation
-                //  for the list of valid conversions.
-                System.out.println("COLUMN " + i + " = " + rs.getObject(i));
-            }
+        if (rs.next()) {
+            JOptionPane.showMessageDialog(null, "Database Connected");
+        } else {
+            JOptionPane.showMessageDialog(null, "Connection Failed");
         }
     }
 }

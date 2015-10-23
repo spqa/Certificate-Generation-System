@@ -7,13 +7,23 @@ package system;
 
 import java.awt.CardLayout;
 import java.awt.Image;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Properties;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import static system.DBConnect.ConnectDatabase;
 
 /**
  *
@@ -49,6 +59,9 @@ public class MainPage extends javax.swing.JFrame {
         tabbedPane_Main.setTabComponentAt(2, lblStudent);
         tabbedPane_Main.setTabComponentAt(3, lblSetting);
         tabbedPane_Main.setTabComponentAt(4, lblHelp);
+
+        //Load Config file
+        loadConfig();
     }
 
     private void InitOptionControl() {
@@ -303,6 +316,11 @@ public class MainPage extends javax.swing.JFrame {
         jLabel12.setText("Password:");
 
         jButton1.setText("Test");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Ok");
 
@@ -456,6 +474,10 @@ public class MainPage extends javax.swing.JFrame {
         cerLogin();
     }//GEN-LAST:event_btnSubmitCerActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        testConfig();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     public void adminLogin() {
         userID = txtLoginAdmin.getText();
         String pass = new String(passLoginAdmin.getPassword());
@@ -485,19 +507,24 @@ public class MainPage extends javax.swing.JFrame {
                 System.out.println(e.getMessage());
             } finally {
                 try {
-                    if(rs!=null)
+                    if (rs != null) {
                         rs.close();
-                    if(stmt!=null)
+                    }
+                    if (stmt != null) {
                         stmt.close();
-                    if(conn!=null)
+                    }
+                    if (conn != null) {
                         conn.close();
+                    }
                 } catch (SQLException ex) {
 //                    ex.printStackTrace();
                     JOptionPane.showMessageDialog(rootPane, ex);
                 }
             }
         }
-    };
+    }
+
+    ;
     
     
     
@@ -532,19 +559,24 @@ public class MainPage extends javax.swing.JFrame {
                 System.out.println(e.getMessage());
             } finally {
                 try {
-                    if(rs!=null)
+                    if (rs != null) {
                         rs.close();
-                    if(stmt!=null)
+                    }
+                    if (stmt != null) {
                         stmt.close();
-                    if(conn!=null)
+                    }
+                    if (conn != null) {
                         conn.close();
+                    }
                 } catch (SQLException ex) {
 //                    ex.printStackTrace();
                     JOptionPane.showMessageDialog(rootPane, ex);
                 }
             }
         }
-    };
+    }
+
+    ;
     
     
     public void studentLogin() {
@@ -578,21 +610,105 @@ public class MainPage extends javax.swing.JFrame {
                 System.out.println(e.getMessage());
             } finally {
                 try {
-                    if(rs!=null)
+                    if (rs != null) {
                         rs.close();
-                    if(stmt!=null)
+                    }
+                    if (stmt != null) {
                         stmt.close();
-                    if(conn!=null)
+                    }
+                    if (conn != null) {
                         conn.close();
+                    }
                 } catch (SQLException ex) {
 //                    ex.printStackTrace();
                     JOptionPane.showMessageDialog(rootPane, ex);
                 }
             }
         }
+    }
+
+    ;
+    
+    
+    public void loadConfig() {
+        Properties p = new Properties();
+        File file = new File("config.properties");
+        try {
+            if (!file.exists()) {
+                file.createNewFile();
+                p.setProperty("serverName", "localhost");
+                p.setProperty("dbName", "Certificate");
+                p.setProperty("port", "14333");
+                p.setProperty("userName", "sa");
+                p.setProperty("password", "1234567");
+                FileOutputStream fos = new FileOutputStream(file);
+                p.store(fos, "");
+                fos.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        InputStream input = null;
+        try {
+            input = new FileInputStream(file);
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        }
+        try {
+            p.load(input);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        txtConfigDBName.setText(p.getProperty("dbName"));
+        txtConfigDBPort.setText(p.getProperty("port"));
+        txtConfigDBUser.setText(p.getProperty("userName"));
+        txtConfigServerName.setText(p.getProperty("serverName"));
+        passConfigDB.setText(p.getProperty("password"));
+
     };
     
+    public void testConfig() {
+        String driverName = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+        String userNamet = txtConfigDBUser.getText();
+        String password = new String(passConfigDB.getPassword());
+        String port = txtConfigDBPort.getText();
+        String dbName = txtConfigDBName.getText();
+        String serverName = txtConfigServerName.getText();
+        String url = "jdbc:sqlserver://" + serverName + ":" + port;
+        System.out.println("jdbc:sqlserver://" + serverName + ":" + port + ";databasename=" + dbName + userNamet + password);
+        Connection connt = null;
+        try {
+            Class.forName(driverName);
+            connt = DriverManager.getConnection(url + ";databasename=" + dbName, userNamet, password);
+            System.out.println(connt);
+            
+        } catch (SQLException ex) {
+            
+        } catch (ClassNotFoundException ex) {
+            
+        }
+        try {
+           // connt = ConnectDatabase();
+            Statement stmt2 = connt.createStatement();
+            String query2 = "Select * from [Admin]";
+            ResultSet rs = stmt2.executeQuery(query2);
+            if (rs.next()) {
+                JOptionPane.showMessageDialog(null, "Database Connected");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Connection Failed");
+        }
+    }
     
+    
+    
+    
+    
+    
+    
+
     /**
      * @param args the command line arguments
      */
