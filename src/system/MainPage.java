@@ -48,17 +48,17 @@ public class MainPage extends javax.swing.JFrame {
     public MainPage() {
         initComponents();
         InitOptionControl();
-        lblAdmin.setIcon(new ImageIcon(new ImageIcon("src/res/admin.png").getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH)));
-        lblCer.setIcon(new ImageIcon(new ImageIcon("src/res/certi.png").getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH)));
-        lblStudent.setIcon(new ImageIcon(new ImageIcon("src/res/help.png").getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH)));
-        lblSetting.setIcon(new ImageIcon(new ImageIcon("src/res/settings.png").getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH)));
-        lblHelp.setIcon(new ImageIcon(new ImageIcon("src/res/student.png").getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH)));
-        lblheader.setIcon(new ImageIcon(new ImageIcon("src/res/abclogon.png").getImage().getScaledInstance(75, 75, Image.SCALE_SMOOTH)));
-        tabbedPane_Main.setTabComponentAt(0, lblAdmin);
-        tabbedPane_Main.setTabComponentAt(1, lblCer);
-        tabbedPane_Main.setTabComponentAt(2, lblStudent);
-        tabbedPane_Main.setTabComponentAt(3, lblSetting);
-        tabbedPane_Main.setTabComponentAt(4, lblHelp);
+//        lblAdmin.setIcon(new ImageIcon(new ImageIcon("src/res/admin.png").getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH)));
+//        lblCer.setIcon(new ImageIcon(new ImageIcon("src/res/certi.png").getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH)));
+//        lblStudent.setIcon(new ImageIcon(new ImageIcon("src/res/help.png").getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH)));
+//        lblSetting.setIcon(new ImageIcon(new ImageIcon("src/res/settings.png").getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH)));
+//        lblHelp.setIcon(new ImageIcon(new ImageIcon("src/res/student.png").getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH)));
+//        lblheader.setIcon(new ImageIcon(new ImageIcon("src/res/abclogon.png").getImage().getScaledInstance(75, 75, Image.SCALE_SMOOTH)));
+//        tabbedPane_Main.setTabComponentAt(0, lblAdmin);
+//        tabbedPane_Main.setTabComponentAt(1, lblCer);
+//        tabbedPane_Main.setTabComponentAt(2, lblStudent);
+//        tabbedPane_Main.setTabComponentAt(3, lblSetting);
+//        tabbedPane_Main.setTabComponentAt(4, lblHelp);
 
         //Load Config file
         loadConfig();
@@ -90,23 +90,22 @@ public class MainPage extends javax.swing.JFrame {
         pnlAdminLogin = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        btnSubmitAdmin = new javax.swing.JButton();
         txtLoginAdmin = new javax.swing.JTextField();
         passLoginAdmin = new javax.swing.JPasswordField();
         lblError = new javax.swing.JLabel();
+        btnSubmitAdmin = new javax.swing.JButton();
         pnlCerLogin = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        txtLoginCer = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        passLoginCer = new javax.swing.JPasswordField();
         btnSubmitCer = new javax.swing.JButton();
-        jLabel11 = new javax.swing.JLabel();
+        txtLoginCer = new javax.swing.JTextField();
+        passLoginCer = new javax.swing.JPasswordField();
         pnlStuLogin = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
-        txtLoginStudent = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
-        passLoginStudent = new javax.swing.JPasswordField();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
         btnSubmitStudent = new javax.swing.JButton();
+        txtLoginStudent = new javax.swing.JTextField();
+        passLoginStudent = new javax.swing.JPasswordField();
         pnlSetting = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -126,210 +125,230 @@ public class MainPage extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        tabbedPane_Main.setBackground(new java.awt.Color(255, 255, 255));
         tabbedPane_Main.setTabPlacement(javax.swing.JTabbedPane.LEFT);
 
+        pnlAdminLogin.setBackground(new java.awt.Color(255, 255, 255));
+        pnlAdminLogin.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         pnlAdminLogin.setPreferredSize(new java.awt.Dimension(750, 450));
 
+        jLabel1.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 18)); // NOI18N
         jLabel1.setText("Username:");
 
+        jLabel2.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 18)); // NOI18N
         jLabel2.setText("Password:");
 
-        btnSubmitAdmin.setText("Submit");
-        btnSubmitAdmin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSubmitAdminActionPerformed(evt);
-            }
-        });
-
+        txtLoginAdmin.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtLoginAdmin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtLoginAdminActionPerformed(evt);
             }
         });
 
+        passLoginAdmin.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
+        btnSubmitAdmin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/Login60.png"))); // NOI18N
+        btnSubmitAdmin.setText("Login");
+        btnSubmitAdmin.setToolTipText("Click to Login");
+
         javax.swing.GroupLayout pnlAdminLoginLayout = new javax.swing.GroupLayout(pnlAdminLogin);
         pnlAdminLogin.setLayout(pnlAdminLoginLayout);
         pnlAdminLoginLayout.setHorizontalGroup(
             pnlAdminLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlAdminLoginLayout.createSequentialGroup()
-                .addGroup(pnlAdminLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlAdminLoginLayout.createSequentialGroup()
-                        .addGap(292, 292, 292)
-                        .addComponent(btnSubmitAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlAdminLoginLayout.createSequentialGroup()
-                        .addGap(140, 140, 140)
-                        .addGroup(pnlAdminLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1))
-                        .addGap(126, 126, 126)
-                        .addGroup(pnlAdminLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(passLoginAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
-                            .addComponent(txtLoginAdmin)
-                            .addComponent(lblError, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(169, Short.MAX_VALUE))
+                .addGap(123, 123, 123)
+                .addGroup(pnlAdminLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
+                .addComponent(lblError, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(pnlAdminLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtLoginAdmin)
+                    .addComponent(passLoginAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE))
+                .addGap(106, 106, 106))
+            .addGroup(pnlAdminLoginLayout.createSequentialGroup()
+                .addGap(294, 294, 294)
+                .addComponent(btnSubmitAdmin)
+                .addContainerGap(335, Short.MAX_VALUE))
         );
         pnlAdminLoginLayout.setVerticalGroup(
             pnlAdminLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlAdminLoginLayout.createSequentialGroup()
-                .addGap(75, 75, 75)
+                .addGap(85, 85, 85)
                 .addGroup(pnlAdminLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtLoginAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(66, 66, 66)
-                .addGroup(pnlAdminLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(passLoginAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(lblError, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnSubmitAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(98, Short.MAX_VALUE))
+                .addGap(80, 80, 80)
+                .addGroup(pnlAdminLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblError, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnlAdminLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(passLoginAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addComponent(btnSubmitAdmin)
+                .addGap(27, 27, 27))
         );
 
-        tabbedPane_Main.addTab("tab1", pnlAdminLogin);
+        tabbedPane_Main.addTab("Admin Login", new javax.swing.ImageIcon(getClass().getResource("/res/Admin260.png")), pnlAdminLogin, "Click here to login as admin"); // NOI18N
+        pnlAdminLogin.getAccessibleContext().setAccessibleName("");
 
+        pnlCerLogin.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel5.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 18)); // NOI18N
         jLabel5.setText("Username:");
 
+        jLabel6.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 18)); // NOI18N
+        jLabel6.setText("Password:");
+
+        btnSubmitCer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/Login60.png"))); // NOI18N
+        btnSubmitCer.setText("Login");
+        btnSubmitCer.setToolTipText("Click to Login");
+
+        txtLoginCer.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtLoginCer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtLoginCerActionPerformed(evt);
             }
         });
 
-        jLabel6.setText("Password:");
-
-        btnSubmitCer.setText("Submit");
-        btnSubmitCer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSubmitCerActionPerformed(evt);
-            }
-        });
+        passLoginCer.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         javax.swing.GroupLayout pnlCerLoginLayout = new javax.swing.GroupLayout(pnlCerLogin);
         pnlCerLogin.setLayout(pnlCerLoginLayout);
         pnlCerLoginLayout.setHorizontalGroup(
             pnlCerLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlCerLoginLayout.createSequentialGroup()
+                .addGap(294, 294, 294)
+                .addComponent(btnSubmitCer)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCerLoginLayout.createSequentialGroup()
+                .addGap(123, 123, 123)
+                .addGroup(pnlCerLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 164, Short.MAX_VALUE)
                 .addGroup(pnlCerLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlCerLoginLayout.createSequentialGroup()
-                        .addGap(290, 290, 290)
-                        .addComponent(btnSubmitCer, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlCerLoginLayout.createSequentialGroup()
-                        .addGap(151, 151, 151)
-                        .addComponent(jLabel5)
-                        .addGap(127, 127, 127)
-                        .addGroup(pnlCerLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtLoginCer, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(157, Short.MAX_VALUE))
-            .addGroup(pnlCerLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(pnlCerLoginLayout.createSequentialGroup()
-                    .addGap(154, 154, 154)
-                    .addComponent(jLabel6)
-                    .addGap(126, 126, 126)
-                    .addComponent(passLoginCer, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
-                    .addGap(155, 155, 155)))
+                    .addComponent(passLoginCer, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtLoginCer, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(106, 106, 106))
         );
         pnlCerLoginLayout.setVerticalGroup(
             pnlCerLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlCerLoginLayout.createSequentialGroup()
-                .addGap(85, 85, 85)
+                .addGap(81, 81, 81)
                 .addGroup(pnlCerLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtLoginCer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
-                .addComponent(jLabel11)
-                .addGap(18, 18, 18)
-                .addComponent(btnSubmitCer, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(80, 80, 80))
-            .addGroup(pnlCerLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(pnlCerLoginLayout.createSequentialGroup()
-                    .addGap(169, 169, 169)
-                    .addGroup(pnlCerLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel6)
-                        .addComponent(passLoginCer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addContainerGap(170, Short.MAX_VALUE)))
+                    .addComponent(jLabel5)
+                    .addComponent(txtLoginCer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
+                .addGroup(pnlCerLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(passLoginCer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(40, 40, 40)
+                .addComponent(btnSubmitCer)
+                .addGap(27, 27, 27))
         );
 
-        tabbedPane_Main.addTab("tab2", pnlCerLogin);
+        tabbedPane_Main.addTab("Certificate Cell", new javax.swing.ImageIcon(getClass().getResource("/res/Certi60.png")), pnlCerLogin, "Click here to login as Certificate Staff"); // NOI18N
 
-        jLabel7.setText("Username:");
+        pnlStuLogin.setBackground(new java.awt.Color(255, 255, 255));
 
+        jLabel10.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 18)); // NOI18N
+        jLabel10.setText("Username:");
+
+        jLabel11.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 18)); // NOI18N
+        jLabel11.setText("Password:");
+
+        btnSubmitStudent.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/Login60.png"))); // NOI18N
+        btnSubmitStudent.setText("Login");
+        btnSubmitStudent.setToolTipText("Click to Login");
+
+        txtLoginStudent.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtLoginStudent.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtLoginStudentActionPerformed(evt);
             }
         });
 
-        jLabel8.setText("Password:");
-
-        btnSubmitStudent.setText("Submit");
-        btnSubmitStudent.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSubmitStudentActionPerformed(evt);
-            }
-        });
+        passLoginStudent.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         javax.swing.GroupLayout pnlStuLoginLayout = new javax.swing.GroupLayout(pnlStuLogin);
         pnlStuLogin.setLayout(pnlStuLoginLayout);
         pnlStuLoginLayout.setHorizontalGroup(
             pnlStuLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlStuLoginLayout.createSequentialGroup()
-                .addGap(162, 162, 162)
+                .addGap(294, 294, 294)
+                .addComponent(btnSubmitStudent)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlStuLoginLayout.createSequentialGroup()
+                .addGap(123, 123, 123)
                 .addGroup(pnlStuLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel8))
-                .addGap(126, 126, 126)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel11))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 164, Short.MAX_VALUE)
                 .addGroup(pnlStuLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtLoginStudent, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
-                    .addComponent(passLoginStudent))
-                .addGap(147, 147, 147))
-            .addGroup(pnlStuLoginLayout.createSequentialGroup()
-                .addGap(289, 289, 289)
-                .addComponent(btnSubmitStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(passLoginStudent, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtLoginStudent, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(106, 106, 106))
         );
         pnlStuLoginLayout.setVerticalGroup(
             pnlStuLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlStuLoginLayout.createSequentialGroup()
-                .addGap(76, 76, 76)
+                .addGap(81, 81, 81)
                 .addGroup(pnlStuLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
+                    .addComponent(jLabel10)
                     .addComponent(txtLoginStudent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(62, 62, 62)
-                .addGroup(pnlStuLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(passLoginStudent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8))
-                .addGap(46, 46, 46)
-                .addComponent(btnSubmitStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(95, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
+                .addGroup(pnlStuLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(passLoginStudent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(40, 40, 40)
+                .addComponent(btnSubmitStudent)
+                .addGap(27, 27, 27))
         );
 
-        tabbedPane_Main.addTab("tab3", pnlStuLogin);
+        tabbedPane_Main.addTab("Student Login", new javax.swing.ImageIcon(getClass().getResource("/res/Student60.png")), pnlStuLogin, "Login as Student"); // NOI18N
 
+        pnlSetting.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel9.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 14)); // NOI18N
         jLabel9.setText("Server Address:");
 
+        jLabel3.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 14)); // NOI18N
         jLabel3.setText("Database Name:");
 
+        jLabel4.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 14)); // NOI18N
         jLabel4.setText("Username:");
 
+        jLabel12.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 14)); // NOI18N
         jLabel12.setText("Password:");
 
-        jButton1.setText("Test");
+        passConfigDB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        txtConfigDBUser.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        txtConfigDBName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        txtConfigServerName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/connectionTest50.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Ok");
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/ok50.png"))); // NOI18N
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
+        jLabel14.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 14)); // NOI18N
         jLabel14.setText("Port:");
+
+        txtConfigDBPort.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout pnlSettingLayout = new javax.swing.GroupLayout(pnlSetting);
         pnlSetting.setLayout(pnlSettingLayout);
@@ -338,71 +357,81 @@ public class MainPage extends javax.swing.JFrame {
             .addGroup(pnlSettingLayout.createSequentialGroup()
                 .addGroup(pnlSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlSettingLayout.createSequentialGroup()
-                        .addGap(259, 259, 259)
+                        .addGap(214, 214, 214)
                         .addComponent(jButton1)
-                        .addGap(106, 106, 106)
+                        .addGap(89, 89, 89)
                         .addComponent(jButton2))
                     .addGroup(pnlSettingLayout.createSequentialGroup()
-                        .addGap(186, 186, 186)
-                        .addGroup(pnlSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel12)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel14))
-                        .addGap(42, 42, 42)
+                        .addGap(151, 151, 151)
                         .addGroup(pnlSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtConfigDBUser)
-                            .addComponent(txtConfigDBName)
-                            .addComponent(txtConfigServerName)
-                            .addComponent(passConfigDB)
-                            .addComponent(txtConfigDBPort, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(pnlSettingLayout.createSequentialGroup()
+                                .addComponent(jLabel12)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(passConfigDB, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(pnlSettingLayout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtConfigDBUser, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlSettingLayout.createSequentialGroup()
+                                .addComponent(jLabel9)
+                                .addGap(116, 116, 116)
+                                .addComponent(txtConfigServerName, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlSettingLayout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(116, 116, 116)
+                                .addComponent(txtConfigDBName, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(pnlSettingLayout.createSequentialGroup()
+                                .addComponent(jLabel14)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtConfigDBPort, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(68, Short.MAX_VALUE))
         );
         pnlSettingLayout.setVerticalGroup(
             pnlSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlSettingLayout.createSequentialGroup()
-                .addGap(50, 50, 50)
+                .addGap(29, 29, 29)
                 .addGroup(pnlSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(txtConfigServerName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24)
+                .addGap(18, 18, 18)
                 .addGroup(pnlSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtConfigDBName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24)
+                .addGap(18, 18, 18)
                 .addGroup(pnlSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
                     .addComponent(txtConfigDBPort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25)
-                .addGroup(pnlSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(18, 18, 18)
+                .addGroup(pnlSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
                     .addComponent(txtConfigDBUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
-                .addGroup(pnlSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(18, 18, 18)
+                .addGroup(pnlSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel12)
                     .addComponent(passConfigDB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(49, 49, 49)
-                .addGroup(pnlSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addGroup(pnlSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addGap(47, 47, 47))
         );
 
-        tabbedPane_Main.addTab("tab4", pnlSetting);
+        tabbedPane_Main.addTab("Settings       ", new javax.swing.ImageIcon(getClass().getResource("/res/Settings60.png")), pnlSetting, "Setup Database"); // NOI18N
+
+        pnlHelp.setBackground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout pnlHelpLayout = new javax.swing.GroupLayout(pnlHelp);
         pnlHelp.setLayout(pnlHelpLayout);
         pnlHelpLayout.setHorizontalGroup(
             pnlHelpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 757, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         pnlHelpLayout.setVerticalGroup(
             pnlHelpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 359, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        tabbedPane_Main.addTab("tab5", pnlHelp);
+        tabbedPane_Main.addTab("Help             ", new javax.swing.ImageIcon(getClass().getResource("/res/Help60.png")), pnlHelp, "Feel free to ask!"); // NOI18N
 
         javax.swing.GroupLayout pnlContainerLayout = new javax.swing.GroupLayout(pnlContainer);
         pnlContainer.setLayout(pnlContainerLayout);
@@ -417,12 +446,13 @@ public class MainPage extends javax.swing.JFrame {
                 .addComponent(tabbedPane_Main, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        pnlHeader.setBackground(new java.awt.Color(51, 0, 51));
+        pnlHeader.setBackground(new java.awt.Color(204, 204, 204));
 
-        lblheader.setBackground(new java.awt.Color(51, 0, 51));
-        lblheader.setFont(new java.awt.Font("Trajan Pro", 1, 18)); // NOI18N
+        lblheader.setBackground(new java.awt.Color(204, 204, 204));
+        lblheader.setFont(new java.awt.Font("SimSun", 1, 18)); // NOI18N
         lblheader.setForeground(new java.awt.Color(0, 51, 255));
         lblheader.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblheader.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/ABCLogon5050.png"))); // NOI18N
         lblheader.setText("ABC institute -Certificate Department");
 
         javax.swing.GroupLayout pnlHeaderLayout = new javax.swing.GroupLayout(pnlHeader);
@@ -454,14 +484,17 @@ public class MainPage extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        saveConfig();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        testConfig();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     private void txtLoginAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLoginAdminActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtLoginAdminActionPerformed
-
-    private void btnSubmitAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitAdminActionPerformed
-        //ADMIN Login
-        adminLogin();
-    }//GEN-LAST:event_btnSubmitAdminActionPerformed
 
     private void txtLoginCerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLoginCerActionPerformed
         // TODO add your handling code here:
@@ -470,22 +503,6 @@ public class MainPage extends javax.swing.JFrame {
     private void txtLoginStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLoginStudentActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtLoginStudentActionPerformed
-
-    private void btnSubmitStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitStudentActionPerformed
-        studentLogin();
-    }//GEN-LAST:event_btnSubmitStudentActionPerformed
-
-    private void btnSubmitCerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitCerActionPerformed
-        cerLogin();
-    }//GEN-LAST:event_btnSubmitCerActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        testConfig();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        saveConfig();
-    }//GEN-LAST:event_jButton2ActionPerformed
 
     public void adminLogin() {
         userID = txtLoginAdmin.getText();
@@ -773,6 +790,7 @@ public class MainPage extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel14;
@@ -781,8 +799,6 @@ public class MainPage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel lblError;
     private javax.swing.JLabel lblheader;
