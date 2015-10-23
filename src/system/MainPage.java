@@ -323,6 +323,11 @@ public class MainPage extends javax.swing.JFrame {
         });
 
         jButton2.setText("Ok");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel14.setText("Port:");
 
@@ -478,6 +483,10 @@ public class MainPage extends javax.swing.JFrame {
         testConfig();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        saveConfig();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     public void adminLogin() {
         userID = txtLoginAdmin.getText();
         String pass = new String(passLoginAdmin.getPassword());
@@ -529,7 +538,6 @@ public class MainPage extends javax.swing.JFrame {
     
     
     public void cerLogin() {
-        System.out.println("0");
         userID = txtLoginCer.getText();
         String pass = new String(passLoginCer.getPassword());
         if (txtLoginCer.getText().trim().length() <= 0 | pass.trim().length() <= 0) {
@@ -547,7 +555,6 @@ public class MainPage extends javax.swing.JFrame {
                 stmt.setString(1, userID);
                 stmt.setString(2, pass);
                 rs = stmt.executeQuery();
-                System.out.println("1");
                 if (rs.next()) {
                     JOptionPane.showMessageDialog(null, "Login Successful"); //Dang nhap thanh cong
                     //Cho Form ADMIN
@@ -580,7 +587,6 @@ public class MainPage extends javax.swing.JFrame {
     
     
     public void studentLogin() {
-        System.out.println("0");
         userID = txtLoginStudent.getText();
         String pass = new String(passLoginStudent.getPassword());
         if (txtLoginStudent.getText().trim().length() <= 0 | pass.trim().length() <= 0) {
@@ -598,7 +604,6 @@ public class MainPage extends javax.swing.JFrame {
                 stmt.setString(1, userID);
                 stmt.setString(2, pass);
                 rs = stmt.executeQuery();
-                System.out.println("1");
                 if (rs.next()) {
                     JOptionPane.showMessageDialog(null, "Login Successful"); //Dang nhap thanh cong
                     //Cho Form ADMIN
@@ -638,7 +643,7 @@ public class MainPage extends javax.swing.JFrame {
                 file.createNewFile();
                 p.setProperty("serverName", "localhost");
                 p.setProperty("dbName", "Certificate");
-                p.setProperty("port", "14333");
+                p.setProperty("port", "1433");
                 p.setProperty("userName", "sa");
                 p.setProperty("password", "1234567");
                 FileOutputStream fos = new FileOutputStream(file);
@@ -667,7 +672,9 @@ public class MainPage extends javax.swing.JFrame {
         txtConfigServerName.setText(p.getProperty("serverName"));
         passConfigDB.setText(p.getProperty("password"));
 
-    };
+    }
+
+    ;
     
     public void testConfig() {
         String driverName = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
@@ -683,14 +690,14 @@ public class MainPage extends javax.swing.JFrame {
             Class.forName(driverName);
             connt = DriverManager.getConnection(url + ";databasename=" + dbName, userNamet, password);
             System.out.println(connt);
-            
+
         } catch (SQLException ex) {
-            
+
         } catch (ClassNotFoundException ex) {
-            
+
         }
         try {
-           // connt = ConnectDatabase();
+            // connt = ConnectDatabase();
             Statement stmt2 = connt.createStatement();
             String query2 = "Select * from [Admin]";
             ResultSet rs = stmt2.executeQuery(query2);
@@ -701,13 +708,28 @@ public class MainPage extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Connection Failed");
         }
     }
-    
-    
-    
-    
-    
-    
-    
+
+    public void saveConfig() {
+        Properties pS = new Properties();
+        File fileS = new File("config.properties");
+
+        try {
+            fileS.createNewFile();
+            pS.setProperty("serverName", txtConfigServerName.getText());
+            pS.setProperty("userName", txtConfigDBUser.getText());
+            pS.setProperty("password", new String(passConfigDB.getPassword()));
+            pS.setProperty("port", txtConfigDBPort.getText());
+            pS.setProperty("dbName", txtConfigDBName.getText());
+            FileOutputStream out = new FileOutputStream(fileS);
+            pS.store(out, "");
+            out.close();
+            JOptionPane.showMessageDialog(null, "Config Saved");
+
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+
+    }
 
     /**
      * @param args the command line arguments
