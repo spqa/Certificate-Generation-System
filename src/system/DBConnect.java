@@ -68,9 +68,9 @@ public class DBConnect {
             Class.forName(driverName);
             conn = DriverManager.getConnection(url + ";databasename=" + dbName, userName, password);
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex);
+            JOptionPane.showMessageDialog(null, ex.getMessage());
         } catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(null, ex);
+            JOptionPane.showMessageDialog(null, ex.getMessage());
         }
         return conn;
     }

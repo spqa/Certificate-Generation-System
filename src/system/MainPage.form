@@ -129,9 +129,9 @@
                           <EmptySpace min="-2" pref="80" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Component id="lblError" min="-2" pref="4" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="passLoginAdmin" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace pref="42" max="32767" attributes="0"/>
@@ -185,6 +185,9 @@
                     <Property name="text" type="java.lang.String" value="Login"/>
                     <Property name="toolTipText" type="java.lang.String" value="Click to Login"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSubmitAdminActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>

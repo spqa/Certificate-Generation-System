@@ -7,8 +7,8 @@ package system.admin;
 
 /**
  *
- * @author Thac Xoay Nung Phi
+ * @author super
  */
-public class blank {
+public interface AdminImpl {
     
 }

@@ -5,12 +5,10 @@
  */
 package system.certificateCell;
 
-import system.admin.*;
-
 /**
  *
- * @author Thac Xoay Nung Phi
+ * @author super
  */
-public class blank {
+public class CertificateCell {
     
 }

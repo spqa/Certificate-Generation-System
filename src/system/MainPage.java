@@ -6,7 +6,6 @@
 package system;
 
 import java.awt.CardLayout;
-import java.awt.Image;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -20,7 +19,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import static system.DBConnect.ConnectDatabase;
@@ -150,6 +148,11 @@ public class MainPage extends javax.swing.JFrame {
         btnSubmitAdmin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/Login60.png"))); // NOI18N
         btnSubmitAdmin.setText("Login");
         btnSubmitAdmin.setToolTipText("Click to Login");
+        btnSubmitAdmin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSubmitAdminActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlAdminLoginLayout = new javax.swing.GroupLayout(pnlAdminLogin);
         pnlAdminLogin.setLayout(pnlAdminLoginLayout);
@@ -182,9 +185,9 @@ public class MainPage extends javax.swing.JFrame {
                 .addGap(80, 80, 80)
                 .addGroup(pnlAdminLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(lblError, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(pnlAdminLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel2)
-                        .addComponent(passLoginAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(pnlAdminLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(passLoginAdmin, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                 .addComponent(btnSubmitAdmin)
                 .addGap(27, 27, 27))
@@ -504,7 +507,12 @@ public class MainPage extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtLoginStudentActionPerformed
 
-    public void adminLogin() {
+    private void btnSubmitAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitAdminActionPerformed
+        // TODO add your handling code here:
+        adminLogin();
+    }//GEN-LAST:event_btnSubmitAdminActionPerformed
+
+    private void adminLogin() {
         userID = txtLoginAdmin.getText();
         String pass = new String(passLoginAdmin.getPassword());
         if (txtLoginAdmin.getText().trim().length() <= 0 | pass.trim().length() <= 0) {
@@ -524,7 +532,7 @@ public class MainPage extends javax.swing.JFrame {
                 rs = stmt.executeQuery();
                 if (rs.next()) {
                     JOptionPane.showMessageDialog(null, "Login Successful"); //Dang nhap thanh cong
-                    //Cho Form ADMIN
+                    new AdminPage(rs.getNString("FullName"));
                     this.dispose();
                 } else {
                     JOptionPane.showMessageDialog(null, "Login Failed");
