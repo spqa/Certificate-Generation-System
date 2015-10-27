@@ -21,7 +21,6 @@ import java.sql.Statement;
 import java.util.Properties;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import static system.DBConnect.ConnectDatabase;
 
 /**
  *
@@ -207,6 +206,11 @@ public class MainPage extends javax.swing.JFrame {
         btnSubmitCer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/Login60.png"))); // NOI18N
         btnSubmitCer.setText("Login");
         btnSubmitCer.setToolTipText("Click to Login");
+        btnSubmitCer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSubmitCerActionPerformed(evt);
+            }
+        });
 
         txtLoginCer.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtLoginCer.addActionListener(new java.awt.event.ActionListener() {
@@ -508,9 +512,12 @@ public class MainPage extends javax.swing.JFrame {
     }//GEN-LAST:event_txtLoginStudentActionPerformed
 
     private void btnSubmitAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitAdminActionPerformed
-        // TODO add your handling code here:
         adminLogin();
     }//GEN-LAST:event_btnSubmitAdminActionPerformed
+
+    private void btnSubmitCerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitCerActionPerformed
+        cerLogin();
+    }//GEN-LAST:event_btnSubmitCerActionPerformed
 
     private void adminLogin() {
         userID = txtLoginAdmin.getText();
@@ -531,7 +538,6 @@ public class MainPage extends javax.swing.JFrame {
                 stmt.setString(2, pass);
                 rs = stmt.executeQuery();
                 if (rs.next()) {
-                    JOptionPane.showMessageDialog(null, "Login Successful"); //Dang nhap thanh cong
                     new AdminPage(rs.getNString("FullName"));
                     this.dispose();
                 } else {
@@ -557,8 +563,6 @@ public class MainPage extends javax.swing.JFrame {
             }
         }
     }
-
-    ;
     
     
     
@@ -581,8 +585,7 @@ public class MainPage extends javax.swing.JFrame {
                 stmt.setString(2, pass);
                 rs = stmt.executeQuery();
                 if (rs.next()) {
-                    JOptionPane.showMessageDialog(null, "Login Successful"); //Dang nhap thanh cong
-                    //Cho Form ADMIN
+                    new CerPage(rs.getString("CerCellUser"));
                     this.dispose();
                 } else {
                     JOptionPane.showMessageDialog(null, "Login Failed");
@@ -607,8 +610,6 @@ public class MainPage extends javax.swing.JFrame {
             }
         }
     }
-
-    ;
     
     
     public void studentLogin() {
@@ -656,8 +657,6 @@ public class MainPage extends javax.swing.JFrame {
             }
         }
     }
-
-    ;
     
     
     public void loadConfig() {
@@ -698,8 +697,6 @@ public class MainPage extends javax.swing.JFrame {
         passConfigDB.setText(p.getProperty("password"));
 
     }
-
-    ;
     
     public void testConfig() {
         String driverName = "com.microsoft.sqlserver.jdbc.SQLServerDriver";

@@ -42,6 +42,7 @@ public class AdminPage extends javax.swing.JFrame {
         tbModel.addColumn("tile");
         tbModel.addColumn("tile");
         setVisible(true);
+        System.out.println(name);
     }
     
     private void ComboBoxData(){

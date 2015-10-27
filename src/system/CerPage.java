@@ -5,17 +5,33 @@
  */
 package system;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+
+
 /**
  *
  * @author super
  */
 public class CerPage extends javax.swing.JFrame {
 
+    private String cellUser = null;
+
     /**
      * Creates new form CerPage
      */
-    public CerPage() {
+    public CerPage(String user) {
         initComponents();
+        //    lblFullName.setText(name);
+        setVisible(true);
+
+        cellUser = user;
+        loadInfo();
+    }
+
+    private CerPage() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
@@ -28,10 +44,11 @@ public class CerPage extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        lblFullName = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel4 = new javax.swing.JPanel();
@@ -63,28 +80,28 @@ public class CerPage extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
+        txtInfoFullname = new javax.swing.JTextField();
+        txtInfoDate = new javax.swing.JTextField();
+        rdoInfoMale = new javax.swing.JRadioButton();
+        rdoInfoFemale = new javax.swing.JRadioButton();
+        txtInfoAddress = new javax.swing.JTextField();
+        txtInfoEmail = new javax.swing.JTextField();
+        txtInfoPhone = new javax.swing.JTextField();
+        btnInfoEdit = new javax.swing.JButton();
+        btnInfoChange = new javax.swing.JButton();
+        btnInfoLogout = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel2.setBackground(new java.awt.Color(0, 153, 204));
 
-        jLabel1.setFont(new java.awt.Font("SimSun", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/ABCLogon5050.png"))); // NOI18N
         jLabel1.setText("Exam Center");
 
-        jLabel2.setFont(new java.awt.Font("SimSun", 1, 18)); // NOI18N
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/Admin260.png"))); // NOI18N
-        jLabel2.setText("(Name Of User)");
+        lblFullName.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lblFullName.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/Admin260.png"))); // NOI18N
+        lblFullName.setText("(Name Of User)");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -93,12 +110,12 @@ public class CerPage extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(lblFullName, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+            .addComponent(lblFullName, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -316,35 +333,42 @@ public class CerPage extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("SimSun", 1, 18)); // NOI18N
         jLabel9.setText("Address:");
 
-        jTextField1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField1.setEnabled(false);
+        txtInfoFullname.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtInfoFullname.setEnabled(false);
 
-        jTextField2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField2.setEnabled(false);
+        txtInfoDate.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtInfoDate.setEnabled(false);
 
-        jRadioButton1.setText("Male");
-        jRadioButton1.setEnabled(false);
+        buttonGroup2.add(rdoInfoMale);
+        rdoInfoMale.setText("Male");
+        rdoInfoMale.setEnabled(false);
 
-        jRadioButton2.setText("Female");
-        jRadioButton2.setEnabled(false);
+        buttonGroup2.add(rdoInfoFemale);
+        rdoInfoFemale.setText("Female");
+        rdoInfoFemale.setEnabled(false);
 
-        jTextField3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField3.setEnabled(false);
+        txtInfoAddress.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtInfoAddress.setEnabled(false);
 
-        jTextField4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField4.setEnabled(false);
+        txtInfoEmail.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtInfoEmail.setEnabled(false);
 
-        jTextField5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField5.setEnabled(false);
+        txtInfoPhone.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtInfoPhone.setEnabled(false);
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/edit40.png"))); // NOI18N
-        jButton3.setText("Edit Information");
+        btnInfoEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/edit40.png"))); // NOI18N
+        btnInfoEdit.setText("Edit Information");
 
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/ChangePass40.png"))); // NOI18N
-        jButton4.setText("Change Password");
+        btnInfoChange.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/ChangePass40.png"))); // NOI18N
+        btnInfoChange.setText("Change Password");
 
-        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/LogOut45.png"))); // NOI18N
-        jButton8.setText("Log Out");
+        btnInfoLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/LogOut45.png"))); // NOI18N
+        btnInfoLogout.setText("Log Out");
+        btnInfoLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInfoLogoutActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -361,17 +385,17 @@ public class CerPage extends javax.swing.JFrame {
                         .addGap(23, 23, 23)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
-                                .addComponent(jTextField2))
+                                .addComponent(txtInfoFullname, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
+                                .addComponent(txtInfoDate))
                             .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addComponent(jRadioButton1)
+                                .addComponent(rdoInfoMale)
                                 .addGap(29, 29, 29)
-                                .addComponent(jRadioButton2))))
+                                .addComponent(rdoInfoFemale))))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(218, 218, 218)
-                        .addComponent(jButton3)
+                        .addComponent(btnInfoEdit)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton4)))
+                        .addComponent(btnInfoChange)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
@@ -382,10 +406,10 @@ public class CerPage extends javax.swing.JFrame {
                                 .addComponent(jLabel8)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
-                            .addComponent(jTextField4)
-                            .addComponent(jTextField5)))
-                    .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtInfoAddress, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+                            .addComponent(txtInfoEmail)
+                            .addComponent(txtInfoPhone)))
+                    .addComponent(btnInfoLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(49, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
@@ -395,26 +419,26 @@ public class CerPage extends javax.swing.JFrame {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel7)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtInfoFullname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtInfoPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(51, 51, 51)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jLabel8)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtInfoDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtInfoEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(51, 51, 51)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(jLabel9)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton2)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
+                    .addComponent(rdoInfoMale)
+                    .addComponent(rdoInfoFemale)
+                    .addComponent(txtInfoAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4)
-                    .addComponent(jButton8))
+                    .addComponent(btnInfoEdit)
+                    .addComponent(btnInfoChange)
+                    .addComponent(btnInfoLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(84, 84, 84))
         );
 
@@ -426,7 +450,7 @@ public class CerPage extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 994, Short.MAX_VALUE)
+                    .addComponent(jTabbedPane1)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -454,6 +478,45 @@ public class CerPage extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnInfoLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInfoLogoutActionPerformed
+        logout();
+    }//GEN-LAST:event_btnInfoLogoutActionPerformed
+
+    public void loadInfo() {
+        Connection conn = null;
+        CallableStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DBConnect.ConnectDatabase();
+            stmt = conn.prepareCall("{call getCerInfo(?) };");
+            stmt.setString(1, cellUser);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                txtInfoAddress.setText(rs.getString("CerAddress"));
+                txtInfoDate.setText(String.format("%td/%<tm/%<tY", rs.getDate("CerDOB")));
+                txtInfoEmail.setText(rs.getString("CerEmail"));
+                txtInfoFullname.setText(rs.getString("CerFullName"));
+                txtInfoPhone.setText(rs.getString("CerPhone"));
+                lblFullName.setText(rs.getString("CerFullName"));
+                if (rs.getString("Gender").equals("Nam")) {
+                    rdoInfoMale.setSelected(true);
+                } else {
+                    rdoInfoFemale.setSelected(true);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+    
+    public void logout() {
+        this.dispose();
+        MainPage m = new MainPage();
+        m.setVisible(true);
+    }
 
     /**
      * @param args the command line arguments
@@ -485,24 +548,24 @@ public class CerPage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CerPage().setVisible(true);
+                new CerPage("vthang").setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnInfoChange;
+    private javax.swing.JButton btnInfoEdit;
+    private javax.swing.JButton btnInfoLogout;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -516,8 +579,6 @@ public class CerPage extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JScrollPane jScrollPane1;
@@ -531,11 +592,14 @@ public class CerPage extends javax.swing.JFrame {
     private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
+    private javax.swing.JLabel lblFullName;
+    private javax.swing.JRadioButton rdoInfoFemale;
+    private javax.swing.JRadioButton rdoInfoMale;
+    private javax.swing.JTextField txtInfoAddress;
+    private javax.swing.JTextField txtInfoDate;
+    private javax.swing.JTextField txtInfoEmail;
+    private javax.swing.JTextField txtInfoFullname;
+    private javax.swing.JTextField txtInfoPhone;
     // End of variables declaration//GEN-END:variables
 }
