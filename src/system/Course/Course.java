@@ -12,12 +12,12 @@ package system.Course;
 public class Course {
     private int id;
     private String name;
-    private float money;
+    private int money;
 
     public Course() {
     }
 
-    public Course(int id, String name, float money) {
+    public Course(int id, String name, int money) {
         this.id = id;
         this.name = name;
         this.money = money;
@@ -43,7 +43,7 @@ public class Course {
         this.name = name;
     }
 
-    public void setMoney(float money) {
+    public void setMoney(int money) {
         this.money = money;
     }
 

@@ -5,34 +5,44 @@
  */
 package system;
 
-import java.awt.Dialog;
+import java.sql.CallableStatement;
 import system.Course.Course;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Random;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import system.Subject.Subject;
+import system.student.Student;
 
 /**
  *
  * @author super
  */
 public class AdminPage extends javax.swing.JFrame {
-    DefaultTableModel tbModel;
     
+    DefaultTableModel tbModel;
+    EnterMarkPageFrame emp;
+
     /**
      * Creates new form NewJFrame
+     *
      * @param name
      */
-    public AdminPage(String name) {      
-        tbModel=new DefaultTableModel();
+    public AdminPage(String name) {
+        tbModel = new DefaultTableModel();
         initComponents();
         ComboBoxData();
         lblUserName.setText(name);
@@ -45,31 +55,49 @@ public class AdminPage extends javax.swing.JFrame {
         System.out.println(name);
     }
     
-    private void ComboBoxData(){
-        Connection conn=DBConnect.ConnectDatabase();
+    private String checkGender(){
+        if (rdFemale.isSelected()) {
+            return "Female";
+        }else if(rdMale.isSelected()){
+        return "Male";
+        }
+        return null;
+    }
+    
+    private int CheckFeeID(){
+        if (rdAll.isSelected()) {
+            return 1;
+        }else if(rdInstallment.isSelected()){
+        return 2;
+        }
+        return 0;
+    }
+    
+    private void ComboBoxData() {
+        Connection conn = DBConnect.ConnectDatabase();
         try {
-            PreparedStatement preStmt=conn.prepareStatement("Select * from course");
-            ResultSet rs=preStmt.executeQuery();
-            Vector<Course> lstCourse=new Vector<>();
-            while (rs.next()) {                
-                Course temp=new Course(rs.getInt(1),rs.getString(2), rs.getFloat(3));
+            PreparedStatement preStmt = conn.prepareStatement("Select * from course");
+            ResultSet rs = preStmt.executeQuery();
+            Vector<Course> lstCourse = new Vector<>();
+            while (rs.next()) {
+                Course temp = new Course(rs.getInt(1), rs.getString(2), rs.getInt(3));
                 lstCourse.add(temp);
             }
-            DefaultComboBoxModel<Course> ModelCbCourse=new DefaultComboBoxModel<>(lstCourse);
+            DefaultComboBoxModel<Course> ModelCbCourse = new DefaultComboBoxModel<>(lstCourse);
             cbCourseName.setModel(ModelCbCourse);
         } catch (SQLException ex) {
             Logger.getLogger(AdminPage.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         try {
-            DefaultListModel<Subject> ModelSJ=new DefaultListModel<>();
+            DefaultListModel<Subject> ModelSJ = new DefaultListModel<>();
             
-            PreparedStatement prestmt=conn.prepareStatement("select * from Subject where courseid=?");
-            prestmt.setInt(1, ((Course)cbCourseName.getSelectedItem()).getId());
-            ResultSet rs=prestmt.executeQuery();
+            PreparedStatement prestmt = conn.prepareStatement("select * from Subject where courseid=?");
+            prestmt.setInt(1, ((Course) cbCourseName.getSelectedItem()).getId());
+            ResultSet rs = prestmt.executeQuery();
             
-            while(rs.next()) {                
-                Subject temp=new Subject(rs.getInt(1), rs.getInt(2),rs.getString(3));
+            while (rs.next()) {
+                Subject temp = new Subject(rs.getInt(1), rs.getInt(2), rs.getString(3));
                 ModelSJ.addElement(temp);
             }
             lstSubjects.setModel(ModelSJ);
@@ -103,12 +131,12 @@ public class AdminPage extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        txtAdminName = new javax.swing.JTextField();
-        txtDOB = new javax.swing.JTextField();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton3 = new javax.swing.JRadioButton();
-        jRadioButton4 = new javax.swing.JRadioButton();
+        txtStudentName = new javax.swing.JTextField();
+        txtStudentDOB = new javax.swing.JTextField();
+        rdMale = new javax.swing.JRadioButton();
+        rdFemale = new javax.swing.JRadioButton();
+        rdAll = new javax.swing.JRadioButton();
+        rdInstallment = new javax.swing.JRadioButton();
         cbCourseName = new javax.swing.JComboBox();
         jScrollPane1 = new javax.swing.JScrollPane();
         lstSubjects = new javax.swing.JList();
@@ -204,26 +232,31 @@ public class AdminPage extends javax.swing.JFrame {
         jButton2.setFont(new java.awt.Font("Palatino Linotype", 0, 14)); // NOI18N
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/AddStu40.png"))); // NOI18N
         jButton2.setText("Add");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
-        txtAdminName.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
+        txtStudentName.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
 
-        txtDOB.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
+        txtStudentDOB.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
 
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        jRadioButton1.setText("Male");
+        buttonGroup1.add(rdMale);
+        rdMale.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        rdMale.setText("Male");
 
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        jRadioButton2.setText("Female");
+        buttonGroup1.add(rdFemale);
+        rdFemale.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        rdFemale.setText("Female");
 
-        buttonGroup2.add(jRadioButton3);
-        jRadioButton3.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        jRadioButton3.setText("All");
+        buttonGroup2.add(rdAll);
+        rdAll.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        rdAll.setText("All");
 
-        buttonGroup2.add(jRadioButton4);
-        jRadioButton4.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        jRadioButton4.setText("Installment");
+        buttonGroup2.add(rdInstallment);
+        rdInstallment.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        rdInstallment.setText("Installment");
 
         cbCourseName.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         cbCourseName.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -266,16 +299,16 @@ public class AdminPage extends javax.swing.JFrame {
                 .addGap(44, 44, 44)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(txtDOB, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
-                        .addComponent(txtAdminName))
+                        .addComponent(txtStudentDOB, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+                        .addComponent(txtStudentName))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jRadioButton1)
-                            .addComponent(jRadioButton3))
+                            .addComponent(rdMale)
+                            .addComponent(rdAll))
                         .addGap(50, 50, 50)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jRadioButton4)
-                            .addComponent(jRadioButton2))))
+                            .addComponent(rdInstallment)
+                            .addComponent(rdFemale))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -303,7 +336,7 @@ public class AdminPage extends javax.swing.JFrame {
                 .addGap(53, 53, 53)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txtAdminName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtStudentName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7)
                     .addComponent(cbCourseName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
@@ -313,17 +346,17 @@ public class AdminPage extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(txtDOB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtStudentDOB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(58, 58, 58)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(jRadioButton1)
-                            .addComponent(jRadioButton2))
+                            .addComponent(rdMale)
+                            .addComponent(rdFemale))
                         .addGap(43, 43, 43)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
-                            .addComponent(jRadioButton3)
-                            .addComponent(jRadioButton4))
+                            .addComponent(rdAll)
+                            .addComponent(rdInstallment))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton1)
@@ -651,27 +684,70 @@ public class AdminPage extends javax.swing.JFrame {
 
     private void cbCourseNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbCourseNameActionPerformed
         try {
-            DefaultListModel<Subject> ModelSJ=new DefaultListModel<>();
-            Connection conn=DBConnect.ConnectDatabase();
-            PreparedStatement prestmt=conn.prepareStatement("select * from Subject where courseid=?");
-            prestmt.setInt(1, ((Course)cbCourseName.getSelectedItem()).getId());
-            ResultSet rs=prestmt.executeQuery();
+            DefaultListModel<Subject> ModelSJ = new DefaultListModel<>();
+            Connection conn = DBConnect.ConnectDatabase();
+            PreparedStatement prestmt = conn.prepareStatement("select * from Subject where courseid=?");
+            prestmt.setInt(1, ((Course) cbCourseName.getSelectedItem()).getId());
+            ResultSet rs = prestmt.executeQuery();
             
-            while(rs.next()) {                
-                Subject temp=new Subject(rs.getInt(1), rs.getInt(2),rs.getString(3));
+            while (rs.next()) {
+                Subject temp = new Subject(rs.getInt(1), rs.getInt(2), rs.getString(3));
                 ModelSJ.addElement(temp);
             }
             lstSubjects.setModel(ModelSJ);
         } catch (SQLException ex) {
             Logger.getLogger(AdminPage.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }//GEN-LAST:event_cbCourseNameActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-       EnterMarkPage emp=new EnterMarkPage(((Course)cbCourseName.getSelectedItem()).getId());
-       JOptionPane.showMessageDialog(rootPane, emp);
+        if (emp == null) {
+            emp = new EnterMarkPageFrame(((Course) cbCourseName.getSelectedItem()).getId());
+            emp.setLocationRelativeTo(this);
+            emp.setVisible(true);
+        } else {
+            emp.setVisible(true);
+        }
+
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        Student s=new Student();
+        s.setGender(checkGender());
+        s.setFullname(txtStudentName.getText());
+        s.setFeeID(CheckFeeID());
+        
+        s.setDOB(txtStudentDOB.getText());
+        s.setCourseID(((Course)cbCourseName.getSelectedItem()).getId());
+        s.setUsername(Integer.toString(new Random().nextInt(2000)+1000));
+        s.setPass(Integer.toString(new Random().nextInt(2000)+1000));
+        Connection connection=DBConnect.ConnectDatabase();
+        try {
+            CallableStatement pre=connection.prepareCall("{call AddStudent(?,?,?,?,?,?,?)}");
+            pre.setString(1, s.getUsername());
+            pre.setString(2, s.getPass());
+            pre.setString(3, s.getFullname());
+            //Format date to make it able to add to database
+            DateFormat dateFormatter=new SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date dateUtil=dateFormatter.parse(s.getDOB());
+            Date date=new Date(dateUtil.getTime());
+            pre.setDate(4,date );
+            pre.setString(5, s.getGender());
+            pre.setInt(6, s.getCourseID());
+            pre.setInt(7, s.getFeeID());
+            boolean rs= pre.execute();
+            if (rs==false) {
+                JOptionPane.showMessageDialog(this, "Student Added", "Information", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("src/res/ok50.png"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AdminPage.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(AdminPage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -744,10 +820,6 @@ public class AdminPage extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JRadioButton jRadioButton5;
     private javax.swing.JRadioButton jRadioButton6;
     private javax.swing.JScrollPane jScrollPane1;
@@ -771,7 +843,11 @@ public class AdminPage extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField9;
     private javax.swing.JLabel lblUserName;
     private javax.swing.JList lstSubjects;
-    private javax.swing.JTextField txtAdminName;
-    private javax.swing.JTextField txtDOB;
+    private javax.swing.JRadioButton rdAll;
+    private javax.swing.JRadioButton rdFemale;
+    private javax.swing.JRadioButton rdInstallment;
+    private javax.swing.JRadioButton rdMale;
+    private javax.swing.JTextField txtStudentDOB;
+    private javax.swing.JTextField txtStudentName;
     // End of variables declaration//GEN-END:variables
 }
