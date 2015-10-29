@@ -7,8 +7,10 @@ package system;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
-
+import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,6 +19,7 @@ import java.sql.ResultSet;
 public class CerPage extends javax.swing.JFrame {
 
     private String cellUser = null;
+    private boolean editState = false;
 
     /**
      * Creates new form CerPage
@@ -358,6 +361,11 @@ public class CerPage extends javax.swing.JFrame {
 
         btnInfoEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/edit40.png"))); // NOI18N
         btnInfoEdit.setText("Edit Information");
+        btnInfoEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInfoEditActionPerformed(evt);
+            }
+        });
 
         btnInfoChange.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/ChangePass40.png"))); // NOI18N
         btnInfoChange.setText("Change Password");
@@ -483,6 +491,78 @@ public class CerPage extends javax.swing.JFrame {
         logout();
     }//GEN-LAST:event_btnInfoLogoutActionPerformed
 
+    private void btnInfoEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInfoEditActionPerformed
+        if (editState == false) {
+            txtInfoAddress.setEnabled(true);
+            txtInfoDate.setEnabled(true);
+            txtInfoEmail.setEnabled(true);
+            txtInfoFullname.setEnabled(true);
+            txtInfoPhone.setEnabled(true);
+            rdoInfoFemale.setEnabled(true);
+            rdoInfoMale.setEnabled(true);
+            editState = true;
+            btnInfoEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/ok40.png")));
+            btnInfoEdit.setText("Save Infomation");
+        } else if (editState == true) {
+            txtInfoAddress.setEnabled(false);
+            txtInfoDate.setEnabled(false);
+            txtInfoEmail.setEnabled(false);
+            txtInfoFullname.setEnabled(false);
+            txtInfoPhone.setEnabled(false);
+            rdoInfoFemale.setEnabled(false);
+            rdoInfoMale.setEnabled(false);
+            editState = false;
+            btnInfoEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/edit40.png")));
+            btnInfoEdit.setText("Edit Infomation");
+
+            Connection conn = null;
+            CallableStatement stmt = null;
+            ResultSet rs = null;
+            
+            try {
+                String DOB = txtInfoDate.getText();
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); 
+                java.util.Date utilDate = new java.util.Date(); 
+                try {
+                    utilDate = formatter.parse(DOB);
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+
+                
+                String fullName = txtInfoFullname.getText();
+                java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+                String gender = null;
+                if (rdoInfoMale.isSelected()) {
+                    gender = "Nam";
+                } else if (rdoInfoFemale.isSelected()) {
+                    gender = "Nữ";
+                }
+                
+                String phone = txtInfoPhone.getText();
+                String email = txtInfoEmail.getText();
+                String address = txtInfoAddress.getText();
+                
+                conn = DBConnect.ConnectDatabase();
+                
+                stmt = conn.prepareCall("{call editCerInfo(?, ?, ?, ?, ?, ?, ?) };");
+                stmt.setString(1, cellUser);
+                stmt.setNString(2, fullName);
+                stmt.setDate(3, sqlDate);
+                stmt.setNString(4, gender);
+                stmt.setString(5, phone);
+                stmt.setString(6, email);
+                stmt.setString(7, address);
+                rs = stmt.executeQuery();
+            } catch (Exception e) {
+                if (e.getMessage() == "The statement did not return a result set.") {
+                    JOptionPane.showMessageDialog(null, "Save Successful");
+                }
+                System.out.println(e.getMessage());
+            }
+        }
+    }//GEN-LAST:event_btnInfoEditActionPerformed
+
     public void loadInfo() {
         Connection conn = null;
         CallableStatement stmt = null;
@@ -495,7 +575,7 @@ public class CerPage extends javax.swing.JFrame {
             rs = stmt.executeQuery();
             if (rs.next()) {
                 txtInfoAddress.setText(rs.getString("CerAddress"));
-                txtInfoDate.setText(String.format("%td/%<tm/%<tY", rs.getDate("CerDOB")));
+                txtInfoDate.setText(String.format("%tY-%<tm-%<td", rs.getDate("CerDOB")));
                 txtInfoEmail.setText(rs.getString("CerEmail"));
                 txtInfoFullname.setText(rs.getString("CerFullName"));
                 txtInfoPhone.setText(rs.getString("CerPhone"));
@@ -511,7 +591,7 @@ public class CerPage extends javax.swing.JFrame {
         }
 
     }
-    
+
     public void logout() {
         this.dispose();
         MainPage m = new MainPage();
