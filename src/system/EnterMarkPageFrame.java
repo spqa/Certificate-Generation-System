@@ -5,6 +5,7 @@
  */
 package system;
 
+import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,10 +24,15 @@ import system.Mark.DataTableMark;
 public class EnterMarkPageFrame extends javax.swing.JFrame {
     DefaultTableModel tblModel;
     public List<DataTableMark> lstData;
+
+    public EnterMarkPageFrame() throws HeadlessException {
+    }
     /**
      * Creates new form EnterMarkPageFrame
      * @param CourseID
      */
+    
+    
     public EnterMarkPageFrame(int CourseID) {
         initComponents();
         tblModel=new DefaultTableModel();

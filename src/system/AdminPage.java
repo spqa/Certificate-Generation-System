@@ -35,7 +35,7 @@ public class AdminPage extends javax.swing.JFrame {
     
     DefaultTableModel tbModel;
     EnterMarkPageFrame emp;
-
+    Vector<Course> lstCourse;
     /**
      * Creates new form NewJFrame
      *
@@ -78,7 +78,7 @@ public class AdminPage extends javax.swing.JFrame {
         try {
             PreparedStatement preStmt = conn.prepareStatement("Select * from course");
             ResultSet rs = preStmt.executeQuery();
-            Vector<Course> lstCourse = new Vector<>();
+             lstCourse = new Vector<>();
             while (rs.next()) {
                 Course temp = new Course(rs.getInt(1), rs.getString(2), rs.getInt(3));
                 lstCourse.add(temp);
@@ -104,6 +104,19 @@ public class AdminPage extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(AdminPage.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    private void LoadCourseList(){
+        DefaultListModel<Course> CourseModel=new DefaultListModel<>();
+        for (Course lstCourse1 : lstCourse) {
+            CourseModel.addElement(lstCourse1);
+        }
+        
+        JListCourse.setModel(CourseModel);
+        DefaultTableModel tblCourseInfoModel=new DefaultTableModel();
+        tblCourseInfoModel.addColumn("Subject ID");
+        tblCourseInfoModel.addColumn("Subject Name");
+        
     }
 
     /**
@@ -156,11 +169,12 @@ public class AdminPage extends javax.swing.JFrame {
         jTable3 = new javax.swing.JTable();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
+        tblCourseInformation = new javax.swing.JTable();
         jScrollPane6 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList();
+        JListCourse = new javax.swing.JList();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -228,6 +242,11 @@ public class AdminPage extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("Palatino Linotype", 0, 14)); // NOI18N
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/ClearReset40.png"))); // NOI18N
         jButton1.setText("Clear");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("Palatino Linotype", 0, 14)); // NOI18N
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/AddStu40.png"))); // NOI18N
@@ -470,25 +489,25 @@ public class AdminPage extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Student Manager", new javax.swing.ImageIcon(getClass().getResource("/res/Manager40.png")), jPanel4); // NOI18N
 
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+        tblCourseInformation.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Subject ID", "Subject Name", "Course Fee"
+                "Subject ID", "Subject Name"
             }
         ));
-        jScrollPane5.setViewportView(jTable4);
+        jScrollPane5.setViewportView(tblCourseInformation);
 
-        jList2.setModel(new javax.swing.AbstractListModel() {
+        JListCourse.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane6.setViewportView(jList2);
+        jScrollPane6.setViewportView(JListCourse);
 
         jLabel15.setFont(new java.awt.Font("SimSun", 1, 18)); // NOI18N
         jLabel15.setText("Course Name");
@@ -496,21 +515,25 @@ public class AdminPage extends javax.swing.JFrame {
         jLabel16.setFont(new java.awt.Font("SimSun", 1, 18)); // NOI18N
         jLabel16.setText("Course Information");
 
+        jLabel2.setText("Total Fee:");
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+            .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15))
                 .addGap(32, 32, 32)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 713, Short.MAX_VALUE)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel16)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 713, Short.MAX_VALUE))
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel16)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -523,8 +546,9 @@ public class AdminPage extends javax.swing.JFrame {
                 .addGap(31, 31, 31)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Subject Information", new javax.swing.ImageIcon(getClass().getResource("/res/Subject40.png")), jPanel6, ""); // NOI18N
@@ -664,7 +688,7 @@ public class AdminPage extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 523, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1)
                 .addContainerGap())
         );
 
@@ -749,6 +773,15 @@ public class AdminPage extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        txtStudentDOB.setText(null);
+        txtStudentName.setText(null);
+        buttonGroup1.clearSelection();
+        buttonGroup2.clearSelection();
+        emp=null;
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -786,6 +819,7 @@ public class AdminPage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JList JListCourse;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JComboBox cbCourseName;
@@ -806,6 +840,7 @@ public class AdminPage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -813,7 +848,6 @@ public class AdminPage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JList jList2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -832,7 +866,6 @@ public class AdminPage extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
-    private javax.swing.JTable jTable4;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
@@ -847,6 +880,7 @@ public class AdminPage extends javax.swing.JFrame {
     private javax.swing.JRadioButton rdFemale;
     private javax.swing.JRadioButton rdInstallment;
     private javax.swing.JRadioButton rdMale;
+    private javax.swing.JTable tblCourseInformation;
     private javax.swing.JTextField txtStudentDOB;
     private javax.swing.JTextField txtStudentName;
     // End of variables declaration//GEN-END:variables
