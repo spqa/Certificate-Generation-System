@@ -538,7 +538,7 @@ public class MainPage extends javax.swing.JFrame {
                 stmt.setString(2, pass);
                 rs = stmt.executeQuery();
                 if (rs.next()) {
-                    new AdminPage(rs.getNString("FullName"));
+                    new AdminPage(rs.getInt("Aid"));
                     this.dispose();
                 } else {
                     JOptionPane.showMessageDialog(null, "Login Failed");

@@ -15,6 +15,7 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Random;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -23,8 +24,12 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.event.ListDataListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import system.Subject.Subject;
+import system.admin.Admin;
 import system.student.Student;
 
 /**
@@ -32,53 +37,76 @@ import system.student.Student;
  * @author super
  */
 public class AdminPage extends javax.swing.JFrame {
-    
+
     DefaultTableModel tbModel;
     EnterMarkPageFrame emp;
     Vector<Course> lstCourse;
+    int adminID;
+
     /**
      * Creates new form NewJFrame
      *
-     * @param name
+     * @param AdminID
      */
-    public AdminPage(String name) {
+    public AdminPage(int AdminID) {
+        this.adminID = AdminID;
         tbModel = new DefaultTableModel();
         initComponents();
+        LoadAdminData();
         ComboBoxData();
-        lblUserName.setText(name);
+        LoadCourseList();
         tbModel.addColumn("tile");
         tbModel.addColumn("tile");
         tbModel.addColumn("tile");
         tbModel.addColumn("tile");
         tbModel.addColumn("tile");
         setVisible(true);
-        System.out.println(name);
     }
-    
-    private String checkGender(){
+
+    private void LoadAdminData() {
+        Admin CurrentAdmin = Admin.GetAdminByID(adminID);
+        lblUserName.setText(CurrentAdmin.getFullname());
+        txtAdminFullName.setText(CurrentAdmin.getFullname());
+        lblUserName.setText(CurrentAdmin.getFullname());
+        txtAdminAddress.setText(CurrentAdmin.getAddress() + "");
+        txtAdminDOB.setText(CurrentAdmin.getDOB() + "");
+        txtAdminEmail.setText(CurrentAdmin.getEmail() + "");
+        txtAdmnPhone.setText(CurrentAdmin.getPhone() + "");
+        if (CurrentAdmin.getGender() != null) {
+            if (CurrentAdmin.getGender().equals("Male")) {
+                rdAdminFemale.setSelected(true);
+            } else if (CurrentAdmin.getGender().equals("Female")) {
+                rdAdminFemale.setSelected(true);
+            }
+        }
+    }
+
+    ;
+
+    private String checkGender() {
         if (rdFemale.isSelected()) {
             return "Female";
-        }else if(rdMale.isSelected()){
-        return "Male";
+        } else if (rdMale.isSelected()) {
+            return "Male";
         }
         return null;
     }
-    
-    private int CheckFeeID(){
+
+    private int CheckFeeID() {
         if (rdAll.isSelected()) {
             return 1;
-        }else if(rdInstallment.isSelected()){
-        return 2;
+        } else if (rdInstallment.isSelected()) {
+            return 2;
         }
         return 0;
     }
-    
+
     private void ComboBoxData() {
         Connection conn = DBConnect.ConnectDatabase();
         try {
             PreparedStatement preStmt = conn.prepareStatement("Select * from course");
             ResultSet rs = preStmt.executeQuery();
-             lstCourse = new Vector<>();
+            lstCourse = new Vector<>();
             while (rs.next()) {
                 Course temp = new Course(rs.getInt(1), rs.getString(2), rs.getInt(3));
                 lstCourse.add(temp);
@@ -88,14 +116,14 @@ public class AdminPage extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(AdminPage.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         try {
             DefaultListModel<Subject> ModelSJ = new DefaultListModel<>();
-            
+
             PreparedStatement prestmt = conn.prepareStatement("select * from Subject where courseid=?");
             prestmt.setInt(1, ((Course) cbCourseName.getSelectedItem()).getId());
             ResultSet rs = prestmt.executeQuery();
-            
+
             while (rs.next()) {
                 Subject temp = new Subject(rs.getInt(1), rs.getInt(2), rs.getString(3));
                 ModelSJ.addElement(temp);
@@ -105,18 +133,56 @@ public class AdminPage extends javax.swing.JFrame {
             Logger.getLogger(AdminPage.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    private void LoadCourseList(){
-        DefaultListModel<Course> CourseModel=new DefaultListModel<>();
+
+    private void LoadCourseList() {
+        DefaultListModel<Course> CourseModel = new DefaultListModel<>();
+
         for (Course lstCourse1 : lstCourse) {
             CourseModel.addElement(lstCourse1);
         }
-        
+
         JListCourse.setModel(CourseModel);
-        DefaultTableModel tblCourseInfoModel=new DefaultTableModel();
-        tblCourseInfoModel.addColumn("Subject ID");
-        tblCourseInfoModel.addColumn("Subject Name");
-        
+
+        JListCourse.addListSelectionListener(new ListSelectionListener() {
+
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                List<Subject> lstSub = Subject.getListSubject(((Course) JListCourse.getSelectedValue()).getId());
+                DefaultTableModel tblCourseInfoModel = new DefaultTableModel();
+                tblCourseInfoModel.addColumn("Subject ID");
+                tblCourseInfoModel.addColumn("Subject Name");
+                for (Subject lstSub1 : lstSub) {
+                    String[] temp = {lstSub1.getSubID() + "", lstSub1.getName()};
+                    tblCourseInfoModel.addRow(temp);
+                }
+                tblCourseInformation.setModel(tblCourseInfoModel);
+
+                lblFee.setText("Total Fee: " + ((Course) JListCourse.getSelectedValue()).getMoney());
+            }
+        });
+
+        //table data
+//        List<Subject> lstSub = Subject.getListSubject(((Course) JListCourse.getSelectedValue()).getId());
+//        DefaultTableModel tblCourseInfoModel = new DefaultTableModel();
+//        tblCourseInfoModel.addColumn("Subject ID");
+//        tblCourseInfoModel.addColumn("Subject Name");
+//        for (Subject lstSub1 : lstSub) {
+//            String[] temp = {lstSub1.getSubID() + "", lstSub1.getName()};
+//            tblCourseInfoModel.addRow(temp);
+//        }
+//        tblCourseInformation.setModel(tblCourseInfoModel);
+//
+//        lblFee.setText("Total Fee: " + ((Course) JListCourse.getSelectedValue()).getMoney());
+    }
+
+    private void EditSwitch(boolean bool) {
+        txtAdminAddress.setEnabled(bool);
+        txtAdminDOB.setEnabled(bool);
+        txtAdminEmail.setEnabled(bool);
+        txtAdmnPhone.setEnabled(bool);
+        txtAdminFullName.setEnabled(bool);
+        rdAdminFemale.setEnabled(bool);
+        rdAdminMale.setEnabled(bool);
     }
 
     /**
@@ -130,6 +196,7 @@ public class AdminPage extends javax.swing.JFrame {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         buttonGroup2 = new javax.swing.ButtonGroup();
+        buttonGroup3 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -174,22 +241,22 @@ public class AdminPage extends javax.swing.JFrame {
         JListCourse = new javax.swing.JList();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        lblFee = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        jRadioButton5 = new javax.swing.JRadioButton();
-        jRadioButton6 = new javax.swing.JRadioButton();
-        jTextField6 = new javax.swing.JTextField();
-        jTextField7 = new javax.swing.JTextField();
+        rdAdminMale = new javax.swing.JRadioButton();
+        rdAdminFemale = new javax.swing.JRadioButton();
+        txtAdminDOB = new javax.swing.JTextField();
+        txtAdminFullName = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        jTextField8 = new javax.swing.JTextField();
-        jTextField9 = new javax.swing.JTextField();
-        jTextField10 = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
+        txtAdmnPhone = new javax.swing.JTextField();
+        txtAdminEmail = new javax.swing.JTextField();
+        txtAdminAddress = new javax.swing.JTextField();
+        btnEdit = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
 
@@ -201,7 +268,7 @@ public class AdminPage extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/ABCLogon5050.png"))); // NOI18N
         jLabel1.setText("Admin Page");
 
-        lblUserName.setFont(new java.awt.Font("SimSun", 1, 18)); // NOI18N
+        lblUserName.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         lblUserName.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblUserName.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/Admin260.png"))); // NOI18N
         lblUserName.setText("(Name of user)");
@@ -515,7 +582,7 @@ public class AdminPage extends javax.swing.JFrame {
         jLabel16.setFont(new java.awt.Font("SimSun", 1, 18)); // NOI18N
         jLabel16.setText("Course Information");
 
-        jLabel2.setText("Total Fee:");
+        lblFee.setText("Total Fee:");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -532,7 +599,7 @@ public class AdminPage extends javax.swing.JFrame {
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel16)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblFee, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -548,7 +615,7 @@ public class AdminPage extends javax.swing.JFrame {
                     .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE))
+                .addComponent(lblFee, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Subject Information", new javax.swing.ImageIcon(getClass().getResource("/res/Subject40.png")), jPanel6, ""); // NOI18N
@@ -562,15 +629,21 @@ public class AdminPage extends javax.swing.JFrame {
         jLabel11.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         jLabel11.setText("Gender:");
 
-        jRadioButton5.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        jRadioButton5.setText("Male");
+        buttonGroup3.add(rdAdminMale);
+        rdAdminMale.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        rdAdminMale.setText("Male");
+        rdAdminMale.setEnabled(false);
 
-        jRadioButton6.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        jRadioButton6.setText("Female");
+        buttonGroup3.add(rdAdminFemale);
+        rdAdminFemale.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        rdAdminFemale.setText("Female");
+        rdAdminFemale.setEnabled(false);
 
-        jTextField6.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
+        txtAdminDOB.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
+        txtAdminDOB.setEnabled(false);
 
-        jTextField7.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
+        txtAdminFullName.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
+        txtAdminFullName.setEnabled(false);
 
         jLabel12.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         jLabel12.setText("Phone:");
@@ -581,17 +654,30 @@ public class AdminPage extends javax.swing.JFrame {
         jLabel14.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         jLabel14.setText("Address:");
 
-        jTextField8.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
+        txtAdmnPhone.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
+        txtAdmnPhone.setEnabled(false);
 
-        jTextField9.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
+        txtAdminEmail.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
+        txtAdminEmail.setEnabled(false);
 
-        jTextField10.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
+        txtAdminAddress.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
+        txtAdminAddress.setEnabled(false);
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/edit40.png"))); // NOI18N
-        jButton3.setText("Edit Information");
+        btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/edit40.png"))); // NOI18N
+        btnEdit.setText("Edit Information");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/ChangePass40.png"))); // NOI18N
         jButton4.setText("Change Password");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/LogOut45.png"))); // NOI18N
         jButton5.setText("Log Out");
@@ -610,12 +696,12 @@ public class AdminPage extends javax.swing.JFrame {
                             .addComponent(jLabel10))
                         .addGap(50, 50, 50)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField6, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
-                            .addComponent(jTextField7)
+                            .addComponent(txtAdminDOB, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+                            .addComponent(txtAdminFullName)
                             .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(jRadioButton5)
+                                .addComponent(rdAdminMale)
                                 .addGap(50, 50, 50)
-                                .addComponent(jRadioButton6)))
+                                .addComponent(rdAdminFemale)))
                         .addGap(59, 59, 59)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel5Layout.createSequentialGroup()
@@ -624,15 +710,15 @@ public class AdminPage extends javax.swing.JFrame {
                                     .addComponent(jLabel12))
                                 .addGap(85, 85, 85)
                                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextField8, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
-                                    .addComponent(jTextField9)))
+                                    .addComponent(txtAdmnPhone, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+                                    .addComponent(txtAdminEmail)))
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addComponent(jLabel14)
                                 .addGap(72, 72, 72)
-                                .addComponent(jTextField10, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)))
+                                .addComponent(txtAdminAddress, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)))
                         .addContainerGap(18, Short.MAX_VALUE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jButton3)
+                        .addComponent(btnEdit)
                         .addGap(104, 104, 104)
                         .addComponent(jButton4)
                         .addGap(125, 125, 125)
@@ -645,30 +731,30 @@ public class AdminPage extends javax.swing.JFrame {
                 .addGap(53, 53, 53)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtAdminFullName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12)
-                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtAdmnPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(165, 165, 165)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel11)
-                            .addComponent(jRadioButton5)
-                            .addComponent(jRadioButton6)))
+                            .addComponent(rdAdminMale)
+                            .addComponent(rdAdminFemale)))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(69, 69, 69)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
-                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtAdminDOB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel13)
-                            .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtAdminEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(61, 61, 61)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel14)
-                            .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(txtAdminAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
+                    .addComponent(btnEdit)
                     .addComponent(jButton4)
                     .addComponent(jButton5))
                 .addGap(73, 73, 73))
@@ -713,7 +799,7 @@ public class AdminPage extends javax.swing.JFrame {
             PreparedStatement prestmt = conn.prepareStatement("select * from Subject where courseid=?");
             prestmt.setInt(1, ((Course) cbCourseName.getSelectedItem()).getId());
             ResultSet rs = prestmt.executeQuery();
-            
+
             while (rs.next()) {
                 Subject temp = new Subject(rs.getInt(1), rs.getInt(2), rs.getString(3));
                 ModelSJ.addElement(temp);
@@ -738,31 +824,31 @@ public class AdminPage extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        Student s=new Student();
+        Student s = new Student();
         s.setGender(checkGender());
         s.setFullname(txtStudentName.getText());
         s.setFeeID(CheckFeeID());
-        
+
         s.setDOB(txtStudentDOB.getText());
-        s.setCourseID(((Course)cbCourseName.getSelectedItem()).getId());
-        s.setUsername(Integer.toString(new Random().nextInt(2000)+1000));
-        s.setPass(Integer.toString(new Random().nextInt(2000)+1000));
-        Connection connection=DBConnect.ConnectDatabase();
+        s.setCourseID(((Course) cbCourseName.getSelectedItem()).getId());
+        s.setUsername(Integer.toString(new Random().nextInt(2000) + 1000));
+        s.setPass(Integer.toString(new Random().nextInt(2000) + 1000));
+        Connection connection = DBConnect.ConnectDatabase();
         try {
-            CallableStatement pre=connection.prepareCall("{call AddStudent(?,?,?,?,?,?,?)}");
+            CallableStatement pre = connection.prepareCall("{call AddStudent(?,?,?,?,?,?,?)}");
             pre.setString(1, s.getUsername());
             pre.setString(2, s.getPass());
             pre.setString(3, s.getFullname());
             //Format date to make it able to add to database
-            DateFormat dateFormatter=new SimpleDateFormat("yyyy-MM-dd");
-            java.util.Date dateUtil=dateFormatter.parse(s.getDOB());
-            Date date=new Date(dateUtil.getTime());
-            pre.setDate(4,date );
+            DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date dateUtil = dateFormatter.parse(s.getDOB());
+            Date date = new Date(dateUtil.getTime());
+            pre.setDate(4, date);
             pre.setString(5, s.getGender());
             pre.setInt(6, s.getCourseID());
             pre.setInt(7, s.getFeeID());
-            boolean rs= pre.execute();
-            if (rs==false) {
+            boolean rs = pre.execute();
+            if (rs == false) {
                 JOptionPane.showMessageDialog(this, "Student Added", "Information", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("src/res/ok50.png"));
             }
         } catch (SQLException ex) {
@@ -770,7 +856,7 @@ public class AdminPage extends javax.swing.JFrame {
         } catch (ParseException ex) {
             Logger.getLogger(AdminPage.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -779,8 +865,53 @@ public class AdminPage extends javax.swing.JFrame {
         txtStudentName.setText(null);
         buttonGroup1.clearSelection();
         buttonGroup2.clearSelection();
-        emp=null;
+        emp = null;
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        // TODO add your handling code here:
+        //Edit Button Event
+        if (btnEdit.getText().equals("Edit Information")) {
+            btnEdit.setText("OK");
+            btnEdit.setIcon(new ImageIcon("src/res/ok40.png"));
+            EditSwitch(true);
+        } else if (btnEdit.getText().equals("OK")) {
+            btnEdit.setText("Edit Information");
+            btnEdit.setIcon(new ImageIcon("src/res/edit40.png"));
+            Connection conn = DBConnect.ConnectDatabase();
+            try {
+                PreparedStatement pre = conn.prepareStatement("update admin set Fullname=?,DOB=?,Gender=?,Phone=?,Email=?,Address=? where Aid=?");
+                pre.setNString(1, txtAdminFullName.getText());
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                java.util.Date dateUtil = dateFormat.parse(txtAdminDOB.getText());
+                Date date = new Date(dateUtil.getTime());
+                pre.setDate(2, date);
+                if (rdAdminFemale.isSelected()) {
+                    pre.setString(3, "Female");
+                } else if (rdAdminMale.isSelected()) {
+                    pre.setString(3, "Male");
+                }
+                pre.setString(4, txtAdmnPhone.getText());
+                pre.setString(5, txtAdminEmail.getText());
+                pre.setString(6, txtAdminEmail.getText());
+                pre.setInt(7, adminID);
+                boolean rs = pre.execute();
+                if (rs == false) {
+                    JOptionPane.showMessageDialog(this, "Edit Successfully!!", "Information", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("src/res/ok50.png"));
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(AdminPage.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                Logger.getLogger(AdminPage.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            EditSwitch(false);
+        }
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        new ChangePassForm(adminID);
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -813,19 +944,20 @@ public class AdminPage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AdminPage("quanganh").setVisible(true);
+                new AdminPage(1).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList JListCourse;
+    private javax.swing.JButton btnEdit;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.JComboBox cbCourseName;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
@@ -840,7 +972,6 @@ public class AdminPage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -854,8 +985,6 @@ public class AdminPage extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JRadioButton jRadioButton5;
-    private javax.swing.JRadioButton jRadioButton6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -866,21 +995,24 @@ public class AdminPage extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
-    private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
+    private javax.swing.JLabel lblFee;
     private javax.swing.JLabel lblUserName;
     private javax.swing.JList lstSubjects;
+    private javax.swing.JRadioButton rdAdminFemale;
+    private javax.swing.JRadioButton rdAdminMale;
     private javax.swing.JRadioButton rdAll;
     private javax.swing.JRadioButton rdFemale;
     private javax.swing.JRadioButton rdInstallment;
     private javax.swing.JRadioButton rdMale;
     private javax.swing.JTable tblCourseInformation;
+    private javax.swing.JTextField txtAdminAddress;
+    private javax.swing.JTextField txtAdminDOB;
+    private javax.swing.JTextField txtAdminEmail;
+    private javax.swing.JTextField txtAdminFullName;
+    private javax.swing.JTextField txtAdmnPhone;
     private javax.swing.JTextField txtStudentDOB;
     private javax.swing.JTextField txtStudentName;
     // End of variables declaration//GEN-END:variables
