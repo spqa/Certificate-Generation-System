@@ -69,7 +69,7 @@ public class MainPage extends javax.swing.JFrame {
         lblCer = new JLabel("Certificate Cell");
         lblStudent = new JLabel("Student");
         lblSetting = new JLabel("Settings");
-        lblHelp = new JLabel("Help     ");
+        lblHelp = new JLabel("Help");
 
     }
 
@@ -269,6 +269,11 @@ public class MainPage extends javax.swing.JFrame {
         btnSubmitStudent.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/Login60.png"))); // NOI18N
         btnSubmitStudent.setText("Login");
         btnSubmitStudent.setToolTipText("Click to Login");
+        btnSubmitStudent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSubmitStudentActionPerformed(evt);
+            }
+        });
 
         txtLoginStudent.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtLoginStudent.addActionListener(new java.awt.event.ActionListener() {
@@ -519,6 +524,11 @@ public class MainPage extends javax.swing.JFrame {
         cerLogin();
     }//GEN-LAST:event_btnSubmitCerActionPerformed
 
+    private void btnSubmitStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitStudentActionPerformed
+        // TODO add your handling code here:
+        studentLogin();
+    }//GEN-LAST:event_btnSubmitStudentActionPerformed
+
     private void adminLogin() {
         userID = txtLoginAdmin.getText();
         String pass = new String(passLoginAdmin.getPassword());
@@ -633,6 +643,9 @@ public class MainPage extends javax.swing.JFrame {
                 if (rs.next()) {
                     JOptionPane.showMessageDialog(null, "Login Successful"); //Dang nhap thanh cong
                     //Cho Form ADMIN
+                    
+                   StudentPage sp = new StudentPage();
+                   sp.setVisible(true);
                     this.dispose();
                 } else {
                     JOptionPane.showMessageDialog(null, "Login Failed");

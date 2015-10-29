@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package system.student;
+package system;
 
 /**
  *
@@ -51,7 +51,6 @@ public class StudentPage extends javax.swing.JFrame {
         btnSend = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(800, 600));
 
         pnlTotal.setPreferredSize(new java.awt.Dimension(800, 735));
 
