@@ -5,6 +5,8 @@
  */
 package system;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.CallableStatement;
 import system.Course.Course;
 import java.sql.Connection;
@@ -24,7 +26,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -55,12 +56,31 @@ public class AdminPage extends javax.swing.JFrame {
         LoadAdminData();
         ComboBoxData();
         LoadCourseList();
-        tbModel.addColumn("tile");
-        tbModel.addColumn("tile");
-        tbModel.addColumn("tile");
-        tbModel.addColumn("tile");
-        tbModel.addColumn("tile");
+        LoadDataStudent();
+        tblStudentData.getColumnModel().getColumn(0).setMaxWidth(50);
+        tblStudentData.getColumnModel().getColumn(1).setMinWidth(200);
+        tblStudentData.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+               
+            }
+        });
+        setLocationRelativeTo(null);
         setVisible(true);
+        setResizable(false);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int rs=JOptionPane.showConfirmDialog(null, "Are you sure want to exit?", "Confirm",JOptionPane.YES_NO_OPTION, JOptionPane.CLOSED_OPTION, new ImageIcon("src/res/help60.png"));
+                if (rs==0) {
+                    System.exit(0);
+                }
+            }
+            
+});
     }
 
     private void LoadAdminData() {
@@ -184,6 +204,42 @@ public class AdminPage extends javax.swing.JFrame {
         rdAdminFemale.setEnabled(bool);
         rdAdminMale.setEnabled(bool);
     }
+    
+    //Student Manager Method
+    private void LoadDataStudent(){
+        DefaultTableModel StudentTblModel=new DefaultTableModel();
+        StudentTblModel.addColumn("Id");
+        StudentTblModel.addColumn("Fullname");
+        StudentTblModel.addColumn("Gender");
+        StudentTblModel.addColumn("Date Of Birth");
+        StudentTblModel.addColumn("Course Name");
+        StudentTblModel.addColumn("FeeType");
+        List<Student> lstStudent=Student.getAllStudent();
+        for (Student lstStudent1 : lstStudent) {
+            String[] temp={lstStudent1.getId()+"",lstStudent1.getFullname(),lstStudent1.getGender(),lstStudent1.getDOB(),getCourseById(lstStudent1.getCourseID()),getFeeTypeByID(lstStudent1.getFeeID())};
+            StudentTblModel.addRow(temp);
+        }
+        
+        tblStudentData.setModel(StudentTblModel);
+    }
+    
+    private String getCourseById(int id){
+        for (Course lstCourse1 : lstCourse) {
+            if (lstCourse1.getId()==id) {
+                return lstCourse1.getName();
+            }
+        }
+        return null;
+    }
+    
+    private String getFeeTypeByID(int ID){
+        if (ID==1) {
+            return "All";
+        }else if(ID==2){
+        return "Monthly";
+        }
+        return null;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -223,7 +279,7 @@ public class AdminPage extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tblStudentData = new javax.swing.JTable();
         jTextField3 = new javax.swing.JTextField();
         jTextField4 = new javax.swing.JTextField();
         jCheckBox1 = new javax.swing.JCheckBox();
@@ -231,9 +287,9 @@ public class AdminPage extends javax.swing.JFrame {
         jComboBox2 = new javax.swing.JComboBox();
         jCheckBox2 = new javax.swing.JCheckBox();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblSubject = new javax.swing.JTable();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        tblPayment = new javax.swing.JTable();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         tblCourseInformation = new javax.swing.JTable();
@@ -383,10 +439,8 @@ public class AdminPage extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(jLabel8))
                 .addGap(44, 44, 44)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(txtStudentDOB, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
-                        .addComponent(txtStudentName))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtStudentDOB, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(rdMale)
@@ -394,7 +448,8 @@ public class AdminPage extends javax.swing.JFrame {
                         .addGap(50, 50, 50)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(rdInstallment)
-                            .addComponent(rdFemale))))
+                            .addComponent(rdFemale)))
+                    .addComponent(txtStudentName))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -457,7 +512,7 @@ public class AdminPage extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Add", new javax.swing.ImageIcon(getClass().getResource("/res/add40.png")), jPanel3); // NOI18N
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblStudentData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -465,10 +520,10 @@ public class AdminPage extends javax.swing.JFrame {
                 "ID", "Fullname", "Gender", "Date Of Birth", "Course Name", "Fee Type"
             }
         ));
-        jScrollPane3.setViewportView(jTable2);
-        if (jTable2.getColumnModel().getColumnCount() > 0) {
-            jTable2.getColumnModel().getColumn(0).setMaxWidth(50);
-            jTable2.getColumnModel().getColumn(1).setMinWidth(200);
+        jScrollPane3.setViewportView(tblStudentData);
+        if (tblStudentData.getColumnModel().getColumnCount() > 0) {
+            tblStudentData.getColumnModel().getColumn(0).setMaxWidth(50);
+            tblStudentData.getColumnModel().getColumn(1).setMinWidth(200);
         }
 
         jTextField4.setText("Enter Name to Search");
@@ -477,7 +532,7 @@ public class AdminPage extends javax.swing.JFrame {
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblSubject.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -488,10 +543,13 @@ public class AdminPage extends javax.swing.JFrame {
                 "Subject", "Mark"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(tblSubject);
+        if (tblSubject.getColumnModel().getColumnCount() > 0) {
+            tblSubject.getColumnModel().getColumn(0).setMinWidth(180);
+        }
 
-        jTable3.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        tblPayment.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        tblPayment.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -502,7 +560,7 @@ public class AdminPage extends javax.swing.JFrame {
                 "Total", "Paid", "Money", "Day"
             }
         ));
-        jScrollPane4.setViewportView(jTable3);
+        jScrollPane4.setViewportView(tblPayment);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -681,6 +739,11 @@ public class AdminPage extends javax.swing.JFrame {
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/LogOut45.png"))); // NOI18N
         jButton5.setText("Log Out");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -913,6 +976,15 @@ public class AdminPage extends javax.swing.JFrame {
         new ChangePassForm(adminID);
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        int rs=JOptionPane.showConfirmDialog(this, "Are you sure want to Logout?", "Confirm",JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,new ImageIcon("src/res/Help60.png") );
+        if(rs==0){
+        this.dispose();
+        MainPage main=new MainPage();
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -992,9 +1064,6 @@ public class AdminPage extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
@@ -1008,6 +1077,9 @@ public class AdminPage extends javax.swing.JFrame {
     private javax.swing.JRadioButton rdInstallment;
     private javax.swing.JRadioButton rdMale;
     private javax.swing.JTable tblCourseInformation;
+    private javax.swing.JTable tblPayment;
+    private javax.swing.JTable tblStudentData;
+    private javax.swing.JTable tblSubject;
     private javax.swing.JTextField txtAdminAddress;
     private javax.swing.JTextField txtAdminDOB;
     private javax.swing.JTextField txtAdminEmail;

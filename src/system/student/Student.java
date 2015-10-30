@@ -5,6 +5,16 @@
  */
 package system.student;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import system.DBConnect;
+
 /**
  *
  * @author super
@@ -96,5 +106,45 @@ public class Student {
     public void setFeeID(int FeeID) {
         this.FeeID = FeeID;
     }
+
+    @Override
+    public String toString() {
+        return "Student{" + "id=" + id + ", Username=" + Username + ", Pass=" + Pass + ", Fullname=" + Fullname + ", DOB=" + DOB + ", Gender=" + Gender + ", CourseID=" + CourseID + ", FeeID=" + FeeID + '}';
+    }
     
+    
+    public static Student getStudentById(int StudentId){
+        Connection connection=DBConnect.ConnectDatabase();
+        try {
+            PreparedStatement pre=connection.prepareStatement("Select * from Student where Stuid=?");
+            pre.setInt(1, StudentId);
+            ResultSet rs=pre.executeQuery();
+            rs.next();
+            return new Student(StudentId, rs.getString(2), rs.getString(3), rs.getNString(4), rs.getDate("DOB").toString(), rs.getString("Gender"), rs.getInt("CourseId"), rs.getInt("FeeId"));
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+       
+    }
+    
+    public static List<Student> getAllStudent(){
+        Connection conn=DBConnect.ConnectDatabase();
+        List<Student> lstStudent=new ArrayList<>();
+        try {
+            PreparedStatement pre=conn.prepareStatement("select * from Student");
+            ResultSet rs=pre.executeQuery();
+            while (rs.next()) {                
+                lstStudent.add(new Student(rs.getInt(1),rs.getString(2), rs.getString(3),rs.getNString(4), rs.getDate(5).toString(), rs.getString(6), rs.getInt(7), rs.getInt(8)));
+            }
+            return lstStudent;
+        } catch (SQLException ex) {
+            Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    public static void main(String[] args) {
+        System.out.println(Student.getStudentById(1).toString());
+    }
 }

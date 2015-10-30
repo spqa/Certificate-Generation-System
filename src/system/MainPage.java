@@ -45,6 +45,7 @@ public class MainPage extends javax.swing.JFrame {
     public MainPage() {
         initComponents();
         InitOptionControl();
+        
 //        lblAdmin.setIcon(new ImageIcon(new ImageIcon("src/res/admin.png").getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH)));
 //        lblCer.setIcon(new ImageIcon(new ImageIcon("src/res/certi.png").getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH)));
 //        lblStudent.setIcon(new ImageIcon(new ImageIcon("src/res/help.png").getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH)));
@@ -59,6 +60,9 @@ public class MainPage extends javax.swing.JFrame {
 
         //Load Config file
         loadConfig();
+        
+        setLocationRelativeTo(null);
+        setVisible(true);
     }
 
     private void InitOptionControl() {
@@ -573,7 +577,6 @@ public class MainPage extends javax.swing.JFrame {
             }
         }
     }
-    
     
     
     public void cerLogin() {

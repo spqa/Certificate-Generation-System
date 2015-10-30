@@ -5,6 +5,16 @@
  */
 package system.Mark;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import system.DBConnect;
+
 /**
  *
  * @author c1409l3544
@@ -13,12 +23,12 @@ public class Mark {
     private int StuId;
     private int SubID;
     private int mark;
-    private int Grade;
+    private String Grade;
 
     public Mark() {
     }
 
-    public Mark(int StuId, int SubID, int mark, int Grade) {
+    public Mark(int StuId, int SubID, int mark, String Grade) {
         this.StuId = StuId;
         this.SubID = SubID;
         this.mark = mark;
@@ -37,7 +47,7 @@ public class Mark {
         return mark;
     }
 
-    public int getGrade() {
+    public String getGrade() {
         return Grade;
     }
 
@@ -53,8 +63,23 @@ public class Mark {
         this.mark = mark;
     }
 
-    public void setGrade(int Grade) {
+    public void setGrade(String Grade) {
         this.Grade = Grade;
     }
-    
+    public static List<Mark> getMarkByStuID(int StudentID){
+        Connection conn=DBConnect.ConnectDatabase();
+        List<Mark> lstMark=new ArrayList<>();
+        try {
+            PreparedStatement pre=conn.prepareStatement("Select * from mark where StuId=?");
+            pre.setInt(1, StudentID);
+            ResultSet rs=pre.executeQuery();
+            while (rs.next()) {                
+                lstMark.add(new Mark(StudentID, rs.getInt(2), rs.getInt(3),rs.getString(4) ));
+            }
+            return lstMark;
+        } catch (SQLException ex) {
+            Logger.getLogger(Mark.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }
