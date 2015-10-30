@@ -13,10 +13,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -90,7 +93,37 @@ public class DBConnect {
 //        }
 //    }
 
+    public static ResultSet ExecuteStatement(String Statement) {
+        try {
+            PreparedStatement pre = ConnectDatabase().prepareStatement(Statement);
+            return pre.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public static ResultSet ExcuteStatement(String tableName) {
+        String sql="select * from "+tableName;
+        try {
+            PreparedStatement pre=ConnectDatabase().prepareStatement(sql);
+            return pre.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, ex);
+        }
+      return null;   
+    }
     
+    public static boolean ExecuteUpdateStatement(String UpStmt){
+        try {
+            PreparedStatement pre=ConnectDatabase().prepareStatement(UpStmt);
+            return pre.execute();
+        } catch (SQLException ex) {
+            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return true;
+    }
+
     //Test Connection
     public static void main(String[] args) throws SQLException {
         Connection conn = ConnectDatabase();

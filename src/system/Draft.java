@@ -6,8 +6,12 @@
 package system;
 
 import java.awt.Color;
+import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
+import javax.swing.text.StyledDocument;
 import javax.swing.text.StyledEditorKit;
 
 /**
@@ -15,14 +19,14 @@ import javax.swing.text.StyledEditorKit;
  * @author super
  */
 public class Draft extends javax.swing.JFrame {
-StyledEditorKit kit=new StyledEditorKit();
+
     /**
      * Creates new form Draft
      */
     public Draft() {
         initComponents();
         
-        txtPane.setEditorKit(kit);
+        
         
     }
 
@@ -82,7 +86,12 @@ StyledEditorKit kit=new StyledEditorKit();
 
     private void btnBoldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBoldActionPerformed
         // TODO add your handling code here:
-        txtPane.setSelectedTextColor(Color.red);
+        StyledDocument doc=new DefaultStyledDocument();
+        txtPane.setDocument(doc);
+        txtPane.setText(txtPane.getText());
+        SimpleAttributeSet set=new SimpleAttributeSet();
+        StyleConstants.setBold(set, true);
+        doc.setCharacterAttributes(0, 5, set, true);
     }//GEN-LAST:event_btnBoldActionPerformed
 
     /**
