@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 import system.DBConnect;
 
 /**
@@ -146,5 +147,16 @@ public class Student {
     }
     public static void main(String[] args) {
         System.out.println(Student.getStudentById(1).toString());
+    }
+    
+    public static DefaultTableModel getStudentTblModel(){
+        DefaultTableModel tbl=new DefaultTableModel();
+        tbl.addColumn("Id");
+        tbl.addColumn("Fullname");
+        tbl.addColumn("Gender");
+        tbl.addColumn("Date Of Birth");
+        tbl.addColumn("Course Name");
+        tbl.addColumn("FeeType");
+        return tbl;
     }
 }

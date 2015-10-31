@@ -50,9 +50,10 @@ public class EnterMarkPageFrame extends javax.swing.JFrame {
             }
             
         } catch (SQLException ex) {
-            Logger.getLogger(EnterMarkPage.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
         jTable1.setModel(tblModel);
+        jTable1.getColumnModel().getColumn(0).setMinWidth(300);
     }
     
     public List<DataTableMark> getMarkInformation(){
@@ -83,7 +84,7 @@ public class EnterMarkPageFrame extends javax.swing.JFrame {
             rs.next();
             return rs.getInt(1);
         } catch (SQLException ex) {
-            Logger.getLogger(EnterMarkPage.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
         return 0;
     }

@@ -5,6 +5,8 @@
  */
 package system;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,6 +14,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import system.admin.Admin;
 
@@ -25,7 +28,7 @@ public class ChangePassForm extends javax.swing.JFrame {
     Admin CurAdmin;
     String confirmPass;
     String Newpass;
-
+    JFrame Curr=this;
     /**
      * Creates new form ChangePassForm
      */
@@ -36,6 +39,7 @@ public class ChangePassForm extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         CurAdmin=Admin.GetAdminByID(adminID);
         txtUsername.setText(CurAdmin.getUser());
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     private boolean checkPassConfirm() {
@@ -153,12 +157,10 @@ public class ChangePassForm extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(72, 72, 72)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2)))
-                            .addComponent(jLabel5))
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1))
                         .addGap(20, 20, 20)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtUsername)

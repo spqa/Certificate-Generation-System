@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Vector;
@@ -26,9 +27,12 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 import system.Subject.Subject;
 import system.admin.Admin;
 import system.student.Student;
@@ -39,10 +43,11 @@ import system.student.Student;
  */
 public class AdminPage extends javax.swing.JFrame {
 
-    DefaultTableModel tbModel;
+    final DefaultTableModel StudentTblModel;
     EnterMarkPageFrame emp;
     Vector<Course> lstCourse;
     int adminID;
+    List<Student> lstStudent;
 
     /**
      * Creates new form NewJFrame
@@ -50,20 +55,19 @@ public class AdminPage extends javax.swing.JFrame {
      * @param AdminID
      */
     public AdminPage(int AdminID) {
+        StudentTblModel=Student.getStudentTblModel();
         this.adminID = AdminID;
-        tbModel = new DefaultTableModel();
+        lstStudent = Student.getAllStudent();
         initComponents();
         LoadAdminData();
         ComboBoxData();
         LoadCourseList();
         LoadDataStudent();
-        tblStudentData.getColumnModel().getColumn(0).setMaxWidth(50);
-        tblStudentData.getColumnModel().getColumn(1).setMinWidth(200);
         tblStudentData.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
             @Override
             public void valueChanged(ListSelectionEvent e) {
-               
+
             }
         });
         setLocationRelativeTo(null);
@@ -74,13 +78,13 @@ public class AdminPage extends javax.swing.JFrame {
 
             @Override
             public void windowClosing(WindowEvent e) {
-                int rs=JOptionPane.showConfirmDialog(null, "Are you sure want to exit?", "Confirm",JOptionPane.YES_NO_OPTION, JOptionPane.CLOSED_OPTION, new ImageIcon("src/res/help60.png"));
-                if (rs==0) {
+                int rs = JOptionPane.showConfirmDialog(null, "Are you sure want to exit?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.CLOSED_OPTION, new ImageIcon("src/res/help60.png"));
+                if (rs == 0) {
                     System.exit(0);
                 }
             }
-            
-});
+
+        });
     }
 
     private void LoadAdminData() {
@@ -130,9 +134,11 @@ public class AdminPage extends javax.swing.JFrame {
             while (rs.next()) {
                 Course temp = new Course(rs.getInt(1), rs.getString(2), rs.getInt(3));
                 lstCourse.add(temp);
+
             }
             DefaultComboBoxModel<Course> ModelCbCourse = new DefaultComboBoxModel<>(lstCourse);
             cbCourseName.setModel(ModelCbCourse);
+
         } catch (SQLException ex) {
             Logger.getLogger(AdminPage.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -204,41 +210,148 @@ public class AdminPage extends javax.swing.JFrame {
         rdAdminFemale.setEnabled(bool);
         rdAdminMale.setEnabled(bool);
     }
-    
+
     //Student Manager Method
-    private void LoadDataStudent(){
-        DefaultTableModel StudentTblModel=new DefaultTableModel();
-        StudentTblModel.addColumn("Id");
-        StudentTblModel.addColumn("Fullname");
-        StudentTblModel.addColumn("Gender");
-        StudentTblModel.addColumn("Date Of Birth");
-        StudentTblModel.addColumn("Course Name");
-        StudentTblModel.addColumn("FeeType");
-        List<Student> lstStudent=Student.getAllStudent();
+    private void LoadDataStudent() {
+        for (int i = StudentTblModel.getRowCount(); i >=0 ; i--) {
+                StudentTblModel.removeRow(i);
+            }
         for (Student lstStudent1 : lstStudent) {
-            String[] temp={lstStudent1.getId()+"",lstStudent1.getFullname(),lstStudent1.getGender(),lstStudent1.getDOB(),getCourseById(lstStudent1.getCourseID()),getFeeTypeByID(lstStudent1.getFeeID())};
+            String[] temp = {lstStudent1.getId() + "", lstStudent1.getFullname(), lstStudent1.getGender(), lstStudent1.getDOB(), getCourseById(lstStudent1.getCourseID()), getFeeTypeByID(lstStudent1.getFeeID())};
             StudentTblModel.addRow(temp);
         }
         
         tblStudentData.setModel(StudentTblModel);
-    }
-    
-    private String getCourseById(int id){
+        tblStudentData.getColumnModel().getColumn(0).setMaxWidth(50);
+        tblStudentData.getColumnModel().getColumn(1).setMinWidth(200);
+        try {
+            //setup Format Text Field Text
+            MaskFormatter mf = new MaskFormatter("####-##-##");
+            mf.install(txtFormatDate);
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(null, "Wrong date!!", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+        DefaultComboBoxModel<Course> ModelCbCourse = new DefaultComboBoxModel<>();
+        ModelCbCourse.addElement(new Course(0, "Not set", 0));
         for (Course lstCourse1 : lstCourse) {
-            if (lstCourse1.getId()==id) {
+            ModelCbCourse.addElement(lstCourse1);
+
+        }
+
+        jComboBox2.setModel(ModelCbCourse);
+
+        SearchName.getDocument().addDocumentListener(docSearchListener);
+        txtFormatDate.getDocument().addDocumentListener(docSearchListener);
+        SearchID.getDocument().addDocumentListener(docSearchID);
+    }
+
+    DocumentListener docSearchListener = new DocumentListener() {
+
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            ExecuteFilter();
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            ExecuteFilter();
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            ExecuteFilter();
+        }
+    };
+    
+    DocumentListener docSearchID=new DocumentListener() {
+
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            SearchID();
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            SearchID();
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            SearchID();
+        }
+    };
+
+    private String getCourseById(int id) {
+        for (Course lstCourse1 : lstCourse) {
+            if (lstCourse1.getId() == id) {
                 return lstCourse1.getName();
             }
         }
         return null;
     }
-    
-    private String getFeeTypeByID(int ID){
-        if (ID==1) {
+
+    private String getFeeTypeByID(int ID) {
+        if (ID == 1) {
             return "All";
-        }else if(ID==2){
-        return "Monthly";
+        } else if (ID == 2) {
+            return "Monthly";
         }
         return null;
+    }
+
+    private void ExecuteFilter() {
+        List<Student> lstTemp = new ArrayList<>();
+        lstTemp = lstStudent;
+        lstTemp = Filter.CourseFilter(lstTemp, ((Course) jComboBox2.getSelectedItem()).getId());
+//        for (Student lstStu1 : lstTemp) {
+//            System.out.println(lstStu1.toString());
+//        }
+        lstTemp = Filter.NameFilter(lstTemp, SearchName.getText());
+        //System.out.println(SearchName.getText());
+//        for (Student lstStu1 : lstTemp) {
+//            System.out.println(lstStu1.toString());
+//        }
+        lstTemp = Filter.DOBFilter(lstTemp, txtFormatDate.getText());
+//        for (Student lstStu1 : lstTemp) {
+//            System.out.println(lstStu1.toString());
+//        }
+
+        if (cbFeeType.getSelectedItem().equals("All")) {
+            lstTemp = Filter.FeeFilter(lstTemp, 1);
+        } else if (((String) cbFeeType.getSelectedItem()).equals("Monthly")) {
+            lstTemp = Filter.FeeFilter(lstTemp, 2);
+        }
+
+        lstTemp = Filter.GenderFilter(lstTemp, (String) cbGender.getSelectedItem());
+        for (int i = StudentTblModel.getRowCount(); i >=0 ; i--) {
+                StudentTblModel.removeRow(i);
+            }
+        for (Student lstStu1 : lstTemp) {
+            String[] row = {lstStu1.getId() + "", lstStu1.getFullname(), lstStu1.getGender(), lstStu1.getDOB(), getCourseById(lstStu1.getCourseID()), getFeeTypeByID(lstStu1.getFeeID())};
+            StudentTblModel.addRow(row);
+        }
+        tblStudentData.setModel(StudentTblModel);
+        tblStudentData.getColumnModel().getColumn(0).setMaxWidth(50);
+        tblStudentData.getColumnModel().getColumn(1).setMinWidth(200);
+    }
+    
+    private void SearchID(){
+        if (!SearchID.getText().trim().equals("")) {
+            for (int i = StudentTblModel.getRowCount(); i >=0 ; i--) {
+                StudentTblModel.removeRow(i);
+            }
+            for (Student lstStu1 : lstStudent) {
+                if (lstStu1.getId() == Integer.parseInt(SearchID.getText())) {
+                    String[] row = {lstStu1.getId() + "", lstStu1.getFullname(), lstStu1.getGender(), lstStu1.getDOB(), getCourseById(lstStu1.getCourseID()), getFeeTypeByID(lstStu1.getFeeID())};
+                    StudentTblModel.addRow(row);
+                }
+            }
+            tblStudentData.setModel(StudentTblModel);
+            tblStudentData.getColumnModel().getColumn(0).setMaxWidth(50);
+            tblStudentData.getColumnModel().getColumn(1).setMinWidth(200);
+        } else {
+            LoadDataStudent();
+        }
     }
 
     /**
@@ -253,6 +366,8 @@ public class AdminPage extends javax.swing.JFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         buttonGroup2 = new javax.swing.ButtonGroup();
         buttonGroup3 = new javax.swing.ButtonGroup();
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -280,17 +395,17 @@ public class AdminPage extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblStudentData = new javax.swing.JTable();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jTextField5 = new javax.swing.JTextField();
+        SearchID = new javax.swing.JTextField();
+        SearchName = new javax.swing.JTextField();
         jComboBox2 = new javax.swing.JComboBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblSubject = new javax.swing.JTable();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblPayment = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
+        cbFeeType = new javax.swing.JComboBox();
+        cbGender = new javax.swing.JComboBox();
+        txtFormatDate = new javax.swing.JFormattedTextField();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         tblCourseInformation = new javax.swing.JTable();
@@ -316,6 +431,14 @@ public class AdminPage extends javax.swing.JFrame {
         btnEdit = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+
+        jMenuItem1.setText("Refresh");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jMenuItem1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -513,6 +636,8 @@ public class AdminPage extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Add Student", new javax.swing.ImageIcon(getClass().getResource("/res/add40.png")), jPanel3); // NOI18N
 
+        jPanel4.setComponentPopupMenu(jPopupMenu1);
+
         tblStudentData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -521,17 +646,31 @@ public class AdminPage extends javax.swing.JFrame {
                 "ID", "Fullname", "Gender", "Date Of Birth", "Course Name", "Fee Type"
             }
         ));
+        tblStudentData.setComponentPopupMenu(jPopupMenu1);
         jScrollPane3.setViewportView(tblStudentData);
         if (tblStudentData.getColumnModel().getColumnCount() > 0) {
             tblStudentData.getColumnModel().getColumn(0).setMaxWidth(50);
             tblStudentData.getColumnModel().getColumn(1).setMinWidth(200);
         }
 
-        jTextField4.setText("Enter Name to Search");
+        SearchID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SearchIDActionPerformed(evt);
+            }
+        });
 
-        jTextField5.setText("Enter Date");
+        SearchName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SearchNameActionPerformed(evt);
+            }
+        });
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox2ActionPerformed(evt);
+            }
+        });
 
         tblSubject.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -565,6 +704,26 @@ public class AdminPage extends javax.swing.JFrame {
 
         jLabel2.setText("Total:");
 
+        cbFeeType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Not set", "All", "Monthly" }));
+        cbFeeType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbFeeTypeActionPerformed(evt);
+            }
+        });
+
+        cbGender.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Not set", "Male", "Female" }));
+        cbGender.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbGenderActionPerformed(evt);
+            }
+        });
+
+        txtFormatDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFormatDateActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -572,17 +731,17 @@ public class AdminPage extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(SearchID, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(61, 61, 61)
-                        .addComponent(jCheckBox1)
-                        .addGap(51, 51, 51)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(51, 51, 51)
-                        .addComponent(jCheckBox2)
+                        .addComponent(SearchName, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(cbGender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(38, 38, 38)
+                        .addComponent(txtFormatDate, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(cbFeeType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 771, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -599,17 +758,15 @@ public class AdminPage extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jCheckBox1, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jCheckBox2, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(SearchID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(SearchName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbGender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbFeeType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtFormatDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(6, 6, 6)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 443, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
@@ -986,12 +1143,48 @@ public class AdminPage extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        int rs=JOptionPane.showConfirmDialog(this, "Are you sure want to Logout?", "Confirm",JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,new ImageIcon("src/res/Help60.png") );
-        if(rs==0){
-        this.dispose();
-        MainPage main=new MainPage();
+        int rs = JOptionPane.showConfirmDialog(this, "Are you sure want to Logout?", "Confirm", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon("src/res/Help60.png"));
+        if (rs == 0) {
+            this.dispose();
+            MainPage main = new MainPage();
         }
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+        // TODO add your handling code here:
+        ExecuteFilter();
+    }//GEN-LAST:event_jComboBox2ActionPerformed
+
+    private void txtFormatDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFormatDateActionPerformed
+        // TODO add your handling code here:
+        System.out.println(txtFormatDate.getText());
+    }//GEN-LAST:event_txtFormatDateActionPerformed
+
+    private void SearchNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchNameActionPerformed
+        // TODO add your handling code here:
+        ExecuteFilter();
+    }//GEN-LAST:event_SearchNameActionPerformed
+
+    private void cbGenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbGenderActionPerformed
+        // TODO add your handling code here:
+        ExecuteFilter();
+    }//GEN-LAST:event_cbGenderActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        lstStudent=Student.getAllStudent();
+        LoadDataStudent();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void cbFeeTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbFeeTypeActionPerformed
+        // TODO add your handling code here:
+        ExecuteFilter();
+    }//GEN-LAST:event_cbFeeTypeActionPerformed
+
+    private void SearchIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchIDActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_SearchIDActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1031,18 +1224,20 @@ public class AdminPage extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList JListCourse;
+    private javax.swing.JTextField SearchID;
+    private javax.swing.JTextField SearchName;
     private javax.swing.JButton btnEdit;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.JComboBox cbCourseName;
+    private javax.swing.JComboBox cbFeeType;
+    private javax.swing.JComboBox cbGender;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JComboBox jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1060,12 +1255,14 @@ public class AdminPage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -1073,9 +1270,6 @@ public class AdminPage extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     private javax.swing.JLabel lblFee;
     private javax.swing.JLabel lblUserName;
     private javax.swing.JList lstSubjects;
@@ -1094,6 +1288,7 @@ public class AdminPage extends javax.swing.JFrame {
     private javax.swing.JTextField txtAdminEmail;
     private javax.swing.JTextField txtAdminFullName;
     private javax.swing.JTextField txtAdmnPhone;
+    private javax.swing.JFormattedTextField txtFormatDate;
     private javax.swing.JTextField txtStudentDOB;
     private javax.swing.JTextField txtStudentName;
     // End of variables declaration//GEN-END:variables

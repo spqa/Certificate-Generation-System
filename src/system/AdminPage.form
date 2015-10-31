@@ -8,6 +8,22 @@
     </Component>
     <Component class="javax.swing.ButtonGroup" name="buttonGroup3">
     </Component>
+    <Container class="javax.swing.JPopupMenu" name="jPopupMenu1">
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+        <Property name="useNullLayout" type="boolean" value="true"/>
+      </Layout>
+      <SubComponents>
+        <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Refresh"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem1ActionPerformed"/>
+          </Events>
+        </MenuItem>
+      </SubComponents>
+    </Container>
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
@@ -430,6 +446,11 @@
               </SubComponents>
             </Container>
             <Container class="javax.swing.JPanel" name="jPanel4">
+              <Properties>
+                <Property name="componentPopupMenu" type="javax.swing.JPopupMenu" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                  <ComponentRef name="jPopupMenu1"/>
+                </Property>
+              </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
                   <JTabbedPaneConstraints tabName="Student Manager">
@@ -447,17 +468,17 @@
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <Component id="jTextField3" min="-2" pref="45" max="-2" attributes="0"/>
+                                  <Component id="SearchID" min="-2" pref="45" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jTextField4" min="-2" pref="234" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
-                                  <Component id="jCheckBox1" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
-                                  <Component id="jTextField5" min="-2" pref="106" max="-2" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="jComboBox2" min="-2" pref="111" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
-                                  <Component id="jCheckBox2" min="-2" max="-2" attributes="0"/>
+                                  <Component id="SearchName" min="-2" pref="234" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="cbGender" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+                                  <Component id="txtFormatDate" min="-2" pref="109" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                                  <Component id="jComboBox2" min="-2" pref="99" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="cbFeeType" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
@@ -481,22 +502,18 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                  <Component id="jCheckBox1" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jTextField3" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jTextField4" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
+                              <Group type="103" alignment="1" groupAlignment="3" attributes="0">
+                                  <Component id="SearchID" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="SearchName" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cbGender" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                  <Component id="jCheckBox2" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jTextField5" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jComboBox2" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
+                              <Group type="103" alignment="1" groupAlignment="3" attributes="0">
+                                  <Component id="jComboBox2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cbFeeType" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtFormatDate" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jScrollPane3" pref="443" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
@@ -565,6 +582,9 @@
                             </Column>
                           </TableColumnModel>
                         </Property>
+                        <Property name="componentPopupMenu" type="javax.swing.JPopupMenu" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                          <ComponentRef name="jPopupMenu1"/>
+                        </Property>
                         <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                           <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                         </Property>
@@ -572,19 +592,15 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Component class="javax.swing.JTextField" name="jTextField3">
+                <Component class="javax.swing.JTextField" name="SearchID">
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SearchIDActionPerformed"/>
+                  </Events>
                 </Component>
-                <Component class="javax.swing.JTextField" name="jTextField4">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Enter Name to Search"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JCheckBox" name="jCheckBox1">
-                </Component>
-                <Component class="javax.swing.JTextField" name="jTextField5">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Enter Date"/>
-                  </Properties>
+                <Component class="javax.swing.JTextField" name="SearchName">
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SearchNameActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JComboBox" name="jComboBox2">
                   <Properties>
@@ -597,8 +613,9 @@
                       </StringArray>
                     </Property>
                   </Properties>
-                </Component>
-                <Component class="javax.swing.JCheckBox" name="jCheckBox2">
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox2ActionPerformed"/>
+                  </Events>
                 </Component>
                 <Container class="javax.swing.JScrollPane" name="jScrollPane2">
                   <AuxValues>
@@ -685,6 +702,39 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Total:"/>
                   </Properties>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="cbFeeType">
+                  <Properties>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="3">
+                        <StringItem index="0" value="Not set"/>
+                        <StringItem index="1" value="All"/>
+                        <StringItem index="2" value="Monthly"/>
+                      </StringArray>
+                    </Property>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbFeeTypeActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="cbGender">
+                  <Properties>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="3">
+                        <StringItem index="0" value="Not set"/>
+                        <StringItem index="1" value="Male"/>
+                        <StringItem index="2" value="Female"/>
+                      </StringArray>
+                    </Property>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbGenderActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JFormattedTextField" name="txtFormatDate">
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtFormatDateActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>

@@ -6,6 +6,7 @@
 package system;
 
 import java.awt.Color;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.Style;
@@ -39,19 +40,38 @@ public class Draft extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtPane = new javax.swing.JTextPane();
-        btnBold = new javax.swing.JButton();
-        sldFontSize = new javax.swing.JSlider();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jScrollPane1.setViewportView(txtPane);
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"fgdf", null, null, null},
+                {"dfgdfgdfg", null, null, null},
+                {"dfdfgdfgdf", null, null, null},
+                {"gfgdfgdf", null, null, null},
+                {"gdfgdfg", null, null, null},
+                {"dfgdfgdf", null, null, null},
+                {"gdfgdfg", null, null, null},
+                {"dgdf", null, null, null},
+                {"fdgfg", null, null, null},
+                {"gdfgdfg", null, null, null},
+                {"d", null, null, null},
+                {"dfgdfgdfgdf", null, null, null},
+                {"gd", null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable1);
 
-        btnBold.setText("Bold");
-        btnBold.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBoldActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -59,40 +79,34 @@ public class Draft extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(57, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36))
             .addGroup(layout.createSequentialGroup()
-                .addGap(100, 100, 100)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnBold)
-                        .addGap(55, 55, 55)
-                        .addComponent(sldFontSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(104, Short.MAX_VALUE))
+                .addGap(202, 202, 202)
+                .addComponent(jButton1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(58, 58, 58)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnBold)
-                    .addComponent(sldFontSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42)
+                .addComponent(jButton1)
+                .addGap(0, 60, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnBoldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBoldActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        StyledDocument doc=new DefaultStyledDocument();
-        txtPane.setDocument(doc);
-        txtPane.setText(txtPane.getText());
-        SimpleAttributeSet set=new SimpleAttributeSet();
-        StyleConstants.setBold(set, true);
-        doc.setCharacterAttributes(0, 5, set, true);
-    }//GEN-LAST:event_btnBoldActionPerformed
+        for (int i =jTable1.getModel().getRowCount()-1; i >=0 ; i--) {
+            ((DefaultTableModel)jTable1.getModel()).removeRow(i);
+        }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -130,9 +144,8 @@ public class Draft extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBold;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSlider sldFontSize;
-    private javax.swing.JTextPane txtPane;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
