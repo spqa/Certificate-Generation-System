@@ -55,7 +55,7 @@ public class EnterMarkPageFrame extends javax.swing.JFrame {
         }
         jTable1.setModel(tblModel);
         jTable1.getColumnModel().getColumn(0).setMinWidth(300);
-        
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
     
     public List<DataTableMark> getMarkInformation(){

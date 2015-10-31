@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 import system.DBConnect;
 
 /**
@@ -81,5 +82,17 @@ public class Payment {
             Logger.getLogger(Payment.class.getName()).log(Level.SEVERE, null, ex);
         }
         return lstPayment;
+    }
+    public static DefaultTableModel getPaymentTable(int Studentid){
+    DefaultTableModel temp=new DefaultTableModel();
+    temp.addColumn("Paid");
+    temp.addColumn("Day");
+    
+      List<Payment> lstPayment=  getPaymentByStuId(Studentid);
+        for (Payment lstPayment1 : lstPayment) {
+            String[] row={lstPayment1.getMoney()+"",lstPayment1.getPaidDay()};
+            temp.addRow(row);
+        }
+    return temp;
     }
 }

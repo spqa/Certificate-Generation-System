@@ -23,7 +23,6 @@ import java.util.Random;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.collections.ListChangeListener;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -35,6 +34,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 import system.Mark.Mark;
+import system.Payment.Payment;
 import system.Subject.Subject;
 import system.admin.Admin;
 import system.student.Student;
@@ -179,7 +179,7 @@ public class AdminPage extends javax.swing.JFrame {
                     tblCourseInfoModel.addRow(temp);
                 }
                 tblCourseInformation.setModel(tblCourseInfoModel);
-
+                tblCourseInformation.getColumnModel().getColumn(0).setMaxWidth(70);
                 lblFee.setText("Total Fee: " + ((Course) JListCourse.getSelectedValue()).getMoney());
             }
         });
@@ -232,6 +232,7 @@ public class AdminPage extends javax.swing.JFrame {
             //setup Format Text Field Text
             MaskFormatter mf = new MaskFormatter("####-##-##");
             mf.install(txtFormatDate);
+            mf.install(txtStudentDOB);
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(null, "Wrong date!!", "Warning", JOptionPane.WARNING_MESSAGE);
         }
@@ -291,6 +292,12 @@ public class AdminPage extends javax.swing.JFrame {
         public void valueChanged(ListSelectionEvent e) {
             if (tblStudentData.getSelectedRow()>=0) {
                 tblSubject.setModel(Mark.getTableMark(Integer.parseInt(tblStudentData.getValueAt(tblStudentData.getSelectedRow(), 0).toString())));
+                for (Course lstCourse1 : lstCourse) {
+                    if (lstCourse1.getName().equals(tblStudentData.getValueAt(tblStudentData.getSelectedRow(), 4))) {
+                        lblTotalFee.setText("Total Fees: "+lstCourse1.getMoney());
+                    }
+                }
+                tblPayment.setModel(Payment.getPaymentTable(Integer.parseInt(tblStudentData.getValueAt(tblStudentData.getSelectedRow(), 0).toString())));
             }
             
             tblSubject.getColumnModel().getColumn(0).setMinWidth(190);
@@ -385,7 +392,11 @@ public class AdminPage extends javax.swing.JFrame {
         buttonGroup2 = new javax.swing.ButtonGroup();
         buttonGroup3 = new javax.swing.ButtonGroup();
         jPopupMenu1 = new javax.swing.JPopupMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        mnEditStudent = new javax.swing.JMenuItem();
+        mnMark = new javax.swing.JMenuItem();
+        mnDelete = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        mnRefresh = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -401,7 +412,6 @@ public class AdminPage extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         txtStudentName = new javax.swing.JTextField();
-        txtStudentDOB = new javax.swing.JTextField();
         rdMale = new javax.swing.JRadioButton();
         rdFemale = new javax.swing.JRadioButton();
         rdAll = new javax.swing.JRadioButton();
@@ -410,6 +420,7 @@ public class AdminPage extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         lstSubjects = new javax.swing.JList();
         jButton6 = new javax.swing.JButton();
+        txtStudentDOB = new javax.swing.JFormattedTextField();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblStudentData = new javax.swing.JTable();
@@ -420,7 +431,7 @@ public class AdminPage extends javax.swing.JFrame {
         tblSubject = new javax.swing.JTable();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblPayment = new javax.swing.JTable();
-        jLabel2 = new javax.swing.JLabel();
+        lblTotalFee = new javax.swing.JLabel();
         cbFeeType = new javax.swing.JComboBox();
         cbGender = new javax.swing.JComboBox();
         txtFormatDate = new javax.swing.JFormattedTextField();
@@ -450,13 +461,38 @@ public class AdminPage extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
 
-        jMenuItem1.setText("Refresh");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        jPopupMenu1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        mnEditStudent.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        mnEditStudent.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/EditPop25.png"))); // NOI18N
+        mnEditStudent.setText("Edit Student Data");
+        mnEditStudent.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                mnEditStudentActionPerformed(evt);
             }
         });
-        jPopupMenu1.add(jMenuItem1);
+        jPopupMenu1.add(mnEditStudent);
+
+        mnMark.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        mnMark.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/EditPop25.png"))); // NOI18N
+        mnMark.setText("Edit Mark");
+        jPopupMenu1.add(mnMark);
+
+        mnDelete.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        mnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/Delete25.png"))); // NOI18N
+        mnDelete.setText("Delete ");
+        jPopupMenu1.add(mnDelete);
+        jPopupMenu1.add(jSeparator1);
+
+        mnRefresh.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        mnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/refresh25.png"))); // NOI18N
+        mnRefresh.setText("Refresh");
+        mnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnRefreshActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(mnRefresh);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -524,8 +560,6 @@ public class AdminPage extends javax.swing.JFrame {
 
         txtStudentName.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
 
-        txtStudentDOB.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
-
         buttonGroup1.add(rdMale);
         rdMale.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         rdMale.setText("Male");
@@ -569,6 +603,8 @@ public class AdminPage extends javax.swing.JFrame {
             }
         });
 
+        txtStudentDOB.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -582,7 +618,6 @@ public class AdminPage extends javax.swing.JFrame {
                     .addComponent(jLabel8))
                 .addGap(44, 44, 44)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtStudentDOB, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(rdMale)
@@ -591,7 +626,8 @@ public class AdminPage extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(rdInstallment)
                             .addComponent(rdFemale)))
-                    .addComponent(txtStudentName))
+                    .addComponent(txtStudentName, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+                    .addComponent(txtStudentDOB))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -630,7 +666,7 @@ public class AdminPage extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(txtStudentDOB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(58, 58, 58)
+                        .addGap(59, 59, 59)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
                             .addComponent(rdMale)
@@ -640,7 +676,7 @@ public class AdminPage extends javax.swing.JFrame {
                             .addComponent(jLabel8)
                             .addComponent(rdAll)
                             .addComponent(rdInstallment))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton1)
                             .addComponent(jButton2))
@@ -693,10 +729,7 @@ public class AdminPage extends javax.swing.JFrame {
 
         tblSubject.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
                 "Subject", "Mark", "Grade"
@@ -707,21 +740,18 @@ public class AdminPage extends javax.swing.JFrame {
             tblSubject.getColumnModel().getColumn(0).setMinWidth(180);
         }
 
-        tblPayment.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        tblPayment.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         tblPayment.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
-                "Paid", "Balance", "Day"
+                "Paid", "Day", "Description"
             }
         ));
         jScrollPane4.setViewportView(tblPayment);
 
-        jLabel2.setText("Total:");
+        lblTotalFee.setText("Total:");
 
         cbFeeType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Not set", "All", "Monthly" }));
         cbFeeType.addActionListener(new java.awt.event.ActionListener() {
@@ -769,7 +799,7 @@ public class AdminPage extends javax.swing.JFrame {
                             .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblTotalFee, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 176, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
@@ -789,7 +819,7 @@ public class AdminPage extends javax.swing.JFrame {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel2)
+                        .addComponent(lblTotalFee)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
@@ -798,16 +828,16 @@ public class AdminPage extends javax.swing.JFrame {
 
         tblCourseInformation.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
                 "Subject ID", "Subject Name"
             }
         ));
         jScrollPane5.setViewportView(tblCourseInformation);
+        if (tblCourseInformation.getColumnModel().getColumnCount() > 0) {
+            tblCourseInformation.getColumnModel().getColumn(0).setMaxWidth(70);
+        }
 
         JListCourse.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -1187,11 +1217,11 @@ public class AdminPage extends javax.swing.JFrame {
         ExecuteFilter();
     }//GEN-LAST:event_cbGenderActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void mnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnRefreshActionPerformed
         // TODO add your handling code here:
         lstStudent=Student.getAllStudent();
         LoadDataStudent();
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_mnRefreshActionPerformed
 
     private void cbFeeTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbFeeTypeActionPerformed
         // TODO add your handling code here:
@@ -1202,6 +1232,12 @@ public class AdminPage extends javax.swing.JFrame {
         // TODO add your handling code here:
         
     }//GEN-LAST:event_SearchIDActionPerformed
+
+    private void mnEditStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnEditStudentActionPerformed
+        // TODO add your handling code here:
+        jTabbedPane1.addTab("Edit Student", new ImageIcon("src/res/edit40.png"), new EditTab(jTabbedPane1));
+        
+    }//GEN-LAST:event_mnEditStudentActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1264,7 +1300,6 @@ public class AdminPage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1272,7 +1307,6 @@ public class AdminPage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -1286,10 +1320,16 @@ public class AdminPage extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lblFee;
+    private javax.swing.JLabel lblTotalFee;
     private javax.swing.JLabel lblUserName;
     private javax.swing.JList lstSubjects;
+    private javax.swing.JMenuItem mnDelete;
+    private javax.swing.JMenuItem mnEditStudent;
+    private javax.swing.JMenuItem mnMark;
+    private javax.swing.JMenuItem mnRefresh;
     private javax.swing.JRadioButton rdAdminFemale;
     private javax.swing.JRadioButton rdAdminMale;
     private javax.swing.JRadioButton rdAll;
@@ -1306,7 +1346,7 @@ public class AdminPage extends javax.swing.JFrame {
     private javax.swing.JTextField txtAdminFullName;
     private javax.swing.JTextField txtAdmnPhone;
     private javax.swing.JFormattedTextField txtFormatDate;
-    private javax.swing.JTextField txtStudentDOB;
+    private javax.swing.JFormattedTextField txtStudentDOB;
     private javax.swing.JTextField txtStudentName;
     // End of variables declaration//GEN-END:variables
 }
