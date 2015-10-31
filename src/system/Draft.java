@@ -28,15 +28,16 @@ public class Draft extends javax.swing.JFrame {
      */
     public Draft() {
         initComponents();
-//        jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-//
-//            @Override
-//            public void valueChanged(ListSelectionEvent e) {
-//                System.out.println(jTable1.getValueAt(jTable1.getSelectedRow(), 0));
-//            }
-//        });
-        
-        
+        jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (jTable1.getSelectedRow()>=0) {
+                    System.out.println(jTable1.getValueAt(jTable1.getSelectedRow(), 0));
+                }
+            }
+        });
+
     }
 
     /**
@@ -110,10 +111,15 @@ public class Draft extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        for(int i = 0 ; i < jTable1.getModel().getRowCount() ; i ++) {
+//        DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
+//        dtm.setRowCount(0);
+        System.out.println(jTable1.getModel().getRowCount());
+        if (jTable1.getModel().getRowCount()>0) {
+            for(int i = jTable1.getModel().getRowCount()-1 ; i >=0  ; i--) {
             ((DefaultTableModel)jTable1.getModel()).removeRow(i);
         }
-        
+        }
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

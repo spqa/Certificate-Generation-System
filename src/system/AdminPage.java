@@ -289,7 +289,10 @@ public class AdminPage extends javax.swing.JFrame {
 
         @Override
         public void valueChanged(ListSelectionEvent e) {
-            tblSubject.setModel(Mark.getTableMark(Integer.parseInt(tblStudentData.getValueAt(tblStudentData.getSelectedRow(), 0).toString())));
+            if (tblStudentData.getSelectedRow()>=0) {
+                tblSubject.setModel(Mark.getTableMark(Integer.parseInt(tblStudentData.getValueAt(tblStudentData.getSelectedRow(), 0).toString())));
+            }
+            
             tblSubject.getColumnModel().getColumn(0).setMinWidth(190);
         }
     };
@@ -662,6 +665,7 @@ public class AdminPage extends javax.swing.JFrame {
             }
         ));
         tblStudentData.setComponentPopupMenu(jPopupMenu1);
+        tblStudentData.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jScrollPane3.setViewportView(tblStudentData);
         if (tblStudentData.getColumnModel().getColumnCount() > 0) {
             tblStudentData.getColumnModel().getColumn(0).setMaxWidth(50);
