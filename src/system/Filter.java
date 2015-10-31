@@ -38,7 +38,7 @@ public class Filter {
                 Extracted=Extracted+temp[i].trim();
             }
         }
-        System.out.println(Extracted);
+        //System.out.println(Extracted);
         return Extracted;
     }
 

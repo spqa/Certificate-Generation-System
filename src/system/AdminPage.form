@@ -470,26 +470,26 @@
                               <Group type="102" attributes="0">
                                   <Component id="SearchID" min="-2" pref="45" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="SearchName" min="-2" pref="234" max="-2" attributes="0"/>
+                                  <Component id="SearchName" min="-2" pref="216" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="cbGender" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
-                                  <Component id="txtFormatDate" min="-2" pref="109" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                                  <Component id="txtFormatDate" min="-2" pref="95" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Component id="jComboBox2" min="-2" pref="99" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="cbFeeType" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jScrollPane3" min="-2" pref="771" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Component id="jScrollPane3" min="-2" pref="696" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jScrollPane2" pref="226" max="32767" attributes="0"/>
-                                      <Component id="jScrollPane4" pref="0" max="32767" attributes="0"/>
-                                      <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jScrollPane4" alignment="1" pref="0" max="32767" attributes="0"/>
+                                      <Component id="jScrollPane2" pref="0" max="32767" attributes="0"/>
+                                      <Group type="102" attributes="0">
                                           <Component id="jLabel2" min="-2" pref="113" max="-2" attributes="0"/>
-                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="176" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -501,26 +501,22 @@
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Group type="103" alignment="1" groupAlignment="3" attributes="0">
-                                  <Component id="SearchID" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="SearchName" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="cbGender" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="103" alignment="1" groupAlignment="3" attributes="0">
-                                  <Component id="jComboBox2" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="cbFeeType" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="txtFormatDate" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="SearchID" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="SearchName" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="cbGender" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtFormatDate" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jComboBox2" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="cbFeeType" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jScrollPane3" pref="443" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
-                                  <Component id="jScrollPane2" min="-2" pref="196" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="jScrollPane2" pref="0" max="32767" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jScrollPane4" min="-2" pref="206" max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -627,14 +623,20 @@
                     <Component class="javax.swing.JTable" name="tblSubject">
                       <Properties>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                          <Table columnCount="2" rowCount="4">
+                          <Table columnCount="3" rowCount="4">
                             <Column editable="true" title="Subject" type="java.lang.Object"/>
                             <Column editable="true" title="Mark" type="java.lang.Object"/>
+                            <Column editable="true" title="Grade" type="java.lang.Object"/>
                           </Table>
                         </Property>
                         <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                           <TableColumnModel selectionModel="0">
                             <Column maxWidth="-1" minWidth="180" prefWidth="-1" resizable="true">
+                              <Title/>
+                              <Editor/>
+                              <Renderer/>
+                            </Column>
+                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                               <Title/>
                               <Editor/>
                               <Renderer/>

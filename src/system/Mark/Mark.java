@@ -13,7 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 import system.DBConnect;
+import system.Subject.Subject;
 
 /**
  *
@@ -22,13 +24,13 @@ import system.DBConnect;
 public class Mark {
     private int StuId;
     private int SubID;
-    private int mark;
+    private float mark;
     private String Grade;
 
     public Mark() {
     }
 
-    public Mark(int StuId, int SubID, int mark, String Grade) {
+    public Mark(int StuId, int SubID, float mark, String Grade) {
         this.StuId = StuId;
         this.SubID = SubID;
         this.mark = mark;
@@ -43,7 +45,7 @@ public class Mark {
         return SubID;
     }
 
-    public int getMark() {
+    public float getMark() {
         return mark;
     }
 
@@ -66,6 +68,12 @@ public class Mark {
     public void setGrade(String Grade) {
         this.Grade = Grade;
     }
+
+    @Override
+    public String toString() {
+        return "Mark{" + "StuId=" + StuId + ", SubID=" + SubID + ", mark=" + mark + ", Grade=" + Grade + '}';
+    }
+    
     public static List<Mark> getMarkByStuID(int StudentID){
         Connection conn=DBConnect.ConnectDatabase();
         List<Mark> lstMark=new ArrayList<>();
@@ -74,12 +82,32 @@ public class Mark {
             pre.setInt(1, StudentID);
             ResultSet rs=pre.executeQuery();
             while (rs.next()) {                
-                lstMark.add(new Mark(StudentID, rs.getInt(2), rs.getInt(3),rs.getString(4) ));
+                lstMark.add(new Mark(StudentID, rs.getInt(2), rs.getFloat(3),rs.getString(4) ));
             }
             return lstMark;
         } catch (SQLException ex) {
             Logger.getLogger(Mark.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+    
+    
+    public static DefaultTableModel getTableMark(int StuID){
+        DefaultTableModel temp=new DefaultTableModel();
+        temp.addColumn("Subject");
+        temp.addColumn("Mark");
+        temp.addColumn("Grade");
+        List<Mark> lstMark=getMarkByStuID(StuID);
+        
+        for (Mark lstMark1 : lstMark) {
+            String[] row={Subject.getSubjectNameByID(lstMark1.getSubID()),lstMark1.getMark()+"",lstMark1.getGrade()};
+            System.out.println(lstMark1.toString());
+            System.out.println(row[1]);
+            temp.addRow(row);
+        }
+        return temp;
+    }
+    public static void main(String[] args) {
+        getTableMark(1);
     }
 }

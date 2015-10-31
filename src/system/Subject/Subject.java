@@ -77,4 +77,18 @@ public class Subject {
         }
         return lstTemp;
     }
+    
+    public static String getSubjectNameByID(int SubID){
+        Connection conn=DBConnect.ConnectDatabase();
+        try {
+            PreparedStatement pre=conn.prepareStatement("select * from Subject where SubId=?");
+            pre.setInt(1, SubID);
+            ResultSet rs=pre.executeQuery();
+            rs.next();
+            return rs.getString(3);
+        } catch (SQLException ex) {
+            Logger.getLogger(Subject.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }

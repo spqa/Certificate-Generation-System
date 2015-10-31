@@ -23,6 +23,7 @@ import java.util.Random;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.ListChangeListener;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -33,6 +34,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
+import system.Mark.Mark;
 import system.Subject.Subject;
 import system.admin.Admin;
 import system.student.Student;
@@ -62,14 +64,9 @@ public class AdminPage extends javax.swing.JFrame {
         LoadAdminData();
         ComboBoxData();
         LoadCourseList();
+        LoadOtherControlStudentManager();
         LoadDataStudent();
-        tblStudentData.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-
-            }
-        });
+        tblStudentData.getSelectionModel().addListSelectionListener(tblStudentChangeListner);
         setLocationRelativeTo(null);
         setVisible(true);
         setResizable(false);
@@ -213,9 +210,12 @@ public class AdminPage extends javax.swing.JFrame {
 
     //Student Manager Method
     private void LoadDataStudent() {
-        for (int i = StudentTblModel.getRowCount(); i >=0 ; i--) {
+        if (StudentTblModel.getRowCount()>0) {
+            for (int i = StudentTblModel.getRowCount()-1; i >=0 ; i--) {         
                 StudentTblModel.removeRow(i);
             }
+        }
+        
         for (Student lstStudent1 : lstStudent) {
             String[] temp = {lstStudent1.getId() + "", lstStudent1.getFullname(), lstStudent1.getGender(), lstStudent1.getDOB(), getCourseById(lstStudent1.getCourseID()), getFeeTypeByID(lstStudent1.getFeeID())};
             StudentTblModel.addRow(temp);
@@ -224,21 +224,25 @@ public class AdminPage extends javax.swing.JFrame {
         tblStudentData.setModel(StudentTblModel);
         tblStudentData.getColumnModel().getColumn(0).setMaxWidth(50);
         tblStudentData.getColumnModel().getColumn(1).setMinWidth(200);
-        try {
+        
+    }
+    
+    private void LoadOtherControlStudentManager(){
+    try {
             //setup Format Text Field Text
             MaskFormatter mf = new MaskFormatter("####-##-##");
             mf.install(txtFormatDate);
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(null, "Wrong date!!", "Warning", JOptionPane.WARNING_MESSAGE);
         }
-        DefaultComboBoxModel<Course> ModelCbCourse = new DefaultComboBoxModel<>();
-        ModelCbCourse.addElement(new Course(0, "Not set", 0));
+        DefaultComboBoxModel<Course> ModelCbCourseStu = new DefaultComboBoxModel<>();
+        ModelCbCourseStu.addElement(new Course(0, "Not set", 0));
         for (Course lstCourse1 : lstCourse) {
-            ModelCbCourse.addElement(lstCourse1);
+            ModelCbCourseStu.addElement(lstCourse1);
 
         }
 
-        jComboBox2.setModel(ModelCbCourse);
+        jComboBox2.setModel(ModelCbCourseStu);
 
         SearchName.getDocument().addDocumentListener(docSearchListener);
         txtFormatDate.getDocument().addDocumentListener(docSearchListener);
@@ -278,6 +282,15 @@ public class AdminPage extends javax.swing.JFrame {
         @Override
         public void changedUpdate(DocumentEvent e) {
             SearchID();
+        }
+    };
+    
+    ListSelectionListener tblStudentChangeListner=new ListSelectionListener() {
+
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            tblSubject.setModel(Mark.getTableMark(Integer.parseInt(tblStudentData.getValueAt(tblStudentData.getSelectedRow(), 0).toString())));
+            tblSubject.getColumnModel().getColumn(0).setMinWidth(190);
         }
     };
 
@@ -323,7 +336,7 @@ public class AdminPage extends javax.swing.JFrame {
         }
 
         lstTemp = Filter.GenderFilter(lstTemp, (String) cbGender.getSelectedItem());
-        for (int i = StudentTblModel.getRowCount(); i >=0 ; i--) {
+        for (int i = StudentTblModel.getRowCount()-1; i >=0 ; i--) {
                 StudentTblModel.removeRow(i);
             }
         for (Student lstStu1 : lstTemp) {
@@ -336,8 +349,9 @@ public class AdminPage extends javax.swing.JFrame {
     }
     
     private void SearchID(){
+        
         if (!SearchID.getText().trim().equals("")) {
-            for (int i = StudentTblModel.getRowCount(); i >=0 ; i--) {
+            for (int i = StudentTblModel.getRowCount()-1; i >=0 ; i--) {
                 StudentTblModel.removeRow(i);
             }
             for (Student lstStu1 : lstStudent) {
@@ -349,6 +363,7 @@ public class AdminPage extends javax.swing.JFrame {
             tblStudentData.setModel(StudentTblModel);
             tblStudentData.getColumnModel().getColumn(0).setMaxWidth(50);
             tblStudentData.getColumnModel().getColumn(1).setMinWidth(200);
+            
         } else {
             LoadDataStudent();
         }
@@ -674,13 +689,13 @@ public class AdminPage extends javax.swing.JFrame {
 
         tblSubject.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Subject", "Mark"
+                "Subject", "Mark", "Grade"
             }
         ));
         jScrollPane2.setViewportView(tblSubject);
@@ -733,47 +748,45 @@ public class AdminPage extends javax.swing.JFrame {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(SearchID, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(SearchName, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(SearchName, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(cbGender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(38, 38, 38)
-                        .addComponent(txtFormatDate, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
+                        .addGap(36, 36, 36)
+                        .addComponent(txtFormatDate, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(cbFeeType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 771, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 696, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                                .addGap(0, 176, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(SearchID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(SearchName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(cbGender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(cbFeeType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtFormatDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(SearchID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(SearchName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbGender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFormatDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbFeeType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(6, 6, 6)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 443, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 

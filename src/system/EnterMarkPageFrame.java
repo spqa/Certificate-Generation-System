@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 import system.Mark.DataTableMark;
 
@@ -54,6 +55,7 @@ public class EnterMarkPageFrame extends javax.swing.JFrame {
         }
         jTable1.setModel(tblModel);
         jTable1.getColumnModel().getColumn(0).setMinWidth(300);
+        
     }
     
     public List<DataTableMark> getMarkInformation(){
