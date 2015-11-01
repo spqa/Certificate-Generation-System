@@ -5,6 +5,13 @@
  */
 package system.Course;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import system.DBConnect;
+
 /**
  *
  * @author c1409l3544
@@ -52,4 +59,16 @@ public class Course {
         return name;
     }
     
+    public static Vector<Course> getAllCourses(){
+        Vector<Course> lstTemp=new Vector<>();
+        ResultSet rs=DBConnect.ExcuteStatement("Course");
+        try {
+            while (rs.next()) {
+                lstTemp.add(new Course(rs.getInt(1), rs.getString(2), rs.getInt(3)));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Course.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lstTemp;
+    }
 }

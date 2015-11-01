@@ -33,6 +33,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
+import system.Mark.DataTableMark;
 import system.Mark.Mark;
 import system.Payment.Payment;
 import system.Subject.Subject;
@@ -45,7 +46,7 @@ import system.student.Student;
  */
 public class AdminPage extends javax.swing.JFrame {
 
-    final DefaultTableModel StudentTblModel;
+    DefaultTableModel StudentTblModel;
     EnterMarkPageFrame emp;
     Vector<Course> lstCourse;
     int adminID;
@@ -57,7 +58,7 @@ public class AdminPage extends javax.swing.JFrame {
      * @param AdminID
      */
     public AdminPage(int AdminID) {
-        StudentTblModel=Student.getStudentTblModel();
+        StudentTblModel = Student.getStudentTblModel();
         this.adminID = AdminID;
         lstStudent = Student.getAllStudent();
         initComponents();
@@ -210,25 +211,25 @@ public class AdminPage extends javax.swing.JFrame {
 
     //Student Manager Method
     private void LoadDataStudent() {
-        if (StudentTblModel.getRowCount()>0) {
-            for (int i = StudentTblModel.getRowCount()-1; i >=0 ; i--) {         
+        if (StudentTblModel.getRowCount() > 0) {
+            for (int i = StudentTblModel.getRowCount() - 1; i >= 0; i--) {
                 StudentTblModel.removeRow(i);
             }
         }
-        
+
         for (Student lstStudent1 : lstStudent) {
             String[] temp = {lstStudent1.getId() + "", lstStudent1.getFullname(), lstStudent1.getGender(), lstStudent1.getDOB(), getCourseById(lstStudent1.getCourseID()), getFeeTypeByID(lstStudent1.getFeeID())};
             StudentTblModel.addRow(temp);
         }
-        
+
         tblStudentData.setModel(StudentTblModel);
         tblStudentData.getColumnModel().getColumn(0).setMaxWidth(50);
         tblStudentData.getColumnModel().getColumn(1).setMinWidth(200);
-        
+
     }
-    
-    private void LoadOtherControlStudentManager(){
-    try {
+
+    private void LoadOtherControlStudentManager() {
+        try {
             //setup Format Text Field Text
             MaskFormatter mf = new MaskFormatter("####-##-##");
             mf.install(txtFormatDate);
@@ -267,8 +268,8 @@ public class AdminPage extends javax.swing.JFrame {
             ExecuteFilter();
         }
     };
-    
-    DocumentListener docSearchID=new DocumentListener() {
+
+    DocumentListener docSearchID = new DocumentListener() {
 
         @Override
         public void insertUpdate(DocumentEvent e) {
@@ -285,21 +286,21 @@ public class AdminPage extends javax.swing.JFrame {
             SearchID();
         }
     };
-    
-    ListSelectionListener tblStudentChangeListner=new ListSelectionListener() {
+
+    ListSelectionListener tblStudentChangeListner = new ListSelectionListener() {
 
         @Override
         public void valueChanged(ListSelectionEvent e) {
-            if (tblStudentData.getSelectedRow()>=0) {
+            if (tblStudentData.getSelectedRow() >= 0) {
                 tblSubject.setModel(Mark.getTableMark(Integer.parseInt(tblStudentData.getValueAt(tblStudentData.getSelectedRow(), 0).toString())));
                 for (Course lstCourse1 : lstCourse) {
                     if (lstCourse1.getName().equals(tblStudentData.getValueAt(tblStudentData.getSelectedRow(), 4))) {
-                        lblTotalFee.setText("Total Fees: "+lstCourse1.getMoney());
+                        lblTotalFee.setText("Total Fees: " + lstCourse1.getMoney());
                     }
                 }
                 tblPayment.setModel(Payment.getPaymentTable(Integer.parseInt(tblStudentData.getValueAt(tblStudentData.getSelectedRow(), 0).toString())));
             }
-            
+
             tblSubject.getColumnModel().getColumn(0).setMinWidth(190);
         }
     };
@@ -346,9 +347,9 @@ public class AdminPage extends javax.swing.JFrame {
         }
 
         lstTemp = Filter.GenderFilter(lstTemp, (String) cbGender.getSelectedItem());
-        for (int i = StudentTblModel.getRowCount()-1; i >=0 ; i--) {
-                StudentTblModel.removeRow(i);
-            }
+        for (int i = StudentTblModel.getRowCount() - 1; i >= 0; i--) {
+            StudentTblModel.removeRow(i);
+        }
         for (Student lstStu1 : lstTemp) {
             String[] row = {lstStu1.getId() + "", lstStu1.getFullname(), lstStu1.getGender(), lstStu1.getDOB(), getCourseById(lstStu1.getCourseID()), getFeeTypeByID(lstStu1.getFeeID())};
             StudentTblModel.addRow(row);
@@ -357,11 +358,11 @@ public class AdminPage extends javax.swing.JFrame {
         tblStudentData.getColumnModel().getColumn(0).setMaxWidth(50);
         tblStudentData.getColumnModel().getColumn(1).setMinWidth(200);
     }
-    
-    private void SearchID(){
-        
+
+    private void SearchID() {
+
         if (!SearchID.getText().trim().equals("")) {
-            for (int i = StudentTblModel.getRowCount()-1; i >=0 ; i--) {
+            for (int i = StudentTblModel.getRowCount() - 1; i >= 0; i--) {
                 StudentTblModel.removeRow(i);
             }
             for (Student lstStu1 : lstStudent) {
@@ -373,7 +374,7 @@ public class AdminPage extends javax.swing.JFrame {
             tblStudentData.setModel(StudentTblModel);
             tblStudentData.getColumnModel().getColumn(0).setMaxWidth(50);
             tblStudentData.getColumnModel().getColumn(1).setMinWidth(200);
-            
+
         } else {
             LoadDataStudent();
         }
@@ -435,6 +436,7 @@ public class AdminPage extends javax.swing.JFrame {
         cbFeeType = new javax.swing.JComboBox();
         cbGender = new javax.swing.JComboBox();
         txtFormatDate = new javax.swing.JFormattedTextField();
+        jButton3 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         tblCourseInformation = new javax.swing.JTable();
@@ -476,11 +478,21 @@ public class AdminPage extends javax.swing.JFrame {
         mnMark.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         mnMark.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/EditPop25.png"))); // NOI18N
         mnMark.setText("Edit Mark");
+        mnMark.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnMarkActionPerformed(evt);
+            }
+        });
         jPopupMenu1.add(mnMark);
 
         mnDelete.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         mnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/Delete25.png"))); // NOI18N
         mnDelete.setText("Delete ");
+        mnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnDeleteActionPerformed(evt);
+            }
+        });
         jPopupMenu1.add(mnDelete);
         jPopupMenu1.add(jSeparator1);
 
@@ -773,6 +785,13 @@ public class AdminPage extends javax.swing.JFrame {
             }
         });
 
+        jButton3.setText("Add New Payment");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -794,13 +813,19 @@ public class AdminPage extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 696, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(lblTotalFee, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 176, Short.MAX_VALUE)))))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                        .addComponent(lblTotalFee, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 176, Short.MAX_VALUE))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton3)
+                                .addGap(82, 82, 82)))))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -821,7 +846,10 @@ public class AdminPage extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblTotalFee)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton3)
+                        .addGap(1, 1, 1))))
         );
 
         jTabbedPane1.addTab("Student Manager", new javax.swing.ImageIcon(getClass().getResource("/res/Manager40.png")), jPanel4); // NOI18N
@@ -1123,15 +1151,35 @@ public class AdminPage extends javax.swing.JFrame {
             pre.setInt(6, s.getCourseID());
             pre.setInt(7, s.getFeeID());
             boolean rs = pre.execute();
-            if (rs == false) {
-                JOptionPane.showMessageDialog(this, "Student Added", "Information", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("src/res/ok50.png"));
+            if (emp != null) {
+                if (rs == false) {                 
+                    CallableStatement call = DBConnect.ConnectDatabase().prepareCall("{call MaxIdStudnent()}");
+                    ResultSet RecentStudent = call.executeQuery();
+                    RecentStudent.next();
+                    int StuId = RecentStudent.getInt(1);
+                    List<DataTableMark> lstMark = emp.getMarkInformation();
+                    PreparedStatement MarkInsert = DBConnect.ConnectDatabase().prepareStatement("insert into Mark (StuId,SubId,Mark) values (?,?,?)");
+                    for (DataTableMark lstMark1 : lstMark) {
+                        if (!lstMark1.getMark().equals("")) {
+                            MarkInsert.setInt(1, StuId);
+                            MarkInsert.setInt(2, lstMark1.getSubjectID());
+                            MarkInsert.setFloat(3, Float.parseFloat(lstMark1.getMark()));
+                            MarkInsert.addBatch();
+                        }
+                    }
+                    int[] rs1=MarkInsert.executeBatch();
+                    MarkInsert.close();
+                    JOptionPane.showMessageDialog(null, "Student and Mark add Successfully!", "Message", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("src/res/ok40.png"));
+                }
+            } else if (rs == false) {
+                JOptionPane.showMessageDialog(null, "Student add Successfully!", "Message", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("src/res/ok40.png"));
             }
+
         } catch (SQLException ex) {
             Logger.getLogger(AdminPage.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
             Logger.getLogger(AdminPage.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -1219,7 +1267,7 @@ public class AdminPage extends javax.swing.JFrame {
 
     private void mnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnRefreshActionPerformed
         // TODO add your handling code here:
-        lstStudent=Student.getAllStudent();
+        lstStudent = Student.getAllStudent();
         LoadDataStudent();
     }//GEN-LAST:event_mnRefreshActionPerformed
 
@@ -1230,14 +1278,53 @@ public class AdminPage extends javax.swing.JFrame {
 
     private void SearchIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchIDActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_SearchIDActionPerformed
 
     private void mnEditStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnEditStudentActionPerformed
         // TODO add your handling code here:
-        jTabbedPane1.addTab("Edit Student", new ImageIcon("src/res/edit40.png"), new EditTab(jTabbedPane1));
-        
+        if (tblStudentData.getSelectedRow() >= 0) {
+            jTabbedPane1.addTab("Edit Student", new ImageIcon("src/res/edit40.png"), new EditTab(jTabbedPane1, Integer.parseInt(tblStudentData.getValueAt(tblStudentData.getSelectedRow(), 0).toString())));
+        }
+
+
     }//GEN-LAST:event_mnEditStudentActionPerformed
+
+    private void mnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnDeleteActionPerformed
+        // TODO add your handling code here:
+        if (tblStudentData.getSelectedRow() >= 0) {
+            int confirm = JOptionPane.showConfirmDialog(null, "Are you sure want to delete this Student? \n This can not be undone!", "Warning", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, new ImageIcon("src/res/warn45.png"));
+            if (confirm == 0) {
+                try {
+                    PreparedStatement pre = DBConnect.ConnectDatabase().prepareStatement("Delete from Student where StuId=?");
+                    pre.setInt(1, Integer.parseInt(tblStudentData.getValueAt(tblStudentData.getSelectedRow(), 0).toString()));
+                    boolean rs = pre.execute();
+                    lstStudent = Student.getAllStudent();
+                    LoadDataStudent();
+
+                    if (rs == false) {
+                        JOptionPane.showMessageDialog(null, "Delete Successfully", "Message", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("src/res/ok40.png"));
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(AdminPage.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }//GEN-LAST:event_mnDeleteActionPerformed
+
+    private void mnMarkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnMarkActionPerformed
+        // TODO add your handling code here:
+        if (tblStudentData.getSelectedRow() >= 0) {
+
+        }
+    }//GEN-LAST:event_mnMarkActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        if (tblStudentData.getSelectedRow()>=0) {
+            new EnterPaymentPage(Integer.parseInt(tblStudentData.getValueAt(tblStudentData.getSelectedRow(), 0).toString()));
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1288,6 +1375,7 @@ public class AdminPage extends javax.swing.JFrame {
     private javax.swing.JComboBox cbGender;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;

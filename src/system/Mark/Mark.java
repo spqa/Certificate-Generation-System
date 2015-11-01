@@ -101,8 +101,8 @@ public class Mark {
         
         for (Mark lstMark1 : lstMark) {
             String[] row={Subject.getSubjectNameByID(lstMark1.getSubID()),lstMark1.getMark()+"",lstMark1.getGrade()};
-            System.out.println(lstMark1.toString());
-            System.out.println(row[1]);
+            //System.out.println(lstMark1.toString());
+            //System.out.println(row[1]);
             temp.addRow(row);
         }
         return temp;
