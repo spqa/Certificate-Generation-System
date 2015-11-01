@@ -129,7 +129,6 @@ public class MainPage extends javax.swing.JFrame {
         tabbedPane_Main.setBackground(new java.awt.Color(255, 255, 255));
         tabbedPane_Main.setTabPlacement(javax.swing.JTabbedPane.LEFT);
 
-        pnlAdminLogin.setBackground(new java.awt.Color(255, 255, 255));
         pnlAdminLogin.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         pnlAdminLogin.setPreferredSize(new java.awt.Dimension(750, 450));
 
@@ -199,8 +198,6 @@ public class MainPage extends javax.swing.JFrame {
         tabbedPane_Main.addTab("Admin Login", new javax.swing.ImageIcon(getClass().getResource("/res/Admin260.png")), pnlAdminLogin, "Click here to login as admin"); // NOI18N
         pnlAdminLogin.getAccessibleContext().setAccessibleName("");
 
-        pnlCerLogin.setBackground(new java.awt.Color(255, 255, 255));
-
         jLabel5.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 18)); // NOI18N
         jLabel5.setText("Username:");
 
@@ -261,8 +258,6 @@ public class MainPage extends javax.swing.JFrame {
         );
 
         tabbedPane_Main.addTab("Certificate Cell", new javax.swing.ImageIcon(getClass().getResource("/res/Certi60.png")), pnlCerLogin, "Click here to login as Certificate Staff"); // NOI18N
-
-        pnlStuLogin.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel10.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 18)); // NOI18N
         jLabel10.setText("Username:");
@@ -325,27 +320,25 @@ public class MainPage extends javax.swing.JFrame {
 
         tabbedPane_Main.addTab("Student Login", new javax.swing.ImageIcon(getClass().getResource("/res/Student60.png")), pnlStuLogin, "Login as Student"); // NOI18N
 
-        pnlSetting.setBackground(new java.awt.Color(255, 255, 255));
-
-        jLabel9.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 14)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Microsoft Sans Serif", 1, 16)); // NOI18N
         jLabel9.setText("Server Address:");
 
-        jLabel3.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 14)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Microsoft Sans Serif", 1, 16)); // NOI18N
         jLabel3.setText("Database Name:");
 
-        jLabel4.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 14)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Microsoft Sans Serif", 1, 16)); // NOI18N
         jLabel4.setText("Username:");
 
-        jLabel12.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 14)); // NOI18N
+        jLabel12.setFont(new java.awt.Font("Microsoft Sans Serif", 1, 16)); // NOI18N
         jLabel12.setText("Password:");
 
-        passConfigDB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        passConfigDB.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
 
-        txtConfigDBUser.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtConfigDBUser.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
 
-        txtConfigDBName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtConfigDBName.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
 
-        txtConfigServerName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtConfigServerName.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/connectionTest50.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -361,46 +354,44 @@ public class MainPage extends javax.swing.JFrame {
             }
         });
 
-        jLabel14.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 14)); // NOI18N
+        jLabel14.setFont(new java.awt.Font("Microsoft Sans Serif", 1, 16)); // NOI18N
         jLabel14.setText("Port:");
 
-        txtConfigDBPort.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtConfigDBPort.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
 
         javax.swing.GroupLayout pnlSettingLayout = new javax.swing.GroupLayout(pnlSetting);
         pnlSetting.setLayout(pnlSettingLayout);
         pnlSettingLayout.setHorizontalGroup(
             pnlSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlSettingLayout.createSequentialGroup()
-                .addGroup(pnlSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(151, 151, 151)
+                .addGroup(pnlSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(pnlSettingLayout.createSequentialGroup()
-                        .addGap(214, 214, 214)
+                        .addComponent(jLabel12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(passConfigDB, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlSettingLayout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtConfigDBUser, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlSettingLayout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtConfigServerName, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlSettingLayout.createSequentialGroup()
+                        .addComponent(jLabel14)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtConfigDBPort, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlSettingLayout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(116, 116, 116)
+                        .addComponent(txtConfigDBName, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlSettingLayout.createSequentialGroup()
+                        .addGap(101, 101, 101)
                         .addComponent(jButton1)
-                        .addGap(89, 89, 89)
-                        .addComponent(jButton2))
-                    .addGroup(pnlSettingLayout.createSequentialGroup()
-                        .addGap(151, 151, 151)
-                        .addGroup(pnlSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(pnlSettingLayout.createSequentialGroup()
-                                .addComponent(jLabel12)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(passConfigDB, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(pnlSettingLayout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtConfigDBUser, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlSettingLayout.createSequentialGroup()
-                                .addComponent(jLabel9)
-                                .addGap(116, 116, 116)
-                                .addComponent(txtConfigServerName, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlSettingLayout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(116, 116, 116)
-                                .addComponent(txtConfigDBName, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(pnlSettingLayout.createSequentialGroup()
-                                .addComponent(jLabel14)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtConfigDBPort, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(68, Short.MAX_VALUE))
+                        .addGap(76, 76, 76)
+                        .addComponent(jButton2)))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
         pnlSettingLayout.setVerticalGroup(
             pnlSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -414,27 +405,26 @@ public class MainPage extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(txtConfigDBName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(pnlSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel14)
-                    .addComponent(txtConfigDBPort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(pnlSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(txtConfigDBUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(pnlSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel12)
-                    .addComponent(passConfigDB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                .addGroup(pnlSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addGap(47, 47, 47))
+                .addGroup(pnlSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(pnlSettingLayout.createSequentialGroup()
+                        .addGroup(pnlSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel14)
+                            .addComponent(txtConfigDBPort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(pnlSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(txtConfigDBUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(pnlSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel12)
+                            .addComponent(passConfigDB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(30, 30, 30)
+                        .addComponent(jButton2))
+                    .addComponent(jButton1))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         tabbedPane_Main.addTab("Settings       ", new javax.swing.ImageIcon(getClass().getResource("/res/Settings60.png")), pnlSetting, "Setup Database"); // NOI18N
-
-        pnlHelp.setBackground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout pnlHelpLayout = new javax.swing.GroupLayout(pnlHelp);
         pnlHelp.setLayout(pnlHelpLayout);
@@ -462,11 +452,10 @@ public class MainPage extends javax.swing.JFrame {
                 .addComponent(tabbedPane_Main, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        pnlHeader.setBackground(new java.awt.Color(204, 204, 204));
+        pnlHeader.setBackground(new java.awt.Color(0, 153, 153));
 
         lblheader.setBackground(new java.awt.Color(204, 204, 204));
         lblheader.setFont(new java.awt.Font("SimSun", 1, 18)); // NOI18N
-        lblheader.setForeground(new java.awt.Color(0, 51, 255));
         lblheader.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblheader.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/ABCLogon5050.png"))); // NOI18N
         lblheader.setText("ABC institute -Certificate Department");
