@@ -10,7 +10,9 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
+import java.util.Vector;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -20,6 +22,7 @@ public class CerPage extends javax.swing.JFrame {
 
     private String cellUser = null;
     private boolean editState = false;
+    private DefaultTableModel modelCertificateManager = null;
 
     /**
      * Creates new form CerPage
@@ -31,6 +34,8 @@ public class CerPage extends javax.swing.JFrame {
 
         cellUser = user;
         loadInfo();
+        loadCertificate();
+        tblCertificateManager.setModel(modelCertificateManager);
     }
 
     private CerPage() {
@@ -68,12 +73,12 @@ public class CerPage extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
+        tblCertificateManager = new javax.swing.JTable();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jTextField6 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox();
+        btnSearchCertificate = new javax.swing.JButton();
+        txtSearchFillter = new javax.swing.JTextField();
+        cmbSearchFilterCertificate = new javax.swing.JComboBox();
         jRadioButton3 = new javax.swing.JRadioButton();
         jRadioButton4 = new javax.swing.JRadioButton();
         jPanel6 = new javax.swing.JPanel();
@@ -230,7 +235,7 @@ public class CerPage extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Verify Student", new javax.swing.ImageIcon(getClass().getResource("/res/AddStu40.png")), jPanel4, ""); // NOI18N
 
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+        tblCertificateManager.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -241,7 +246,7 @@ public class CerPage extends javax.swing.JFrame {
                 "Certificate ID", "Student ID", "Grade", "Generated Day"
             }
         ));
-        jScrollPane5.setViewportView(jTable4);
+        jScrollPane5.setViewportView(tblCertificateManager);
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/Print45.png"))); // NOI18N
         jButton5.setText("Print");
@@ -249,10 +254,21 @@ public class CerPage extends javax.swing.JFrame {
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/PrintPreview45.png"))); // NOI18N
         jButton6.setText("Preview");
 
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/Search45.png"))); // NOI18N
-        jButton7.setText("Search");
+        btnSearchCertificate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/Search45.png"))); // NOI18N
+        btnSearchCertificate.setText("Search");
+        btnSearchCertificate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchCertificateActionPerformed(evt);
+            }
+        });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Certificate ID", "Student ID", "Grade", "Generated Day" }));
+        txtSearchFillter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSearchFillterActionPerformed(evt);
+            }
+        });
+
+        cmbSearchFilterCertificate.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Certificate ID", "Student ID", "Grade", "Generated Day" }));
 
         buttonGroup1.add(jRadioButton3);
         jRadioButton3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -271,15 +287,15 @@ public class CerPage extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton7)
+                        .addComponent(btnSearchCertificate)
                         .addGap(164, 164, 164))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(42, 42, 42)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(jTextField6)
+                                .addComponent(txtSearchFillter)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(cmbSearchFilterCertificate, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel5Layout.createSequentialGroup()
@@ -301,10 +317,10 @@ public class CerPage extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtSearchFillter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbSearchFilterCertificate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jButton7)
+                .addComponent(btnSearchCertificate)
                 .addGap(40, 40, 40)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jRadioButton3)
@@ -518,18 +534,17 @@ public class CerPage extends javax.swing.JFrame {
             Connection conn = null;
             CallableStatement stmt = null;
             ResultSet rs = null;
-            
+
             try {
                 String DOB = txtInfoDate.getText();
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); 
-                java.util.Date utilDate = new java.util.Date(); 
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                java.util.Date utilDate = new java.util.Date();
                 try {
                     utilDate = formatter.parse(DOB);
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
 
-                
                 String fullName = txtInfoFullname.getText();
                 java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
                 String gender = null;
@@ -538,13 +553,13 @@ public class CerPage extends javax.swing.JFrame {
                 } else if (rdoInfoFemale.isSelected()) {
                     gender = "Nữ";
                 }
-                
+
                 String phone = txtInfoPhone.getText();
                 String email = txtInfoEmail.getText();
                 String address = txtInfoAddress.getText();
-                
+
                 conn = DBConnect.ConnectDatabase();
-                
+
                 stmt = conn.prepareCall("{call editCerInfo(?, ?, ?, ?, ?, ?, ?) };");
                 stmt.setString(1, cellUser);
                 stmt.setNString(2, fullName);
@@ -562,6 +577,14 @@ public class CerPage extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnInfoEditActionPerformed
+
+    private void btnSearchCertificateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchCertificateActionPerformed
+        searchCertificate();
+    }//GEN-LAST:event_btnSearchCertificateActionPerformed
+
+    private void txtSearchFillterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchFillterActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSearchFillterActionPerformed
 
     public void loadInfo() {
         Connection conn = null;
@@ -589,7 +612,116 @@ public class CerPage extends javax.swing.JFrame {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
 
+    public void loadCertificate() {
+        Connection conn = null;
+        CallableStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DBConnect.ConnectDatabase();
+            stmt = conn.prepareCall("SELECT * FROM [Certificate]");
+
+            rs = stmt.executeQuery();
+            //Column
+            int len = rs.getMetaData().getColumnCount();
+            Vector cols = new Vector(len);
+            cols.add("Certificate ID");
+            cols.add("Student ID");
+            cols.add("Grade");
+            cols.add("Generated Day");
+//          for (int i = 1; i < len+1; i++) {
+//              cols.add(rs.getMetaData().getColumnName(i));
+//              System.out.println(rs.getMetaData().getColumnName(i));
+//          }
+            //Data
+            Vector data = new Vector();
+            while (rs.next()) {
+                Vector row = new Vector(len);
+                for (int i = 1; i < len + 1; i++) {
+                    row.add(rs.getString(i));
+                }
+                data.add(row);
+            }
+
+            modelCertificateManager = new DefaultTableModel(data, cols) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false; //To change body of generated methods, choose Tools | Templates.
+                }
+            };
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void searchCertificate() {
+        Connection conn = null;
+        CallableStatement stmt = null;
+        ResultSet rs = null;
+        String filter = "";
+
+        try {
+            conn = DBConnect.ConnectDatabase();
+            filter = txtSearchFillter.getText();
+            if (txtSearchFillter.getText().isEmpty()) {
+                stmt = conn.prepareCall("SELECT * FROM [Certificate]");
+            } else {
+                if (cmbSearchFilterCertificate.getSelectedItem().toString().equals("Certificate ID")) {
+                    stmt = conn.prepareCall("SELECT * FROM [Certificate] WHERE [CertiId] = ?");
+                    stmt.setString(1, filter);
+                } else if (cmbSearchFilterCertificate.getSelectedItem().toString().equals("Student ID")) {
+                    stmt = conn.prepareCall("SELECT * FROM [Certificate] WHERE [StuId] = ?");
+                    stmt.setString(1, filter);
+                } else if (cmbSearchFilterCertificate.getSelectedItem().toString().equals("Grade")) {
+                    stmt = conn.prepareCall("SELECT * FROM [Certificate] WHERE [Score] = ?");
+                    stmt.setString(1, filter);
+                } else if (cmbSearchFilterCertificate.getSelectedItem().toString().equals("Generated Day")) {
+                    String DOB = txtSearchFillter.getText();
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                    java.util.Date utilDate = new java.util.Date();
+                    try {
+                        utilDate = formatter.parse(DOB);
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+
+                    stmt = conn.prepareCall("SELECT * FROM [Certificate] WHERE [DegreeDay] = ?");
+                    stmt.setDate(1, sqlDate);
+                }
+            }
+
+            rs = stmt.executeQuery();
+            //Column
+            int len = rs.getMetaData().getColumnCount();
+            Vector cols = new Vector(len);
+            cols.add("Certificate ID");
+            cols.add("Student ID");
+            cols.add("Grade");
+            cols.add("Generated Day");
+
+            //Data
+            Vector data = new Vector();
+            while (rs.next()) {
+                Vector row = new Vector(len);
+                for (int i = 1; i < len + 1; i++) {
+                    row.add(rs.getString(i));
+                }
+                data.add(row);
+            }
+
+            modelCertificateManager = new DefaultTableModel(data, cols) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false; //To change body of generated methods, choose Tools | Templates.
+                }
+            };
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        tblCertificateManager.setModel(modelCertificateManager);
     }
 
     public void logout() {
@@ -637,14 +769,14 @@ public class CerPage extends javax.swing.JFrame {
     private javax.swing.JButton btnInfoChange;
     private javax.swing.JButton btnInfoEdit;
     private javax.swing.JButton btnInfoLogout;
+    private javax.swing.JButton btnSearchCertificate;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.JComboBox cmbSearchFilterCertificate;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -670,16 +802,16 @@ public class CerPage extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
-    private javax.swing.JTable jTable4;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField6;
     private javax.swing.JLabel lblFullName;
     private javax.swing.JRadioButton rdoInfoFemale;
     private javax.swing.JRadioButton rdoInfoMale;
+    private javax.swing.JTable tblCertificateManager;
     private javax.swing.JTextField txtInfoAddress;
     private javax.swing.JTextField txtInfoDate;
     private javax.swing.JTextField txtInfoEmail;
     private javax.swing.JTextField txtInfoFullname;
     private javax.swing.JTextField txtInfoPhone;
+    private javax.swing.JTextField txtSearchFillter;
     // End of variables declaration//GEN-END:variables
 }
