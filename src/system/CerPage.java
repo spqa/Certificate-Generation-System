@@ -23,6 +23,7 @@ public class CerPage extends javax.swing.JFrame {
     private String cellUser = null;
     private boolean editState = false;
     private DefaultTableModel modelCertificateManager = null;
+    private DefaultTableModel modeltVerifyStudent = null;
 
     /**
      * Creates new form CerPage
@@ -34,8 +35,12 @@ public class CerPage extends javax.swing.JFrame {
 
         cellUser = user;
         loadInfo();
+        
         loadCertificate();
         tblCertificateManager.setModel(modelCertificateManager);
+        
+        loadStudent();
+        tblVerifyStudent.setModel(modeltVerifyStudent);
     }
 
     private CerPage() {
@@ -61,7 +66,7 @@ public class CerPage extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblVerifyStudent = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -137,7 +142,7 @@ public class CerPage extends javax.swing.JFrame {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblVerifyStudent.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -145,7 +150,7 @@ public class CerPage extends javax.swing.JFrame {
                 "ID", "FullName", "Date Of Birth", "Course Name", "FeeType"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblVerifyStudent);
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -724,6 +729,51 @@ public class CerPage extends javax.swing.JFrame {
         tblCertificateManager.setModel(modelCertificateManager);
     }
 
+    public void loadStudent() {
+        Connection conn = null;
+        CallableStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DBConnect.ConnectDatabase();
+            stmt = conn.prepareCall("SELECT * FROM [Student]");
+
+            rs = stmt.executeQuery();
+            //Column
+
+            int len = rs.getMetaData().getColumnCount();
+            Vector cols = new Vector(len);
+            cols.add("ID");
+            cols.add("FullName");
+            cols.add("Date of Birth");
+            cols.add("Course Name");
+            cols.add("Fee Type");
+
+            //Data
+            Vector data = new Vector();
+            while (rs.next()) {
+                Vector row = new Vector(len);
+                for (int i = 1; i < len + 1; i++) {
+                    row.add(rs.getString(i));
+                }
+                data.add(row);
+            }
+
+            modeltVerifyStudent = new DefaultTableModel(data, cols) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false; //To change body of generated methods, choose Tools | Templates.
+                }
+            };
+
+            tblVerifyStudent.setModel(modeltVerifyStudent);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
     public void logout() {
         this.dispose();
         MainPage m = new MainPage();
@@ -799,7 +849,6 @@ public class CerPage extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JTextArea jTextArea1;
@@ -807,6 +856,7 @@ public class CerPage extends javax.swing.JFrame {
     private javax.swing.JRadioButton rdoInfoFemale;
     private javax.swing.JRadioButton rdoInfoMale;
     private javax.swing.JTable tblCertificateManager;
+    private javax.swing.JTable tblVerifyStudent;
     private javax.swing.JTextField txtInfoAddress;
     private javax.swing.JTextField txtInfoDate;
     private javax.swing.JTextField txtInfoEmail;
