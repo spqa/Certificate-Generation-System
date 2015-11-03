@@ -149,7 +149,7 @@ public class Student {
             PreparedStatement pre=conn.prepareStatement("select * from Student");
             ResultSet rs=pre.executeQuery();
             while (rs.next()) {                
-                lstStudent.add(new Student(rs.getInt(1),rs.getString(2), rs.getString(3),rs.getNString(4), rs.getDate(5).toString(), rs.getString(6), rs.getInt(8), rs.getInt(9)));
+                lstStudent.add(new Student(rs.getInt(1),rs.getString(2), rs.getString(3),rs.getNString(4), rs.getDate(5).toString(), rs.getString(6), rs.getInt(7), rs.getInt(8)));
             }
             return lstStudent;
         } catch (SQLException ex) {
