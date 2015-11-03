@@ -203,14 +203,18 @@ public class ChangePassForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (checkRightPass()) {
             if (checkPassConfirm()) {
-                Connection conn=DBConnect.ConnectDatabase();
                 try {
-                    PreparedStatement pre=conn.prepareStatement("update admin set Apass=? where Aid=?");
-                    pre.setString(1, Newpass);
-                    pre.setInt(2, adminID);
-                    boolean rs=pre.execute();
-                    if (rs==false) {
-                        JOptionPane.showMessageDialog(this, "Update Pass Successfully!!", "Information", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("src/res/ok50.png"));
+                    Connection conn=DBConnect.connectDatabase();
+                    try {
+                        PreparedStatement pre=conn.prepareStatement("update admin set Apass=? where Aid=?");
+                        pre.setString(1, Newpass);
+                        pre.setInt(2, adminID);
+                        boolean rs=pre.execute();
+                        if (rs==false) {
+                            JOptionPane.showMessageDialog(this, "Update Pass Successfully!!", "Information", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("src/res/ok50.png"));
+                        }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(ChangePassForm.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(ChangePassForm.class.getName()).log(Level.SEVERE, null, ex);

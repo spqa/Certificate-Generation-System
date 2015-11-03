@@ -72,7 +72,7 @@ public class Payment {
         
         List<Payment> lstPayment=new ArrayList<>();
         try {
-            conn = DBConnect.ConnectDatabase();
+            conn = DBConnect.connectDatabase();
             PreparedStatement pre=conn.prepareStatement("select * from Payment where StuId=?");
             pre.setInt(1, StuID);
             ResultSet rs=pre.executeQuery();

@@ -242,7 +242,7 @@ JTabbedPane pane;
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             // TODO add your handling code here:
-            PreparedStatement pre=DBConnect.ConnectDatabase().prepareStatement("Update Student set Fullname=?,DOB=?,Gender=?,CourseId=?,FeeId=? where StuId=?");
+            PreparedStatement pre=DBConnect.connectDatabase().prepareStatement("Update Student set Fullname=?,DOB=?,Gender=?,CourseId=?,FeeId=? where StuId=?");
             pre.setString(1, txtStudentName.getText());
             DateFormat df=new SimpleDateFormat("yyyy-MM-dd");
             Date utilDate=df.parse(txtStudentDOB.getText().trim());

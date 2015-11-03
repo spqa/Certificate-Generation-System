@@ -123,7 +123,7 @@ public class Admin {
     public static Admin GetAdminByID(int AdminID){
         Connection conn=null;
         try {
-            conn = DBConnect.ConnectDatabase();
+            conn = DBConnect.connectDatabase();
             PreparedStatement pre =conn.prepareStatement("select * from Admin where aid=?");
             pre.setInt(1, AdminID);
             ResultSet rs=pre.executeQuery();

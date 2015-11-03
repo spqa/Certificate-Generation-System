@@ -62,7 +62,7 @@ public class Course {
     }
     
     public static Vector<Course> getAllCourses(){
-        Vector<Course> lstTemp=new Vector<>();
+        /* Vector<Course> lstTemp=new Vector<>();
         ResultSet rs=DBConnect.ExcuteStatement("Course");
         try {
             while (rs.next()) {
@@ -81,13 +81,15 @@ public class Course {
             }
         }
         return lstTemp;
+                */;
+                return null;
     }
     
     public static String getCourseNameByID(int courseID){
         Connection conn=null;
         
         try {
-            conn = DBConnect.ConnectDatabase();
+            conn = DBConnect.connectDatabase();
             PreparedStatement pre=conn.prepareStatement("select * from Course where CourseId=?");
 //            System.out.println(courseID);
             pre.setInt(1, courseID);

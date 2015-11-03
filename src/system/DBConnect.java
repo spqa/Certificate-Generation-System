@@ -27,98 +27,63 @@ import javax.swing.JOptionPane;
  * @author leeja
  */
 public class DBConnect {
+    
+    private static Connection conn;
 
-    public static Connection ConnectDatabase() {
-        Properties p = new Properties();
-        File file = new File("config.properties");
-        try {
+    public static Connection connectDatabase() throws SQLException {
+        
+        if (conn == null || conn.isClosed()) {
+            Properties p = new Properties();
+            File file = new File("config.properties");
+            System.out.println(file.getAbsolutePath());
+            
+            // neu file khong ton tai
             if (!file.exists()) {
-                file.createNewFile();
-                p.setProperty("serverName", "localhost");
-                p.setProperty("dbName", "Certificate");
-                p.setProperty("port", "1433");
-                p.setProperty("userName", "sa");
-                p.setProperty("password", "1234567");
-                FileOutputStream fos = new FileOutputStream(file);
-                p.store(fos, "");
-                fos.close();
+                try {
+                    System.out.println("File not found!!!!!!!");
+                    file.createNewFile();
+                    p.setProperty("serverName", "localhost");
+                    p.setProperty("dbName", "Certificate");
+                    p.setProperty("port", "1433");
+                    p.setProperty("userName", "sa");
+                    p.setProperty("password", "1234567");
+                    FileOutputStream fos = new FileOutputStream(file);
+                    p.store(fos, "");
+                    fos.close();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            } else {
+                try {
+                   InputStream input  = new FileInputStream(file);
+                   p.load(input);
+                } catch (FileNotFoundException ex) {
+                  ex.printStackTrace();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        InputStream input = null;
-        try {
-            input = new FileInputStream(file);
-        } catch (FileNotFoundException ex) {
-            ex.printStackTrace();
-        }
-        try {
-            p.load(input);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-
-        String driverName = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-        String userName = p.getProperty("userName");
-        String password = p.getProperty("password");
-        String port = p.getProperty("port");
-        String dbName = p.getProperty("dbName");
-        String serverName = p.getProperty("serverName");
-        String url = "jdbc:sqlserver://" + serverName + ":" + port;
-        Connection conn = null;
-        try {
-            Class.forName(driverName);
-            conn = DriverManager.getConnection(url + ";databasename=" + dbName, userName, password);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
-        } catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
+           
+            String driverName = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+            StringBuilder sb = new StringBuilder();
+            sb.append("jdbc:sqlserver://")
+              .append(p.getProperty("serverName"))
+              .append(":")              
+              .append(p.getProperty("port"))
+              .append(";databasename=")
+              .append(p.getProperty("dbName"));
+            
+            try {
+                Class.forName(driverName);
+                conn = DriverManager.getConnection(sb.toString(), p.getProperty("userName"), p.getProperty("password"));
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+                ex.printStackTrace();
+            }
         }
         return conn;
-    }
-
-    public static ResultSet ExecuteStatement(String Statement) {
-        try {
-            PreparedStatement pre = ConnectDatabase().prepareStatement(Statement);
-            return pre.executeQuery();
-        } catch (SQLException ex) {
-            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    public static ResultSet ExcuteStatement(String tableName) {
-        String sql="select * from "+tableName;
-        try {
-            PreparedStatement pre=ConnectDatabase().prepareStatement(sql);
-            return pre.executeQuery();
-        } catch (SQLException ex) {
-            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, ex);
-        }
-      return null;   
-    }
-    
-    public static boolean ExecuteUpdateStatement(String UpStmt){
-        try {
-            PreparedStatement pre=ConnectDatabase().prepareStatement(UpStmt);
-            return pre.execute();
-        } catch (SQLException ex) {
-            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return true;
-    }
-
-    //Test Connection
-    public static void main(String[] args) throws SQLException {
-        Connection conn = ConnectDatabase();
-        Statement stmt = conn.createStatement();
-        String query = "Select * from [Admin]";
-        ResultSet rs = stmt.executeQuery(query);
-        if (rs.next()) {
-            JOptionPane.showMessageDialog(null, "Database Connected");
-        } else {
-            JOptionPane.showMessageDialog(null, "Connection Failed");
-        }
     }
 }

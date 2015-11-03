@@ -65,7 +65,7 @@ public class Subject {
     List<Subject> lstTemp=new ArrayList<>();
         Connection conn=null;
         try {
-            conn = DBConnect.ConnectDatabase();
+            conn = DBConnect.connectDatabase();
             PreparedStatement pre=conn.prepareStatement("select * from subject where courseid=?");
             pre.setInt(1, CourseID);
             ResultSet rs=pre.executeQuery();
@@ -91,7 +91,7 @@ public class Subject {
         Connection conn=null;
         
         try {
-            conn = DBConnect.ConnectDatabase();
+            conn = DBConnect.connectDatabase();
             PreparedStatement pre=conn.prepareStatement("select * from Subject where SubId=?");
             pre.setInt(1, SubID);
             ResultSet rs=pre.executeQuery();

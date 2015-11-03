@@ -118,7 +118,7 @@ public class Student {
         Connection connection=null;
         
         try {
-            connection = DBConnect.ConnectDatabase();
+            connection = DBConnect.connectDatabase();
             PreparedStatement pre=connection.prepareStatement("Select * from Student where Stuid=?");
             pre.setInt(1, StudentId);
             ResultSet rs=pre.executeQuery();
@@ -145,7 +145,7 @@ public class Student {
         
         List<Student> lstStudent=new ArrayList<>();
         try {
-            conn = DBConnect.ConnectDatabase();
+            conn = DBConnect.connectDatabase();
             PreparedStatement pre=conn.prepareStatement("select * from Student");
             ResultSet rs=pre.executeQuery();
             while (rs.next()) {                

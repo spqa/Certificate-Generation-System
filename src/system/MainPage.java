@@ -616,7 +616,7 @@ public class MainPage extends javax.swing.JFrame {
         } else {
             try {
                 System.setProperty("user", userID);
-                conn = DBConnect.ConnectDatabase();
+                conn = DBConnect.connectDatabase();
                 stmt = conn.prepareCall("{call AdminLogin(?,?)};");
                 stmt.setString(1, userID);
                 stmt.setString(2, pass);
@@ -662,7 +662,7 @@ public class MainPage extends javax.swing.JFrame {
         } else {
             try {
                 System.setProperty("user", userID);
-                conn = DBConnect.ConnectDatabase();
+                conn = DBConnect.connectDatabase();
                 stmt = conn.prepareCall("{call CerLogin(?,?)};");
                 stmt.setString(1, userID);
                 stmt.setString(2, pass);
@@ -708,7 +708,7 @@ public class MainPage extends javax.swing.JFrame {
         } else {
             try {
                 System.setProperty("user", userID);
-                conn = DBConnect.ConnectDatabase();
+                conn = DBConnect.connectDatabase();
                 stmt = conn.prepareCall("{call StudentLogin(?,?)};");
                 stmt.setString(1, userID);
                 stmt.setString(2, pass);

@@ -12,6 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import system.Mark.DataTableMark;
 
@@ -32,27 +34,31 @@ public class EnterMarkPageFrame extends javax.swing.JFrame {
     
     
     public EnterMarkPageFrame(int CourseID) {
-        initComponents();
-        tblModel=new DefaultTableModel();
-        tblModel.addColumn("Subject");
-        tblModel.addColumn("Mark");
-        
-        Connection conn=DBConnect.ConnectDatabase();
         try {
-            PreparedStatement pre=conn.prepareStatement("select * from subject where courseid=?");
-            pre.setInt(1, CourseID);
-            ResultSet rs=pre.executeQuery();
-            while(rs.next()){
-            String[] tempRow={rs.getString("name"),""};
-            tblModel.addRow(tempRow);
+            initComponents();
+            tblModel=new DefaultTableModel();
+            tblModel.addColumn("Subject");
+            tblModel.addColumn("Mark");
+            Connection conn=DBConnect.connectDatabase();
+            try {
+                PreparedStatement pre=conn.prepareStatement("select * from subject where courseid=?");
+                pre.setInt(1, CourseID);
+                ResultSet rs=pre.executeQuery();
+                while(rs.next()){
+                    String[] tempRow={rs.getString("name"),""};
+                    tblModel.addRow(tempRow);
+                }
+                
+            } catch (SQLException ex) {
+                ex.printStackTrace();
             }
+            jTable1.setModel(tblModel);
+            jTable1.getColumnModel().getColumn(0).setMinWidth(300);
+            setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            Logger.getLogger(EnterMarkPageFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        jTable1.setModel(tblModel);
-        jTable1.getColumnModel().getColumn(0).setMinWidth(300);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
     
     public List<DataTableMark> getMarkInformation(){
@@ -75,8 +81,9 @@ public class EnterMarkPageFrame extends javax.swing.JFrame {
     }
 
     private int getIdFromName(String name){
-        Connection conn=DBConnect.ConnectDatabase();
+        Connection conn= null;
         try {
+            conn = DBConnect.connectDatabase();
             PreparedStatement pre=conn.prepareStatement("select * from subject where name=?");
             pre.setString(1, name);
             ResultSet rs=pre.executeQuery();
@@ -86,6 +93,7 @@ public class EnterMarkPageFrame extends javax.swing.JFrame {
             ex.printStackTrace();
         }
         return 0;
+        
     }
 
     /**

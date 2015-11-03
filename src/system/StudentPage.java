@@ -81,7 +81,7 @@ public class StudentPage extends javax.swing.JFrame {
             //return StuTblMode;
             txtCourseName.setText(txtStudentCourseName.getText());
             
-            Connection conn = DBConnect.ConnectDatabase();
+            Connection conn = DBConnect.connectDatabase();
             PreparedStatement pre = conn.prepareStatement("Select * from Course where CourseId = ?");
             pre.setInt(1, CurrentStudent.getCourseID());
             ResultSet rs = pre.executeQuery();
@@ -480,8 +480,9 @@ public class StudentPage extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Connection conn = DBConnect.ConnectDatabase();
+        Connection conn = null;
         try {
+            conn = DBConnect.connectDatabase();
             PreparedStatement pre = conn.prepareStatement("Insert into FeedBack (StuId,Content) values (?,?) ");
             pre.setInt(1, CurrentStudent.getId());
             pre.setString(2, txtFeedBack.getText());

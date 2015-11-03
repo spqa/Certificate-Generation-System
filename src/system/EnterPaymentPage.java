@@ -204,7 +204,7 @@ public class EnterPaymentPage extends javax.swing.JFrame {
 
         Connection conn = null;
         try {
-            conn = DBConnect.ConnectDatabase();
+            conn = DBConnect.connectDatabase();
             CallableStatement call = conn.prepareCall("{call InsertPayment(?,?,?,?)}");
             call.setInt(1, StuId);
             call.setFloat(2, Float.parseFloat(txtMoney.getText()));

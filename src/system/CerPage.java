@@ -613,7 +613,7 @@ public class CerPage extends javax.swing.JFrame {
                 String email = txtInfoEmail.getText();
                 String address = txtInfoAddress.getText();
 
-                conn = DBConnect.ConnectDatabase();
+                conn = DBConnect.connectDatabase();
 
                 stmt = conn.prepareCall("{call editCerInfo(?, ?, ?, ?, ?, ?, ?) };");
                 stmt.setString(1, cellUser);
@@ -658,6 +658,8 @@ public class CerPage extends javax.swing.JFrame {
             txtStatusReport.print();
         } catch (PrinterException ex) {
             System.out.println(ex.getMessage());
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }//GEN-LAST:event_btnPrintReportActionPerformed
 
@@ -676,7 +678,7 @@ public class CerPage extends javax.swing.JFrame {
         ResultSet rs = null;
 
         try {
-            conn = DBConnect.ConnectDatabase();
+            conn = DBConnect.connectDatabase();
             stmt = conn.prepareCall("{call getCerInfo(?) };");
             stmt.setString(1, cellUser);
             rs = stmt.executeQuery();
@@ -704,7 +706,7 @@ public class CerPage extends javax.swing.JFrame {
         ResultSet rs = null;
 
         try {
-            conn = DBConnect.ConnectDatabase();
+            conn = DBConnect.connectDatabase();
             stmt = conn.prepareCall("SELECT * FROM [Certificate]");
 
             rs = stmt.executeQuery();
@@ -749,7 +751,7 @@ public class CerPage extends javax.swing.JFrame {
         String filter = "";
 
         try {
-            conn = DBConnect.ConnectDatabase();
+            conn = DBConnect.connectDatabase();
             filter = txtSearchFillter.getText();
             if (txtSearchFillter.getText().isEmpty()) {
                 stmt = conn.prepareCall("SELECT * FROM [Certificate]");
@@ -816,7 +818,7 @@ public class CerPage extends javax.swing.JFrame {
         ResultSet rs = null;
 
         try {
-            conn = DBConnect.ConnectDatabase();
+            conn = DBConnect.connectDatabase();
             stmt = conn.prepareCall("SELECT * FROM [Student]");
 
             rs = stmt.executeQuery();
@@ -890,7 +892,7 @@ public class CerPage extends javax.swing.JFrame {
                     studentName = tblVerifyStudent.getValueAt(rows, 3).toString();
                     intFilter = new Integer(strFilter);
 
-                    conn = DBConnect.ConnectDatabase();
+                    conn = DBConnect.connectDatabase();
                     stmt = conn.prepareCall("{call loadVerifyStudentSubject(?) };");
                     stmt.setInt(1, intFilter);
                     rs = stmt.executeQuery();
@@ -935,7 +937,7 @@ public class CerPage extends javax.swing.JFrame {
                     strFilter = tblVerifyStudent.getValueAt(rows, 0).toString();
                     intFilter = new Integer(strFilter);
 
-                    conn = DBConnect.ConnectDatabase();
+                    conn = DBConnect.connectDatabase();
                     stmt = conn.prepareCall("{call loadVerifyStudentBalance(?) };");
                     stmt.setInt(1, intFilter);
                     rs = stmt.executeQuery();
@@ -998,7 +1000,7 @@ public class CerPage extends javax.swing.JFrame {
                 + "Student Name: " + studentName + "\n";
 
         try {
-            conn = DBConnect.ConnectDatabase();
+            conn = DBConnect.connectDatabase();
             stmt = conn.prepareCall("{call loadStudentCoursename(?) };");
             stmt.setInt(1, studentID);
             rs = stmt.executeQuery();
@@ -1077,7 +1079,7 @@ public class CerPage extends javax.swing.JFrame {
         ResultSet rs = null;
 
         try {
-            conn = DBConnect.ConnectDatabase();
+            conn = DBConnect.connectDatabase();
             stmt = conn.prepareCall("{call countDuplicate(?) };");
             stmt.setInt(1, studentID);
             rs = stmt.executeQuery();
@@ -1087,7 +1089,7 @@ public class CerPage extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Student can have only one Certificate");
                 } else if (rs.getInt("count1") == 0) {
                     try {
-                        conn = DBConnect.ConnectDatabase();
+                        conn = DBConnect.connectDatabase();
                         stmt = conn.prepareCall("{call InsertCertificate(?, ?, ?) };");
                         stmt.setInt(1, studentID);
                         if (tempMark >= 75) {

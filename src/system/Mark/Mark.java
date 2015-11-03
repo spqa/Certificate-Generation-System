@@ -78,7 +78,7 @@ public class Mark {
         Connection conn=null;
         List<Mark> lstMark=new ArrayList<>();
         try {
-            conn = DBConnect.ConnectDatabase();
+            conn = DBConnect.connectDatabase();
             PreparedStatement pre=conn.prepareStatement("Select * from mark where StuId=?");
             pre.setInt(1, StudentID);
             ResultSet rs=pre.executeQuery();

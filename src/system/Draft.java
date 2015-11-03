@@ -5,10 +5,20 @@
  */
 package system;
 
+import java.awt.print.PrinterException;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -78,7 +88,8 @@ public class Draft extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-//        try {
+        try {
+            //        try {
 //            // TODO add your handling code here:
 //            jTextPane1.setPage(f.toURI().toURL());
 //            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
@@ -96,9 +107,37 @@ public class Draft extends javax.swing.JFrame {
 //        } catch (UnsupportedLookAndFeelException ex) {
 //            Logger.getLogger(Draft.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        java.util.Date date=new java.util.Date();
-        System.out.println(dateFormat.format(date));
+            File  f=new File("test.html");            
+            BufferedReader bfr = new BufferedReader(new InputStreamReader(new FileInputStream(f))) ;
+            
+            File fTemp = new File("temp.html");
+            FileWriter fw = new FileWriter(fTemp);
+            
+            String line = null;
+            
+            while( null != (line = bfr.readLine()) ){
+                /* --- */
+                line = line.replace("{name}", "Hoang Dong Tien");               
+                line = line.replace("{age}", "40"); 
+                
+                fw.write(line);                
+            }            
+            bfr.close();
+            fw.flush();
+            fw.close();
+            
+            
+            jTextPane1.setPage(fTemp.toURI().toURL());
+            jTextPane1.print();
+            
+            fTemp.delete();
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(Draft.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Draft.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (PrinterException ex) {
+            Logger.getLogger(Draft.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -133,6 +172,13 @@ public class Draft extends javax.swing.JFrame {
             public void run() {
                 new Draft().setVisible(true);
             }
+            
+            
+            
+            
+            
+            
+            
         });
     }
 

@@ -128,39 +128,40 @@ public class AdminPage extends javax.swing.JFrame {
     }
 
     private void ComboBoxData() {
-        Connection conn = DBConnect.ConnectDatabase();
+        Connection conn = null;
         try {
-            PreparedStatement preStmt = conn.prepareStatement("Select * from course");
-            ResultSet rs = preStmt.executeQuery();
+             conn = DBConnect.connectDatabase();
+            PreparedStatement preStmt = conn.prepareStatement(" SELECT * FROM Course ");
+            ResultSet rsCourse = preStmt.executeQuery();
             lstCourse = new Vector<>();
-            while (rs.next()) {
-                Course temp = new Course(rs.getInt(1), rs.getString(2), rs.getInt(3));
+            while (rsCourse.next()) {
+                Course temp = new Course(rsCourse.getInt(1), rsCourse.getString(2), rsCourse.getInt(3));
                 lstCourse.add(temp);
 
             }
             DefaultComboBoxModel<Course> ModelCbCourse = new DefaultComboBoxModel<>(lstCourse);
             cbCourseName.setModel(ModelCbCourse);
 
-        } catch (SQLException ex) {
-            Logger.getLogger(AdminPage.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        try {
             DefaultListModel<Subject> ModelSJ = new DefaultListModel<>();
 
-            PreparedStatement prestmt = conn.prepareStatement("select * from Subject where courseid=?");
+            PreparedStatement prestmt = conn.prepareStatement("SELECT * FROM Subject WHERE CourseId=?");
             prestmt.setInt(1, ((Course) cbCourseName.getSelectedItem()).getId());
-            ResultSet rs = prestmt.executeQuery();
+            ResultSet rsSubj = prestmt.executeQuery();
 
-            while (rs.next()) {
-                Subject temp = new Subject(rs.getInt(1), rs.getInt(2), rs.getString(3));
+            while (rsSubj.next()) {
+                Subject temp = new Subject(rsSubj.getInt(1), rsSubj.getInt(2), rsSubj.getString(3));
                 ModelSJ.addElement(temp);
             }
             lstSubjects.setModel(ModelSJ);
+            
+            rsCourse.close();
+            rsSubj.close();
+            
         } catch (SQLException ex) {
             Logger.getLogger(AdminPage.class.getName()).log(Level.SEVERE, null, ex);
-        }finally{
-            if (conn!=null) {
+            
+        } finally {
+            if (conn != null) {
                 try {
                     conn.close();
                 } catch (SQLException ex) {
@@ -1133,7 +1134,7 @@ public class AdminPage extends javax.swing.JFrame {
         try {
             DefaultListModel<Subject> ModelSJ = new DefaultListModel<>();
             
-            conn = DBConnect.ConnectDatabase();
+            conn = DBConnect.connectDatabase();
             PreparedStatement prestmt = conn.prepareStatement("select * from Subject where courseid=?");
             prestmt.setInt(1, ((Course) cbCourseName.getSelectedItem()).getId());
             ResultSet rs = prestmt.executeQuery();
@@ -1181,7 +1182,7 @@ public class AdminPage extends javax.swing.JFrame {
         s.setPass(Integer.toString(new Random().nextInt(2000) + 1000));
         Connection connection=null;
         try {
-            connection = DBConnect.ConnectDatabase();
+            connection = DBConnect.connectDatabase();
             CallableStatement pre = connection.prepareCall("{call AddStudent(?,?,?,?,?,?,?)}");
             pre.setString(1, s.getUsername());
             pre.setString(2, s.getPass());
@@ -1197,12 +1198,12 @@ public class AdminPage extends javax.swing.JFrame {
             boolean rs = pre.execute();
             if (emp != null) {
                 if (rs == false) {                 
-                    CallableStatement call = DBConnect.ConnectDatabase().prepareCall("{call MaxIdStudnent()}");
+                    CallableStatement call = DBConnect.connectDatabase().prepareCall("{call MaxIdStudnent()}");
                     ResultSet RecentStudent = call.executeQuery();
                     RecentStudent.next();
                     int StuId = RecentStudent.getInt(1);
                     List<DataTableMark> lstMark = emp.getMarkInformation();
-                    PreparedStatement MarkInsert = DBConnect.ConnectDatabase().prepareStatement("update Mark set Mark=? where SubId=? and StuId=?");
+                    PreparedStatement MarkInsert = DBConnect.connectDatabase().prepareStatement("update Mark set Mark=? where SubId=? and StuId=?");
                     for (DataTableMark lstMark1 : lstMark) {
                         if (!lstMark1.getMark().equals("")) {
                             MarkInsert.setFloat(1, Float.parseFloat(lstMark1.getMark()));
@@ -1256,7 +1257,7 @@ public class AdminPage extends javax.swing.JFrame {
             Connection conn=null;
             
             try {
-                conn = DBConnect.ConnectDatabase();
+                conn = DBConnect.connectDatabase();
                 PreparedStatement pre = conn.prepareStatement("update admin set Fullname=?,DOB=?,Gender=?,Phone=?,Email=?,Address=? where Aid=?");
                 pre.setNString(1, txtAdminFullName.getText());
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -1357,7 +1358,7 @@ public class AdminPage extends javax.swing.JFrame {
             if (confirm == 0) {
                 PreparedStatement pre=null;
                 try {
-                    pre = DBConnect.ConnectDatabase().prepareStatement("Delete from Student where StuId=?");
+                    pre = DBConnect.connectDatabase().prepareStatement("Delete from Student where StuId=?");
                     pre.setInt(1, Integer.parseInt(tblStudentData.getValueAt(tblStudentData.getSelectedRow(), 0).toString()));
                     boolean rs = pre.execute();
                     lstStudent = Student.getAllStudent();
