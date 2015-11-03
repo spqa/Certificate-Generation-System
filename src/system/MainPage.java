@@ -717,7 +717,7 @@ public class MainPage extends javax.swing.JFrame {
                     //JOptionPane.showMessageDialog(null, "Login Successful"); //Dang nhap thanh cong
                     //Cho Form ADMIN
                     
-                   StudentPage sp = new StudentPage();
+                   StudentPage sp = new StudentPage(rs.getInt("StuId"));
                    sp.setVisible(true);
                     this.dispose();
                 } else {

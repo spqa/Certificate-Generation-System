@@ -89,8 +89,10 @@ public class Course {
         try {
             conn = DBConnect.ConnectDatabase();
             PreparedStatement pre=conn.prepareStatement("select * from Course where CourseId=?");
+//            System.out.println(courseID);
+            pre.setInt(1, courseID);
             ResultSet rs=pre.executeQuery();
-            rs.next();
+            rs.next();         
             return rs.getString(2);
         } catch (SQLException ex) {
             Logger.getLogger(Course.class.getName()).log(Level.SEVERE, null, ex);
