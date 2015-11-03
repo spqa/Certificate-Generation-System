@@ -5,6 +5,7 @@
  */
 package system;
 
+import javax.swing.JTabbedPane;
 import system.Mark.Mark;
 
 /**
@@ -12,13 +13,17 @@ import system.Mark.Mark;
  * @author super
  */
 public class MarkEdit extends javax.swing.JPanel {
-
+JTabbedPane pane;
+int StuID;
     /**
      * Creates new form MarkEdit
      */
-    public MarkEdit(int StuId) {
+    public MarkEdit(int StuId,JTabbedPane pane) {
+        this.pane=pane;
+        this.StuID=StuId;
         initComponents();
         jTable1.setModel(Mark.getTableMark(StuId));
+        jTable1.getColumnModel().getColumn(0).setMinWidth(300);
     }
 
     /**
@@ -65,6 +70,11 @@ public class MarkEdit extends javax.swing.JPanel {
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/Delete45.png"))); // NOI18N
         jButton2.setText("Cancel");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -96,6 +106,11 @@ public class MarkEdit extends javax.swing.JPanel {
                 .addGap(19, 19, 19))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        pane.remove(this);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

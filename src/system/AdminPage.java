@@ -1318,7 +1318,7 @@ public class AdminPage extends javax.swing.JFrame {
     private void mnMarkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnMarkActionPerformed
         // TODO add your handling code here:
         if (tblStudentData.getSelectedRow() >= 0) {
-            jTabbedPane1.addTab("Edit Mark", new ImageIcon(getClass().getResource("src/res/")), rootPane);
+            jTabbedPane1.addTab("Edit Mark", new ImageIcon("src/res/edit40.png"), new MarkEdit(Integer.parseInt(tblStudentData.getValueAt(tblStudentData.getSelectedRow(), 0).toString()),jTabbedPane1));
         }
     }//GEN-LAST:event_mnMarkActionPerformed
 
