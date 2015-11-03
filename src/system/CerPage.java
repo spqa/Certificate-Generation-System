@@ -5,6 +5,8 @@
  */
 package system;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
@@ -167,6 +169,16 @@ public class CerPage extends javax.swing.JFrame {
         tabCertificateManager.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 tabCertificateManagerMouseEntered(evt);
+            }
+        });
+        tabCertificateManager.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                tabCertificateManagerStateChanged(evt);
+            }
+        });
+        tabCertificateManager.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                tabCertificateManagerComponentShown(evt);
             }
         });
 
@@ -617,21 +629,6 @@ public class CerPage extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Save Successful");
                 }
                 System.out.println(e.getMessage());
-            } finally {
-                try {
-                    if (rs != null) {
-                        rs.close();
-                    }
-                    if (stmt != null) {
-                        stmt.close();
-                    }
-                    if (conn != null) {
-                        conn.close();
-                    }
-                } catch (SQLException ex) {
-//                    ex.printStackTrace();
-                    JOptionPane.showMessageDialog(rootPane, ex);
-                }
             }
         }
     }//GEN-LAST:event_btnInfoEditActionPerformed
@@ -649,11 +646,11 @@ public class CerPage extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGenerateActionPerformed
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
-        loadCertificate();
+        
     }//GEN-LAST:event_formMouseClicked
 
     private void tabCertificateManagerMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabCertificateManagerMouseEntered
-        loadCertificate();
+
     }//GEN-LAST:event_tabCertificateManagerMouseEntered
 
     private void btnPrintReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintReportActionPerformed
@@ -663,6 +660,15 @@ public class CerPage extends javax.swing.JFrame {
             System.out.println(ex.getMessage());
         }
     }//GEN-LAST:event_btnPrintReportActionPerformed
+
+    private void tabCertificateManagerComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_tabCertificateManagerComponentShown
+        loadCertificate();
+    }//GEN-LAST:event_tabCertificateManagerComponentShown
+
+    private void tabCertificateManagerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabCertificateManagerStateChanged
+        // TODO add your handling code here:
+        loadCertificate();
+    }//GEN-LAST:event_tabCertificateManagerStateChanged
 
     public void loadInfo() {
         Connection conn = null;
@@ -689,21 +695,6 @@ public class CerPage extends javax.swing.JFrame {
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (stmt != null) {
-                    stmt.close();
-                }
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException ex) {
-//                    ex.printStackTrace();
-                JOptionPane.showMessageDialog(rootPane, ex);
-            }
         }
     }
 
@@ -748,21 +739,6 @@ public class CerPage extends javax.swing.JFrame {
             tblCertificateManager.setModel(modelCertificateManager);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (stmt != null) {
-                    stmt.close();
-                }
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException ex) {
-//                    ex.printStackTrace();
-                JOptionPane.showMessageDialog(rootPane, ex);
-            }
         }
     }
 
@@ -830,21 +806,6 @@ public class CerPage extends javax.swing.JFrame {
             };
         } catch (Exception e) {
             System.out.println(e.getMessage());
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (stmt != null) {
-                    stmt.close();
-                }
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException ex) {
-//                    ex.printStackTrace();
-                JOptionPane.showMessageDialog(rootPane, ex);
-            }
         }
         tblCertificateManager.setModel(modelCertificateManager);
     }
@@ -893,23 +854,7 @@ public class CerPage extends javax.swing.JFrame {
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (stmt != null) {
-                    stmt.close();
-                }
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException ex) {
-//                    ex.printStackTrace();
-                JOptionPane.showMessageDialog(rootPane, ex);
-            }
         }
-
     }
 
     public void logout() {
@@ -1034,21 +979,6 @@ public class CerPage extends javax.swing.JFrame {
                 } catch (Exception ex) {
                     System.out.println("Balance: ");
                     System.out.print(ex.getMessage());
-                } finally {
-                    try {
-                        if (rs != null) {
-                            rs.close();
-                        }
-                        if (stmt != null) {
-                            stmt.close();
-                        }
-                        if (conn != null) {
-                            conn.close();
-                        }
-                    } catch (SQLException ex) {
-//                    ex.printStackTrace();
-                        JOptionPane.showMessageDialog(rootPane, ex);
-                    }
                 }
                 statusReport(totalMark, countMark);
             }
@@ -1118,23 +1048,7 @@ public class CerPage extends javax.swing.JFrame {
                         }
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
-                    } finally {
-                        try {
-                            if (rs != null) {
-                                rs.close();
-                            }
-                            if (stmt != null) {
-                                stmt.close();
-                            }
-                            if (conn != null) {
-                                conn.close();
-                            }
-                        } catch (SQLException ex) {
-//                    ex.printStackTrace();
-                            JOptionPane.showMessageDialog(rootPane, ex);
-                        }
                     }
-
                 } else {
                     statusReport += "Grades checks: checks: FAIL.\n";
                 }
@@ -1190,21 +1104,6 @@ public class CerPage extends javax.swing.JFrame {
 
                     } catch (Exception e) {
                         JOptionPane.showMessageDialog(null, "Certificate created Successful");
-                    } finally {
-                        try {
-                            if (rs != null) {
-                                rs.close();
-                            }
-                            if (stmt != null) {
-                                stmt.close();
-                            }
-                            if (conn != null) {
-                                conn.close();
-                            }
-                        } catch (SQLException ex) {
-//                    ex.printStackTrace();
-                            JOptionPane.showMessageDialog(rootPane, ex);
-                        }
                     }
                 }
             }
