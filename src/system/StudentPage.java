@@ -22,21 +22,21 @@ public class StudentPage extends javax.swing.JFrame {
         initComponents();
     }
     
-     private void LoadAdminData() {
-        Student CurrentStudent = Student.getStudentById(studentID);
-        txtStudentFullName.setText(CurrentStudent.getFullname());
-        txtStudentCourseName.setText(CurrentStudent.getCourseID() + "");
-        txtAdminDOB.setText(CurrentAdmin.getDOB() + "");
-        txtAdminEmail.setText(CurrentAdmin.getEmail() + "");
-        txtAdmnPhone.setText(CurrentAdmin.getPhone() + "");
-        if (CurrentAdmin.getGender() != null) {
-            if (CurrentAdmin.getGender().equals("Male")) {
-                rdAdminFemale.setSelected(true);
-            } else if (CurrentAdmin.getGender().equals("Female")) {
-                rdAdminFemale.setSelected(true);
-            }
-        }
-    }
+//     private void LoadAdminData() {
+//        Student CurrentStudent = Student.getStudentById(studentID);
+//        txtStudentFullName.setText(CurrentStudent.getFullname());
+//        txtStudentCourseName.setText(CurrentStudent.getCourseID() + "");
+//        txtAdminDOB.setText(CurrentAdmin.getDOB() + "");
+//        txtAdminEmail.setText(CurrentAdmin.getEmail() + "");
+//        txtAdmnPhone.setText(CurrentAdmin.getPhone() + "");
+//        if (CurrentAdmin.getGender() != null) {
+//            if (CurrentAdmin.getGender().equals("Male")) {
+//                rdAdminFemale.setSelected(true);
+//            } else if (CurrentAdmin.getGender().equals("Female")) {
+//                rdAdminFemale.setSelected(true);
+//            }
+//        }
+//    }
     
 
     /**
@@ -213,11 +213,12 @@ public class StudentPage extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(txtStudentDOB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(41, 41, 41)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtStudentStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel14)
-                    .addComponent(jLabel6)
-                    .addComponent(lblStudentGender, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblStudentGender, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtStudentStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel14)
+                        .addComponent(jLabel6)))
                 .addGap(91, 91, 91)
                 .addComponent(jButton2)
                 .addGap(30, 30, 30))
