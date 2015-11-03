@@ -224,7 +224,7 @@ public class AdminPage extends javax.swing.JFrame {
 
         tblStudentData.setModel(StudentTblModel);
         tblStudentData.getColumnModel().getColumn(0).setMaxWidth(50);
-        tblStudentData.getColumnModel().getColumn(1).setMinWidth(200);
+        tblStudentData.getColumnModel().getColumn(1).setMinWidth(180);
 
     }
 
@@ -233,10 +233,12 @@ public class AdminPage extends javax.swing.JFrame {
             //setup Format Text Field Text
             MaskFormatter mf = new MaskFormatter("####-##-##");
             mf.install(txtFormatDate);
-            mf.install(txtStudentDOB);
+            MaskFormatter mk=new MaskFormatter("####-##-##");
+            mk.install(txtStudentDOB);
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(null, "Wrong date!!", "Warning", JOptionPane.WARNING_MESSAGE);
         }
+        
         DefaultComboBoxModel<Course> ModelCbCourseStu = new DefaultComboBoxModel<>();
         ModelCbCourseStu.addElement(new Course(0, "Not set", 0));
         for (Course lstCourse1 : lstCourse) {
@@ -356,7 +358,7 @@ public class AdminPage extends javax.swing.JFrame {
         }
         tblStudentData.setModel(StudentTblModel);
         tblStudentData.getColumnModel().getColumn(0).setMaxWidth(50);
-        tblStudentData.getColumnModel().getColumn(1).setMinWidth(200);
+        tblStudentData.getColumnModel().getColumn(1).setMinWidth(180);
     }
 
     private void SearchID() {
@@ -373,7 +375,7 @@ public class AdminPage extends javax.swing.JFrame {
             }
             tblStudentData.setModel(StudentTblModel);
             tblStudentData.getColumnModel().getColumn(0).setMaxWidth(50);
-            tblStudentData.getColumnModel().getColumn(1).setMinWidth(200);
+            tblStudentData.getColumnModel().getColumn(1).setMinWidth(180);
 
         } else {
             LoadDataStudent();
@@ -704,6 +706,7 @@ public class AdminPage extends javax.swing.JFrame {
 
         jPanel4.setComponentPopupMenu(jPopupMenu1);
 
+        tblStudentData.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
         tblStudentData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -714,10 +717,11 @@ public class AdminPage extends javax.swing.JFrame {
         ));
         tblStudentData.setComponentPopupMenu(jPopupMenu1);
         tblStudentData.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tblStudentData.getTableHeader().setReorderingAllowed(false);
         jScrollPane3.setViewportView(tblStudentData);
         if (tblStudentData.getColumnModel().getColumnCount() > 0) {
             tblStudentData.getColumnModel().getColumn(0).setMaxWidth(50);
-            tblStudentData.getColumnModel().getColumn(1).setMinWidth(200);
+            tblStudentData.getColumnModel().getColumn(1).setMinWidth(180);
         }
 
         SearchID.addActionListener(new java.awt.event.ActionListener() {
@@ -797,36 +801,35 @@ public class AdminPage extends javax.swing.JFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(SearchID, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(SearchName, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(cbGender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21)
+                .addComponent(txtFormatDate, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(cbFeeType, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 649, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(SearchID, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(SearchName, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(cbGender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(36, 36, 36)
-                        .addComponent(txtFormatDate, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(cbFeeType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 696, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(126, 126, 126)
+                                .addComponent(jButton3))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                    .addGroup(jPanel4Layout.createSequentialGroup()
-                                        .addComponent(lblTotalFee, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 176, Short.MAX_VALUE))))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton3)
-                                .addGap(82, 82, 82)))))
-                .addContainerGap())
+                                .addComponent(lblTotalFee, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1315,7 +1318,7 @@ public class AdminPage extends javax.swing.JFrame {
     private void mnMarkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnMarkActionPerformed
         // TODO add your handling code here:
         if (tblStudentData.getSelectedRow() >= 0) {
-
+            jTabbedPane1.addTab("Edit Mark", new ImageIcon(getClass().getResource("src/res/")), rootPane);
         }
     }//GEN-LAST:event_mnMarkActionPerformed
 

@@ -5,6 +5,8 @@
  */
 package system.Course;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
@@ -70,5 +72,18 @@ public class Course {
             Logger.getLogger(Course.class.getName()).log(Level.SEVERE, null, ex);
         }
         return lstTemp;
+    }
+    
+    public static String getCourseNameByID(int courseID){
+        Connection conn=DBConnect.ConnectDatabase();
+        try {
+            PreparedStatement pre=conn.prepareStatement("select * from Course where CourseId=?");
+            ResultSet rs=pre.executeQuery();
+            rs.next();
+            return rs.getString(2);
+        } catch (SQLException ex) {
+            Logger.getLogger(Course.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }
