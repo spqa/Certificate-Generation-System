@@ -12,11 +12,13 @@ import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Vector;
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author super
+ * @author VThang
  */
 public class CerPage extends javax.swing.JFrame {
 
@@ -24,10 +26,9 @@ public class CerPage extends javax.swing.JFrame {
     private boolean editState = false;
     private DefaultTableModel modelCertificateManager = null;
     private DefaultTableModel modeltVerifyStudent = null;
+    private DefaultTableModel modelVerifyStudentSubject = null;
+    private DefaultTableModel modelVerifyStudentBalance = null;
 
-    /**
-     * Creates new form CerPage
-     */
     public CerPage(String user) {
         initComponents();
         //    lblFullName.setText(name);
@@ -35,12 +36,14 @@ public class CerPage extends javax.swing.JFrame {
 
         cellUser = user;
         loadInfo();
-        
+
         loadCertificate();
         tblCertificateManager.setModel(modelCertificateManager);
-        
+
         loadStudent();
         tblVerifyStudent.setModel(modeltVerifyStudent);
+
+        loadSubjectDetails();
     }
 
     private CerPage() {
@@ -68,9 +71,9 @@ public class CerPage extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblVerifyStudent = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tblVerifyStudentSubject = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        tblVerifyStudentBalance = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
@@ -152,7 +155,7 @@ public class CerPage extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tblVerifyStudent);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblVerifyStudentSubject.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -163,9 +166,9 @@ public class CerPage extends javax.swing.JFrame {
                 "Subject", "Mark"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(tblVerifyStudentSubject);
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        tblVerifyStudentBalance.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -176,7 +179,7 @@ public class CerPage extends javax.swing.JFrame {
                 "Total Fee", "Paid", "Balance", "Day"
             }
         ));
-        jScrollPane3.setViewportView(jTable3);
+        jScrollPane3.setViewportView(tblVerifyStudentBalance);
 
         jLabel3.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
         jLabel3.setText("Status Report");
@@ -196,10 +199,10 @@ public class CerPage extends javax.swing.JFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -591,6 +594,10 @@ public class CerPage extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSearchFillterActionPerformed
 
+    private void tblVerifyStudentRowSelectedChange() {
+
+    }
+
     public void loadInfo() {
         Connection conn = null;
         CallableStatement stmt = null;
@@ -780,6 +787,111 @@ public class CerPage extends javax.swing.JFrame {
         m.setVisible(true);
     }
 
+    public void loadSubjectDetails() {
+
+        tblVerifyStudent.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+
+                Connection conn = null;
+                CallableStatement stmt = null;
+                ResultSet rs = null;
+
+                try {
+                    String strFilter = "";
+                    int intFilter;
+                    int rows = tblVerifyStudent.getSelectedRow();
+
+                    strFilter = tblVerifyStudent.getValueAt(rows, 0).toString();
+                    intFilter = new Integer(strFilter);
+
+                    conn = DBConnect.ConnectDatabase();
+                    stmt = conn.prepareCall("{call loadVerifyStudentSubject(?) };");
+                    stmt.setInt(1, intFilter);
+                    rs = stmt.executeQuery();
+
+                    int len = rs.getMetaData().getColumnCount();
+                    Vector cols = new Vector(len);
+                    cols.add("Subject");
+                    cols.add("Mark");
+
+                    //Data
+                    Vector data = new Vector();
+                    while (rs.next()) {
+                        Vector row = new Vector(len);
+                        for (int i = 1; i < len + 1; i++) {
+                            row.add(rs.getString(i));
+                        }
+                        data.add(row);
+                    }
+
+                    modelVerifyStudentSubject = new DefaultTableModel(data, cols) {
+                        @Override
+                        public boolean isCellEditable(int row, int column) {
+                            return false; //To change body of generated methods, choose Tools | Templates.
+                        }
+                    };
+                    tblVerifyStudentSubject.setModel(modelVerifyStudentSubject);
+                } catch (Exception ex) {
+                    System.out.println("Subject: ");
+                    System.out.print(ex.getMessage());
+                }
+
+                try {
+                    String strFilter = "";
+                    int intFilter;
+                    int rows = tblVerifyStudent.getSelectedRow();
+
+                    strFilter = tblVerifyStudent.getValueAt(rows, 0).toString();
+                    intFilter = new Integer(strFilter);
+
+                    conn = DBConnect.ConnectDatabase();
+                    stmt = conn.prepareCall("{call loadVerifyStudentBalance(?) };");
+                    stmt.setInt(1, intFilter);
+                    rs = stmt.executeQuery();
+
+                    int len = rs.getMetaData().getColumnCount();
+                    Vector cols = new Vector(len);
+                    cols.add("Day");
+                    cols.add("Paid");
+                    cols.add("Total Fee");
+                    cols.add("Balance");
+                    //Data
+                    Vector data = new Vector();
+                    while (rs.next()) {
+                        Vector row = new Vector(len);
+//                        for (int i = 1; i < len; i++) {
+//                            row.add(rs.getString(i));
+//                        }
+                        row.add(rs.getDate(1));
+                        int paid = rs.getInt(2);
+                        row.add(paid);
+                        int fee = rs.getInt(3);
+                        row.add(fee);
+                        int balance = fee - paid;
+                        row.add(balance);
+                        
+                        data.add(row);
+                    }
+
+                    modelVerifyStudentBalance = new DefaultTableModel(data, cols) {
+                        @Override
+                        public boolean isCellEditable(int row, int column) {
+                            return false; //To change body of generated methods, choose Tools | Templates.
+                        }
+                    };
+                    tblVerifyStudentBalance.setModel(modelVerifyStudentBalance);
+
+                } catch (Exception ex) {
+                    System.out.println("Balance: ");
+                    System.out.print(ex.getMessage());
+                }
+            }
+        });
+
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -849,14 +961,14 @@ public class CerPage extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lblFullName;
     private javax.swing.JRadioButton rdoInfoFemale;
     private javax.swing.JRadioButton rdoInfoMale;
     private javax.swing.JTable tblCertificateManager;
     private javax.swing.JTable tblVerifyStudent;
+    private javax.swing.JTable tblVerifyStudentBalance;
+    private javax.swing.JTable tblVerifyStudentSubject;
     private javax.swing.JTextField txtInfoAddress;
     private javax.swing.JTextField txtInfoDate;
     private javax.swing.JTextField txtInfoEmail;
