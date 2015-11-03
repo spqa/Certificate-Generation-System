@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 /**
  *
@@ -28,6 +29,10 @@ public class CerPage extends javax.swing.JFrame {
     private DefaultTableModel modeltVerifyStudent = null;
     private DefaultTableModel modelVerifyStudentSubject = null;
     private DefaultTableModel modelVerifyStudentBalance = null;
+    private int studentID;
+    private String studentRollnumber = null;
+    private String studentName = null;
+    private String studentCourse = null;
 
     public CerPage(String user) {
         initComponents();
@@ -76,9 +81,9 @@ public class CerPage extends javax.swing.JFrame {
         tblVerifyStudentBalance = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        txtStatusReport = new javax.swing.JTextArea();
+        btnPreview = new javax.swing.JButton();
+        btnGenerate = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         tblCertificateManager = new javax.swing.JTable();
@@ -184,15 +189,20 @@ public class CerPage extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
         jLabel3.setText("Status Report");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane4.setViewportView(jTextArea1);
+        txtStatusReport.setColumns(20);
+        txtStatusReport.setRows(5);
+        jScrollPane4.setViewportView(txtStatusReport);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/Print45.png"))); // NOI18N
-        jButton1.setText("Print Report");
+        btnPreview.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/Print45.png"))); // NOI18N
+        btnPreview.setText("Print Report");
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/GerCer45.png"))); // NOI18N
-        jButton2.setText("Verify and Generate");
+        btnGenerate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/GerCer45.png"))); // NOI18N
+        btnGenerate.setText("Verify and Generate");
+        btnGenerate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerateActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -210,8 +220,8 @@ public class CerPage extends javax.swing.JFrame {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel3)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btnGenerate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnPreview, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(0, 104, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -235,9 +245,9 @@ public class CerPage extends javax.swing.JFrame {
                                 .addContainerGap())
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGap(32, 32, 32)
-                                .addComponent(jButton1)
+                                .addComponent(btnPreview)
                                 .addGap(29, 29, 29)
-                                .addComponent(jButton2)
+                                .addComponent(btnGenerate)
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
         );
 
@@ -594,6 +604,10 @@ public class CerPage extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSearchFillterActionPerformed
 
+    private void btnGenerateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnGenerateActionPerformed
+
     private void tblVerifyStudentRowSelectedChange() {
 
     }
@@ -774,6 +788,9 @@ public class CerPage extends javax.swing.JFrame {
             };
 
             tblVerifyStudent.setModel(modeltVerifyStudent);
+            tblVerifyStudent.getColumnModel().getColumn(0).setPreferredWidth(20);
+            tblVerifyStudent.getColumnModel().getColumn(1).setPreferredWidth(60);
+            tblVerifyStudent.getColumnModel().getColumn(2).setPreferredWidth(60);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -797,13 +814,21 @@ public class CerPage extends javax.swing.JFrame {
                 Connection conn = null;
                 CallableStatement stmt = null;
                 ResultSet rs = null;
+                int fee = 0;
+                int balance = 0;
+                int totalMark = 0;
+                int countMark = 0;
 
+                boolean checkFee = true;
                 try {
                     String strFilter = "";
                     int intFilter;
                     int rows = tblVerifyStudent.getSelectedRow();
 
                     strFilter = tblVerifyStudent.getValueAt(rows, 0).toString();
+                    studentID = new Integer(tblVerifyStudent.getValueAt(rows, 0).toString());
+                    studentRollnumber = tblVerifyStudent.getValueAt(rows, 1).toString();
+                    studentName = tblVerifyStudent.getValueAt(rows, 3).toString();
                     intFilter = new Integer(strFilter);
 
                     conn = DBConnect.ConnectDatabase();
@@ -823,6 +848,9 @@ public class CerPage extends javax.swing.JFrame {
                         for (int i = 1; i < len + 1; i++) {
                             row.add(rs.getString(i));
                         }
+                        totalMark += rs.getInt(2);
+                        countMark++;
+
                         data.add(row);
                     }
 
@@ -833,6 +861,8 @@ public class CerPage extends javax.swing.JFrame {
                         }
                     };
                     tblVerifyStudentSubject.setModel(modelVerifyStudentSubject);
+                    tblVerifyStudentSubject.getColumnModel().getColumn(0).setPreferredWidth(130);
+                    tblVerifyStudentSubject.getColumnModel().getColumn(1).setPreferredWidth(20);
                 } catch (Exception ex) {
                     System.out.println("Subject: ");
                     System.out.print(ex.getMessage());
@@ -867,29 +897,118 @@ public class CerPage extends javax.swing.JFrame {
                         row.add(rs.getDate(1));
                         int paid = rs.getInt(2);
                         row.add(paid);
-                        int fee = rs.getInt(3);
+                        if (checkFee && fee == 0) {
+                            fee = rs.getInt(3);
+                            checkFee = false;
+                        }
+                        balance += paid;
+
+                        fee = fee - paid;
                         row.add(fee);
-                        int balance = fee - paid;
                         row.add(balance);
-                        
                         data.add(row);
                     }
 
                     modelVerifyStudentBalance = new DefaultTableModel(data, cols) {
+
                         @Override
                         public boolean isCellEditable(int row, int column) {
                             return false; //To change body of generated methods, choose Tools | Templates.
                         }
                     };
                     tblVerifyStudentBalance.setModel(modelVerifyStudentBalance);
-
                 } catch (Exception ex) {
                     System.out.println("Balance: ");
                     System.out.print(ex.getMessage());
                 }
+                statusReport(totalMark, countMark);
             }
         });
+    }
 
+    public void statusReport(int totalMark, int countMark) {
+        Connection conn = null;
+        CallableStatement stmt = null;
+        ResultSet rs = null;
+        String strFilter = "";
+        int intFilter;
+        int countRows = 0;
+        String statusReport = "";
+        boolean enableFee = false;
+        statusReport += "Student Rollnumber: " + studentRollnumber + "\n"
+                + "Student Name: " + studentName + "\n";
+
+        try {
+            conn = DBConnect.ConnectDatabase();
+            stmt = conn.prepareCall("{call loadStudentCoursename(?) };");
+            stmt.setInt(1, studentID);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                studentCourse = rs.getString(1);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        statusReport += "Student course: " + studentCourse + "\n\n";
+
+        if (tblVerifyStudentBalance.getRowCount() != 0) {
+            countRows = tblVerifyStudentBalance.getRowCount() - 1;
+        } else {
+            countRows = 0;
+        }
+
+        try {
+            int fee = new Integer(tblVerifyStudentBalance.getValueAt(countRows, 2).toString());
+
+            if (fee <= 0) {
+                statusReport += "Fee checks: PASS.\n";
+                int tempMark = totalMark / countMark;
+                if (tempMark >= 75) {
+                    statusReport += "Grades: Distinction.\n";
+                    statusReport += "Grades checks: checks: PASS.\n";
+                    enableFee = true;
+                } else if (tempMark >= 60) {
+                    statusReport += "Grades: A.\n";
+                    statusReport += "Grades checks: checks: PASS.\n";
+                    enableFee = true;
+                } else if (tempMark >= 50) {
+                    statusReport += "Grades: B.\n";
+                    statusReport += "Grades checks: checks: PASS.\n";
+                } else if (tempMark >= 40) {
+                    statusReport += "Grades: C.\n\n";
+                    statusReport += "Performance Statements: \n";
+                    try {
+                        stmt = conn.prepareCall("{call loadStudentSubjectAndMark(?) };");
+                        stmt.setInt(1, studentID);
+                        rs = stmt.executeQuery();
+                        while (rs.next()) {
+                            String subject = rs.getString(1);
+                            String mark = rs.getString(2);
+                            statusReport += "\t" + subject + ": " + mark + ".\n";
+                        }
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+
+                } else {
+                    statusReport += "Grades checks: checks: FAIL.\n";
+                }
+            } else {
+                statusReport += "Fee checks: FAIL.\n";
+                enableFee = false;
+            }
+
+            if (enableFee == true) {
+                btnGenerate.setEnabled(true);
+            } else {
+                btnGenerate.setEnabled(false);
+            }
+            txtStatusReport.setText(statusReport);
+            txtStatusReport.setEditable(false);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     /**
@@ -928,15 +1047,15 @@ public class CerPage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnGenerate;
     private javax.swing.JButton btnInfoChange;
     private javax.swing.JButton btnInfoEdit;
     private javax.swing.JButton btnInfoLogout;
+    private javax.swing.JButton btnPreview;
     private javax.swing.JButton btnSearchCertificate;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JComboBox cmbSearchFilterCertificate;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
@@ -961,7 +1080,6 @@ public class CerPage extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lblFullName;
     private javax.swing.JRadioButton rdoInfoFemale;
     private javax.swing.JRadioButton rdoInfoMale;
@@ -975,5 +1093,6 @@ public class CerPage extends javax.swing.JFrame {
     private javax.swing.JTextField txtInfoFullname;
     private javax.swing.JTextField txtInfoPhone;
     private javax.swing.JTextField txtSearchFillter;
+    private javax.swing.JTextArea txtStatusReport;
     // End of variables declaration//GEN-END:variables
 }
