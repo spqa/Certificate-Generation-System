@@ -660,7 +660,7 @@ public class CerPage extends javax.swing.JFrame {
         try {
             txtStatusReport.print();
         } catch (PrinterException ex) {
-            Logger.getLogger(CerPage.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
         }
     }//GEN-LAST:event_btnPrintReportActionPerformed
 
@@ -1244,7 +1244,7 @@ public class CerPage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CerPage("vthang").setVisible(true);
+                new CerPage("vietthang").setVisible(true);
             }
         });
     }

@@ -77,21 +77,6 @@ public class DBConnect {
         }
         return conn;
     }
-//
-//    public static void main(String[] args) {
-//        String Url = "jdbc:sqlserver://localhost:1433;DatabaseName=testDB;user=sa;Password=1234567";
-//        try {
-//            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-//            System.out.println("Trying to connect");
-//            Connection connection = DriverManager.getConnection(Url);
-//
-//            System.out.println("Connection Established Successfull and the DATABASE NAME IS:"
-//                    + connection.getMetaData().getDatabaseProductName());
-//        } catch (Exception e) {
-//            System.out.println("Unable to make connection with DB");
-//            e.printStackTrace();
-//        }
-//    }
 
     public static ResultSet ExecuteStatement(String Statement) {
         try {

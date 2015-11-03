@@ -744,7 +744,6 @@ public class MainPage extends javax.swing.JFrame {
         }
     }
     
-    
     public void loadConfig() {
         Properties p = new Properties();
         File file = new File("config.properties");
