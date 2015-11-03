@@ -70,19 +70,38 @@ public class Course {
             }
         } catch (SQLException ex) {
             Logger.getLogger(Course.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            try {
+               Connection conn= rs.getStatement().getConnection();
+                if (conn!=null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Course.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return lstTemp;
     }
     
     public static String getCourseNameByID(int courseID){
-        Connection conn=DBConnect.ConnectDatabase();
+        Connection conn=null;
+        
         try {
+            conn = DBConnect.ConnectDatabase();
             PreparedStatement pre=conn.prepareStatement("select * from Course where CourseId=?");
             ResultSet rs=pre.executeQuery();
             rs.next();
             return rs.getString(2);
         } catch (SQLException ex) {
             Logger.getLogger(Course.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            if (conn!=null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(Course.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
         return null;
     }

@@ -121,8 +121,9 @@ public class Admin {
     }
     
     public static Admin GetAdminByID(int AdminID){
-        Connection conn=DBConnect.ConnectDatabase();
+        Connection conn=null;
         try {
+            conn = DBConnect.ConnectDatabase();
             PreparedStatement pre =conn.prepareStatement("select * from Admin where aid=?");
             pre.setInt(1, AdminID);
             ResultSet rs=pre.executeQuery();
@@ -143,6 +144,14 @@ public class Admin {
             return temp;
         } catch (SQLException ex) {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            if (conn!=null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
         return null;
     }

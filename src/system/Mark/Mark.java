@@ -75,9 +75,10 @@ public class Mark {
     }
     
     public static List<Mark> getMarkByStuID(int StudentID){
-        Connection conn=DBConnect.ConnectDatabase();
+        Connection conn=null;
         List<Mark> lstMark=new ArrayList<>();
         try {
+            conn = DBConnect.ConnectDatabase();
             PreparedStatement pre=conn.prepareStatement("Select * from mark where StuId=?");
             pre.setInt(1, StudentID);
             ResultSet rs=pre.executeQuery();
@@ -87,6 +88,14 @@ public class Mark {
             return lstMark;
         } catch (SQLException ex) {
             Logger.getLogger(Mark.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            if (conn!=null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(Mark.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
         return null;
     }

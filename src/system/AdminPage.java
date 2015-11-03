@@ -23,6 +23,8 @@ import java.util.Random;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -51,6 +53,8 @@ public class AdminPage extends javax.swing.JFrame {
     Vector<Course> lstCourse;
     int adminID;
     List<Student> lstStudent;
+    public static final Pattern VALID_EMAIL_ADDRESS_REGEX = 
+    Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
     /**
      * Creates new form NewJFrame
@@ -155,6 +159,14 @@ public class AdminPage extends javax.swing.JFrame {
             lstSubjects.setModel(ModelSJ);
         } catch (SQLException ex) {
             Logger.getLogger(AdminPage.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            if (conn!=null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(AdminPage.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
     }
 
@@ -198,6 +210,17 @@ public class AdminPage extends javax.swing.JFrame {
 //
 //        lblFee.setText("Total Fee: " + ((Course) JListCourse.getSelectedValue()).getMoney());
     }
+//    private boolean validateForm(){
+//        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(txtStudentEmail.getText());
+//        if (!txtStudentName.getText().trim().equals("")) {
+//            JOptionPane.showMessageDialog(null, "The Fullname can not be empty!","Error", JOptionPane.ERROR_MESSAGE, new ImageIcon("src/res/delete40.png"));
+//            return false;          
+//        }else if(!matcher.find()){
+//            return false;
+//        }else if(rdMale.isSelected()){
+//        
+//        }        
+//    }
 
     private void EditSwitch(boolean bool) {
         txtAdminAddress.setEnabled(bool);
@@ -412,8 +435,8 @@ public class AdminPage extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnClear = new javax.swing.JButton();
+        btnAddStudent = new javax.swing.JButton();
         txtStudentName = new javax.swing.JTextField();
         rdMale = new javax.swing.JRadioButton();
         rdFemale = new javax.swing.JRadioButton();
@@ -424,6 +447,8 @@ public class AdminPage extends javax.swing.JFrame {
         lstSubjects = new javax.swing.JList();
         jButton6 = new javax.swing.JButton();
         txtStudentDOB = new javax.swing.JFormattedTextField();
+        jLabel17 = new javax.swing.JLabel();
+        txtStudentEmail = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblStudentData = new javax.swing.JTable();
@@ -554,21 +579,21 @@ public class AdminPage extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         jLabel8.setText("Type of Fees:");
 
-        jButton1.setFont(new java.awt.Font("Palatino Linotype", 0, 14)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/ClearReset40.png"))); // NOI18N
-        jButton1.setText("Clear");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnClear.setFont(new java.awt.Font("Palatino Linotype", 0, 14)); // NOI18N
+        btnClear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/ClearReset40.png"))); // NOI18N
+        btnClear.setText("Clear");
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnClearActionPerformed(evt);
             }
         });
 
-        jButton2.setFont(new java.awt.Font("Palatino Linotype", 0, 14)); // NOI18N
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/AddStu40.png"))); // NOI18N
-        jButton2.setText("Add");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnAddStudent.setFont(new java.awt.Font("Palatino Linotype", 0, 14)); // NOI18N
+        btnAddStudent.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/AddStu40.png"))); // NOI18N
+        btnAddStudent.setText("Add");
+        btnAddStudent.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnAddStudentActionPerformed(evt);
             }
         });
 
@@ -619,6 +644,11 @@ public class AdminPage extends javax.swing.JFrame {
 
         txtStudentDOB.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
 
+        jLabel17.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
+        jLabel17.setText("Email:");
+
+        txtStudentEmail.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -626,22 +656,28 @@ public class AdminPage extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGap(79, 79, 79)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel5)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel8))
-                .addGap(44, 44, 44)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel5))
+                        .addGap(44, 44, 44)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(rdMale)
                             .addComponent(rdAll))
-                        .addGap(50, 50, 50)
+                        .addGap(90, 90, 90)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(rdInstallment)
                             .addComponent(rdFemale)))
-                    .addComponent(txtStudentName, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
-                    .addComponent(txtStudentDOB))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel17))
+                        .addGap(77, 77, 77)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtStudentName, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtStudentEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtStudentDOB, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -654,9 +690,9 @@ public class AdminPage extends javax.swing.JFrame {
                 .addGap(35, 35, 35))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(267, 267, 267)
-                .addComponent(jButton1)
+                .addComponent(btnClear)
                 .addGap(234, 234, 234)
-                .addComponent(jButton2)
+                .addComponent(btnAddStudent)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -672,34 +708,42 @@ public class AdminPage extends javax.swing.JFrame {
                     .addComponent(txtStudentName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7)
                     .addComponent(cbCourseName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel6)
-                .addGap(8, 8, 8)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(32, 32, 32)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(txtStudentDOB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(59, 59, 59)
+                            .addComponent(jLabel17)
+                            .addComponent(txtStudentEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(33, 33, 33)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtStudentDOB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(rdMale)
-                            .addComponent(rdFemale))
-                        .addGap(43, 43, 43)
+                            .addComponent(rdFemale)
+                            .addComponent(rdMale))
+                        .addGap(32, 32, 32)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
                             .addComponent(rdAll)
-                            .addComponent(rdInstallment))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1)
-                            .addComponent(jButton2))
-                        .addGap(59, 59, 59))
+                            .addComponent(jLabel8)
+                            .addComponent(rdInstallment))))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton6)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap(116, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnClear)
+                            .addComponent(btnAddStudent))
+                        .addGap(59, 59, 59))))
         );
 
         jTabbedPane1.addTab("Add Student", new javax.swing.ImageIcon(getClass().getResource("/res/add40.png")), jPanel3); // NOI18N
@@ -1099,9 +1143,11 @@ public class AdminPage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cbCourseNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbCourseNameActionPerformed
+        Connection conn=null;
         try {
             DefaultListModel<Subject> ModelSJ = new DefaultListModel<>();
-            Connection conn = DBConnect.ConnectDatabase();
+            
+            conn = DBConnect.ConnectDatabase();
             PreparedStatement prestmt = conn.prepareStatement("select * from Subject where courseid=?");
             prestmt.setInt(1, ((Course) cbCourseName.getSelectedItem()).getId());
             ResultSet rs = prestmt.executeQuery();
@@ -1113,6 +1159,14 @@ public class AdminPage extends javax.swing.JFrame {
             lstSubjects.setModel(ModelSJ);
         } catch (SQLException ex) {
             Logger.getLogger(AdminPage.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            if (conn!=null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(AdminPage.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
 
     }//GEN-LAST:event_cbCourseNameActionPerformed
@@ -1128,7 +1182,7 @@ public class AdminPage extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton6ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnAddStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddStudentActionPerformed
         // TODO add your handling code here:
         Student s = new Student();
         s.setGender(checkGender());
@@ -1139,8 +1193,9 @@ public class AdminPage extends javax.swing.JFrame {
         s.setCourseID(((Course) cbCourseName.getSelectedItem()).getId());
         s.setUsername(Integer.toString(new Random().nextInt(2000) + 1000));
         s.setPass(Integer.toString(new Random().nextInt(2000) + 1000));
-        Connection connection = DBConnect.ConnectDatabase();
+        Connection connection=null;
         try {
+            connection = DBConnect.ConnectDatabase();
             CallableStatement pre = connection.prepareCall("{call AddStudent(?,?,?,?,?,?,?)}");
             pre.setString(1, s.getUsername());
             pre.setString(2, s.getPass());
@@ -1161,12 +1216,12 @@ public class AdminPage extends javax.swing.JFrame {
                     RecentStudent.next();
                     int StuId = RecentStudent.getInt(1);
                     List<DataTableMark> lstMark = emp.getMarkInformation();
-                    PreparedStatement MarkInsert = DBConnect.ConnectDatabase().prepareStatement("insert into Mark (StuId,SubId,Mark) values (?,?,?)");
+                    PreparedStatement MarkInsert = DBConnect.ConnectDatabase().prepareStatement("update Mark set Mark=? where SubId=? and StuId=?");
                     for (DataTableMark lstMark1 : lstMark) {
                         if (!lstMark1.getMark().equals("")) {
-                            MarkInsert.setInt(1, StuId);
+                            MarkInsert.setFloat(1, Float.parseFloat(lstMark1.getMark()));
                             MarkInsert.setInt(2, lstMark1.getSubjectID());
-                            MarkInsert.setFloat(3, Float.parseFloat(lstMark1.getMark()));
+                            MarkInsert.setInt(3,StuId );
                             MarkInsert.addBatch();
                         }
                     }
@@ -1181,18 +1236,26 @@ public class AdminPage extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(AdminPage.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
-            Logger.getLogger(AdminPage.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "The date you entered is not valid", "Error", JOptionPane.ERROR_MESSAGE, new ImageIcon("src/res/delete40.png"));
+        }finally{
+            if (connection!=null) {
+                try {
+                    connection.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(AdminPage.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnAddStudentActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
         // TODO add your handling code here:
         txtStudentDOB.setText(null);
         txtStudentName.setText(null);
         buttonGroup1.clearSelection();
         buttonGroup2.clearSelection();
         emp = null;
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         // TODO add your handling code here:
@@ -1204,8 +1267,10 @@ public class AdminPage extends javax.swing.JFrame {
         } else if (btnEdit.getText().equals("OK")) {
             btnEdit.setText("Edit Information");
             btnEdit.setIcon(new ImageIcon("src/res/edit40.png"));
-            Connection conn = DBConnect.ConnectDatabase();
+            Connection conn=null;
+            
             try {
+                conn = DBConnect.ConnectDatabase();
                 PreparedStatement pre = conn.prepareStatement("update admin set Fullname=?,DOB=?,Gender=?,Phone=?,Email=?,Address=? where Aid=?");
                 pre.setNString(1, txtAdminFullName.getText());
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -1228,7 +1293,13 @@ public class AdminPage extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(AdminPage.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ParseException ex) {
-                Logger.getLogger(AdminPage.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "The date you entered is not valid", "Error", JOptionPane.ERROR_MESSAGE, new ImageIcon("src/res/delete40.png"));
+            }finally{
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(AdminPage.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             EditSwitch(false);
         }
@@ -1298,8 +1369,9 @@ public class AdminPage extends javax.swing.JFrame {
         if (tblStudentData.getSelectedRow() >= 0) {
             int confirm = JOptionPane.showConfirmDialog(null, "Are you sure want to delete this Student? \n This can not be undone!", "Warning", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, new ImageIcon("src/res/warn45.png"));
             if (confirm == 0) {
+                PreparedStatement pre=null;
                 try {
-                    PreparedStatement pre = DBConnect.ConnectDatabase().prepareStatement("Delete from Student where StuId=?");
+                    pre = DBConnect.ConnectDatabase().prepareStatement("Delete from Student where StuId=?");
                     pre.setInt(1, Integer.parseInt(tblStudentData.getValueAt(tblStudentData.getSelectedRow(), 0).toString()));
                     boolean rs = pre.execute();
                     lstStudent = Student.getAllStudent();
@@ -1308,8 +1380,17 @@ public class AdminPage extends javax.swing.JFrame {
                     if (rs == false) {
                         JOptionPane.showMessageDialog(null, "Delete Successfully", "Message", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("src/res/ok40.png"));
                     }
+                    
                 } catch (SQLException ex) {
                     Logger.getLogger(AdminPage.class.getName()).log(Level.SEVERE, null, ex);
+                }finally{
+                    try {
+                        if (pre.getConnection()!=null) {
+                            pre.getConnection().close();
+                        }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AdminPage.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
         }
@@ -1369,6 +1450,8 @@ public class AdminPage extends javax.swing.JFrame {
     private javax.swing.JList JListCourse;
     private javax.swing.JTextField SearchID;
     private javax.swing.JTextField SearchName;
+    private javax.swing.JButton btnAddStudent;
+    private javax.swing.JButton btnClear;
     private javax.swing.JButton btnEdit;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
@@ -1376,8 +1459,6 @@ public class AdminPage extends javax.swing.JFrame {
     private javax.swing.JComboBox cbCourseName;
     private javax.swing.JComboBox cbFeeType;
     private javax.swing.JComboBox cbGender;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
@@ -1391,6 +1472,7 @@ public class AdminPage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1438,6 +1520,7 @@ public class AdminPage extends javax.swing.JFrame {
     private javax.swing.JTextField txtAdmnPhone;
     private javax.swing.JFormattedTextField txtFormatDate;
     private javax.swing.JFormattedTextField txtStudentDOB;
+    private javax.swing.JTextField txtStudentEmail;
     private javax.swing.JTextField txtStudentName;
     // End of variables declaration//GEN-END:variables
 }

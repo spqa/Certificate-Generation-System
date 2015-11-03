@@ -63,8 +63,9 @@ public class Subject {
     }
     public static List<Subject> getListSubject(int CourseID){
     List<Subject> lstTemp=new ArrayList<>();
-        Connection conn=DBConnect.ConnectDatabase();
+        Connection conn=null;
         try {
+            conn = DBConnect.ConnectDatabase();
             PreparedStatement pre=conn.prepareStatement("select * from subject where courseid=?");
             pre.setInt(1, CourseID);
             ResultSet rs=pre.executeQuery();
@@ -74,13 +75,23 @@ public class Subject {
             }
         } catch (SQLException ex) {
             Logger.getLogger(Subject.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            if (conn!=null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(Subject.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
         return lstTemp;
     }
     
     public static String getSubjectNameByID(int SubID){
-        Connection conn=DBConnect.ConnectDatabase();
+        Connection conn=null;
+        
         try {
+            conn = DBConnect.ConnectDatabase();
             PreparedStatement pre=conn.prepareStatement("select * from Subject where SubId=?");
             pre.setInt(1, SubID);
             ResultSet rs=pre.executeQuery();
@@ -88,6 +99,14 @@ public class Subject {
             return rs.getString(3);
         } catch (SQLException ex) {
             Logger.getLogger(Subject.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            if (conn!=null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(Subject.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
         return null;
     }

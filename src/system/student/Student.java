@@ -115,8 +115,10 @@ public class Student {
     
     
     public static Student getStudentById(int StudentId){
-        Connection connection=DBConnect.ConnectDatabase();
+        Connection connection=null;
+        
         try {
+            connection = DBConnect.ConnectDatabase();
             PreparedStatement pre=connection.prepareStatement("Select * from Student where Stuid=?");
             pre.setInt(1, StudentId);
             ResultSet rs=pre.executeQuery();
@@ -125,23 +127,41 @@ public class Student {
             
         } catch (SQLException ex) {
             Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            if (connection!=null) {
+                try {
+                    connection.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
         return null;
        
     }
     
     public static List<Student> getAllStudent(){
-        Connection conn=DBConnect.ConnectDatabase();
+        Connection conn=null;
+        
         List<Student> lstStudent=new ArrayList<>();
         try {
+            conn = DBConnect.ConnectDatabase();
             PreparedStatement pre=conn.prepareStatement("select * from Student");
             ResultSet rs=pre.executeQuery();
             while (rs.next()) {                
-                lstStudent.add(new Student(rs.getInt(1),rs.getString(2), rs.getString(3),rs.getNString(4), rs.getDate(5).toString(), rs.getString(6), rs.getInt(7), rs.getInt(8)));
+                lstStudent.add(new Student(rs.getInt(1),rs.getString(2), rs.getString(3),rs.getNString(4), rs.getDate(5).toString(), rs.getString(6), rs.getInt(8), rs.getInt(9)));
             }
             return lstStudent;
         } catch (SQLException ex) {
             Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            if (conn!=null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
         return null;
     }

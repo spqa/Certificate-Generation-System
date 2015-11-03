@@ -68,9 +68,11 @@ public class Payment {
         this.PaidDay = PaidDay;
     }
     public static List<Payment> getPaymentByStuId(int StuID){
-        Connection conn=DBConnect.ConnectDatabase();
+        Connection conn=null;
+        
         List<Payment> lstPayment=new ArrayList<>();
         try {
+            conn = DBConnect.ConnectDatabase();
             PreparedStatement pre=conn.prepareStatement("select * from Payment where StuId=?");
             pre.setInt(1, StuID);
             ResultSet rs=pre.executeQuery();
@@ -80,6 +82,14 @@ public class Payment {
             return lstPayment;
         } catch (SQLException ex) {
             Logger.getLogger(Payment.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            if (conn!=null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(Payment.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
         return lstPayment;
     }
