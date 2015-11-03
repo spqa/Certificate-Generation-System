@@ -14,6 +14,9 @@
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
     <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
+  <Events>
+    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="formMouseClicked"/>
+  </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -46,7 +49,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="jTabbedPane1" max="32767" attributes="0"/>
+                      <Component id="tabCertificateManager" max="32767" attributes="0"/>
                       <Component id="jPanel2" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -61,7 +64,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jPanel3" max="32767" attributes="0"/>
-                      <Component id="jTabbedPane1" max="32767" attributes="0"/>
+                      <Component id="tabCertificateManager" max="32767" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -132,7 +135,13 @@
             </DimensionLayout>
           </Layout>
         </Container>
-        <Container class="javax.swing.JTabbedPane" name="jTabbedPane1">
+        <Container class="javax.swing.JTabbedPane" name="tabCertificateManager">
+          <Events>
+            <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tabCertificateManagerMouseEntered"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="CerPage_jTabbedPane1"/>
+          </AuxValues>
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
           <SubComponents>
@@ -166,7 +175,7 @@
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                       <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                                       <Component id="btnGenerate" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="btnPreview" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="btnPrintReport" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="0" pref="104" max="32767" attributes="0"/>
                               </Group>
@@ -198,7 +207,7 @@
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
                                           <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
-                                          <Component id="btnPreview" min="-2" max="-2" attributes="0"/>
+                                          <Component id="btnPrintReport" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                                           <Component id="btnGenerate" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="32767" attributes="0"/>
@@ -372,13 +381,16 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Component class="javax.swing.JButton" name="btnPreview">
+                <Component class="javax.swing.JButton" name="btnPrintReport">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/res/Print45.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Print Report"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPrintReportActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnGenerate">
                   <Properties>

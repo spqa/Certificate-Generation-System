@@ -5,12 +5,20 @@
  */
 package system;
 
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.print.PrinterException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -30,6 +38,7 @@ public class CerPage extends javax.swing.JFrame {
     private DefaultTableModel modelVerifyStudentSubject = null;
     private DefaultTableModel modelVerifyStudentBalance = null;
     private int studentID;
+    private int tempMark;
     private String studentRollnumber = null;
     private String studentName = null;
     private String studentCourse = null;
@@ -71,7 +80,7 @@ public class CerPage extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         lblFullName = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        tabCertificateManager = new javax.swing.JTabbedPane();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblVerifyStudent = new javax.swing.JTable();
@@ -82,7 +91,7 @@ public class CerPage extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         txtStatusReport = new javax.swing.JTextArea();
-        btnPreview = new javax.swing.JButton();
+        btnPrintReport = new javax.swing.JButton();
         btnGenerate = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
@@ -113,6 +122,11 @@ public class CerPage extends javax.swing.JFrame {
         btnInfoLogout = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
 
         jPanel2.setBackground(new java.awt.Color(0, 153, 204));
 
@@ -149,6 +163,12 @@ public class CerPage extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
+
+        tabCertificateManager.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                tabCertificateManagerMouseEntered(evt);
+            }
+        });
 
         tblVerifyStudent.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -193,8 +213,13 @@ public class CerPage extends javax.swing.JFrame {
         txtStatusReport.setRows(5);
         jScrollPane4.setViewportView(txtStatusReport);
 
-        btnPreview.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/Print45.png"))); // NOI18N
-        btnPreview.setText("Print Report");
+        btnPrintReport.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/Print45.png"))); // NOI18N
+        btnPrintReport.setText("Print Report");
+        btnPrintReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrintReportActionPerformed(evt);
+            }
+        });
 
         btnGenerate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/GerCer45.png"))); // NOI18N
         btnGenerate.setText("Verify and Generate");
@@ -221,7 +246,7 @@ public class CerPage extends javax.swing.JFrame {
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel3)
                             .addComponent(btnGenerate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnPreview, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btnPrintReport, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(0, 104, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -245,13 +270,13 @@ public class CerPage extends javax.swing.JFrame {
                                 .addContainerGap())
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGap(32, 32, 32)
-                                .addComponent(btnPreview)
+                                .addComponent(btnPrintReport)
                                 .addGap(29, 29, 29)
                                 .addComponent(btnGenerate)
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
         );
 
-        jTabbedPane1.addTab("Verify Student", new javax.swing.ImageIcon(getClass().getResource("/res/AddStu40.png")), jPanel4, ""); // NOI18N
+        tabCertificateManager.addTab("Verify Student", new javax.swing.ImageIcon(getClass().getResource("/res/AddStu40.png")), jPanel4, ""); // NOI18N
 
         tblCertificateManager.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -350,7 +375,7 @@ public class CerPage extends javax.swing.JFrame {
                 .addGap(21, 21, 21))
         );
 
-        jTabbedPane1.addTab("Certificate Manager", new javax.swing.ImageIcon(getClass().getResource("/res/Manager40.png")), jPanel5); // NOI18N
+        tabCertificateManager.addTab("Certificate Manager", new javax.swing.ImageIcon(getClass().getResource("/res/Manager40.png")), jPanel5); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("SimSun", 1, 18)); // NOI18N
         jLabel4.setText("FullName:");
@@ -484,7 +509,7 @@ public class CerPage extends javax.swing.JFrame {
                 .addGap(84, 84, 84))
         );
 
-        jTabbedPane1.addTab("My Information", new javax.swing.ImageIcon(getClass().getResource("/res/Admin40.png")), jPanel6); // NOI18N
+        tabCertificateManager.addTab("My Information", new javax.swing.ImageIcon(getClass().getResource("/res/Admin40.png")), jPanel6); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -492,7 +517,7 @@ public class CerPage extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTabbedPane1)
+                    .addComponent(tabCertificateManager)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -504,7 +529,7 @@ public class CerPage extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTabbedPane1)))
+                    .addComponent(tabCertificateManager)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -592,6 +617,21 @@ public class CerPage extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Save Successful");
                 }
                 System.out.println(e.getMessage());
+            } finally {
+                try {
+                    if (rs != null) {
+                        rs.close();
+                    }
+                    if (stmt != null) {
+                        stmt.close();
+                    }
+                    if (conn != null) {
+                        conn.close();
+                    }
+                } catch (SQLException ex) {
+//                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(rootPane, ex);
+                }
             }
         }
     }//GEN-LAST:event_btnInfoEditActionPerformed
@@ -605,12 +645,24 @@ public class CerPage extends javax.swing.JFrame {
     }//GEN-LAST:event_txtSearchFillterActionPerformed
 
     private void btnGenerateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateActionPerformed
-        // TODO add your handling code here:
+        createCertificate();
     }//GEN-LAST:event_btnGenerateActionPerformed
 
-    private void tblVerifyStudentRowSelectedChange() {
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        loadCertificate();
+    }//GEN-LAST:event_formMouseClicked
 
-    }
+    private void tabCertificateManagerMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabCertificateManagerMouseEntered
+        loadCertificate();
+    }//GEN-LAST:event_tabCertificateManagerMouseEntered
+
+    private void btnPrintReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintReportActionPerformed
+        try {
+            txtStatusReport.print();
+        } catch (PrinterException ex) {
+            Logger.getLogger(CerPage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnPrintReportActionPerformed
 
     public void loadInfo() {
         Connection conn = null;
@@ -637,6 +689,21 @@ public class CerPage extends javax.swing.JFrame {
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+//                    ex.printStackTrace();
+                JOptionPane.showMessageDialog(rootPane, ex);
+            }
         }
     }
 
@@ -677,8 +744,25 @@ public class CerPage extends javax.swing.JFrame {
                     return false; //To change body of generated methods, choose Tools | Templates.
                 }
             };
+
+            tblCertificateManager.setModel(modelCertificateManager);
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+//                    ex.printStackTrace();
+                JOptionPane.showMessageDialog(rootPane, ex);
+            }
         }
     }
 
@@ -746,6 +830,21 @@ public class CerPage extends javax.swing.JFrame {
             };
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+//                    ex.printStackTrace();
+                JOptionPane.showMessageDialog(rootPane, ex);
+            }
         }
         tblCertificateManager.setModel(modelCertificateManager);
     }
@@ -794,6 +893,21 @@ public class CerPage extends javax.swing.JFrame {
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+//                    ex.printStackTrace();
+                JOptionPane.showMessageDialog(rootPane, ex);
+            }
         }
 
     }
@@ -920,6 +1034,21 @@ public class CerPage extends javax.swing.JFrame {
                 } catch (Exception ex) {
                     System.out.println("Balance: ");
                     System.out.print(ex.getMessage());
+                } finally {
+                    try {
+                        if (rs != null) {
+                            rs.close();
+                        }
+                        if (stmt != null) {
+                            stmt.close();
+                        }
+                        if (conn != null) {
+                            conn.close();
+                        }
+                    } catch (SQLException ex) {
+//                    ex.printStackTrace();
+                        JOptionPane.showMessageDialog(rootPane, ex);
+                    }
                 }
                 statusReport(totalMark, countMark);
             }
@@ -963,7 +1092,7 @@ public class CerPage extends javax.swing.JFrame {
 
             if (fee <= 0) {
                 statusReport += "Fee checks: PASS.\n";
-                int tempMark = totalMark / countMark;
+                tempMark = totalMark / countMark;
                 if (tempMark >= 75) {
                     statusReport += "Grades: Distinction.\n";
                     statusReport += "Grades checks: checks: PASS.\n";
@@ -989,6 +1118,21 @@ public class CerPage extends javax.swing.JFrame {
                         }
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
+                    } finally {
+                        try {
+                            if (rs != null) {
+                                rs.close();
+                            }
+                            if (stmt != null) {
+                                stmt.close();
+                            }
+                            if (conn != null) {
+                                conn.close();
+                            }
+                        } catch (SQLException ex) {
+//                    ex.printStackTrace();
+                            JOptionPane.showMessageDialog(rootPane, ex);
+                        }
                     }
 
                 } else {
@@ -1007,6 +1151,65 @@ public class CerPage extends javax.swing.JFrame {
             txtStatusReport.setText(statusReport);
             txtStatusReport.setEditable(false);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void createCertificate() {
+        String grade = null;
+        boolean checkDuplicate = true;
+        Connection conn = null;
+        CallableStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DBConnect.ConnectDatabase();
+            stmt = conn.prepareCall("{call countDuplicate(?) };");
+            stmt.setInt(1, studentID);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                if (rs.getInt("count1") >= 1) {
+                    JOptionPane.showMessageDialog(null, "Student can have only one Certificate");
+                } else if (rs.getInt("count1") == 0) {
+                    try {
+                        conn = DBConnect.ConnectDatabase();
+                        stmt = conn.prepareCall("{call InsertCertificate(?, ?, ?) };");
+                        stmt.setInt(1, studentID);
+                        if (tempMark >= 75) {
+                            grade = "Distinction";
+                        } else if (tempMark >= 60) {
+                            grade = "A";
+                        } else if (tempMark >= 50) {
+                            grade = "B";
+                        }
+                        stmt.setString(2, grade);
+                        java.sql.Date date = new Date(new java.util.Date().getTime());
+                        stmt.setDate(3, date);
+                        rs = stmt.executeQuery();
+
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, "Certificate created Successful");
+                    } finally {
+                        try {
+                            if (rs != null) {
+                                rs.close();
+                            }
+                            if (stmt != null) {
+                                stmt.close();
+                            }
+                            if (conn != null) {
+                                conn.close();
+                            }
+                        } catch (SQLException ex) {
+//                    ex.printStackTrace();
+                            JOptionPane.showMessageDialog(rootPane, ex);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("check");
             System.out.println(e.getMessage());
         }
     }
@@ -1051,7 +1254,7 @@ public class CerPage extends javax.swing.JFrame {
     private javax.swing.JButton btnInfoChange;
     private javax.swing.JButton btnInfoEdit;
     private javax.swing.JButton btnInfoLogout;
-    private javax.swing.JButton btnPreview;
+    private javax.swing.JButton btnPrintReport;
     private javax.swing.JButton btnSearchCertificate;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
@@ -1079,10 +1282,10 @@ public class CerPage extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lblFullName;
     private javax.swing.JRadioButton rdoInfoFemale;
     private javax.swing.JRadioButton rdoInfoMale;
+    private javax.swing.JTabbedPane tabCertificateManager;
     private javax.swing.JTable tblCertificateManager;
     private javax.swing.JTable tblVerifyStudent;
     private javax.swing.JTable tblVerifyStudentBalance;
