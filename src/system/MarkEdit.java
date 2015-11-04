@@ -5,6 +5,13 @@
  */
 package system;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import system.Mark.Mark;
 
@@ -13,17 +20,20 @@ import system.Mark.Mark;
  * @author super
  */
 public class MarkEdit extends javax.swing.JPanel {
-JTabbedPane pane;
-int StuID;
+
+    JTabbedPane pane;
+    int StuID;
+
     /**
      * Creates new form MarkEdit
      */
-    public MarkEdit(int StuId,JTabbedPane pane) {
-        this.pane=pane;
-        this.StuID=StuId;
+    public MarkEdit(int StuId, JTabbedPane pane) {
+        this.pane = pane;
+        this.StuID = StuId;
         initComponents();
         jTable1.setModel(Mark.getTableMark(StuId));
         jTable1.getColumnModel().getColumn(0).setMinWidth(300);
+
     }
 
     /**
@@ -67,6 +77,11 @@ int StuID;
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/Verify45.png"))); // NOI18N
         jButton1.setText("OK");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/Delete45.png"))); // NOI18N
         jButton2.setText("Cancel");
@@ -111,6 +126,39 @@ int StuID;
         // TODO add your handling code here:
         pane.remove(this);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        Connection conn = null;
+        try {
+            conn = DBConnect.connectDatabase();
+            PreparedStatement pre = conn.prepareStatement("UPDATE Mark SET Mark.Mark = ? FROM Subject INNER JOIN Mark ON Subject.SubId = Mark.SubId "
+                    + "WHERE  Subject.Name = ? AND Mark.StuId = ?");
+            for (int i = 0; i < jTable1.getRowCount(); i++) {
+                pre.setFloat(1, Float.parseFloat(jTable1.getValueAt(i, 1).toString()));
+                pre.setString(2, jTable1.getValueAt(i, 0).toString());
+                pre.setInt(3, StuID);
+                pre.addBatch();
+            }
+            pre.executeBatch();
+            JOptionPane.showMessageDialog(null, "Edit mark successfully!", "Message", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("src/res/ok40.png"));
+            jTable1.setModel(Mark.getTableMark(StuID));
+            jTable1.getColumnModel().getColumn(0).setMinWidth(300);
+        } catch (SQLException ex) {
+            Logger.getLogger(MarkEdit.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, "The mark(s) you entered contain invalid character!", "Error", JOptionPane.ERROR_MESSAGE, new ImageIcon("src/res/delete45.png"));
+            ex.printStackTrace();
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(MarkEdit.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

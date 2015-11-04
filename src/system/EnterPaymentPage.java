@@ -50,6 +50,8 @@ public class EnterPaymentPage extends javax.swing.JFrame {
         DateFormat df=new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date date=new java.util.Date();
         txtTime.setText(df.format(date));
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setVisible(true);
     }
 

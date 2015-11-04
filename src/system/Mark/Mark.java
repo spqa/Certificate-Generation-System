@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -106,13 +107,28 @@ public class Mark {
         temp.addColumn("Subject");
         temp.addColumn("Mark");
         temp.addColumn("Grade");
-        List<Mark> lstMark=getMarkByStuID(StuID);
-        
-        for (Mark lstMark1 : lstMark) {
-            String[] row={Subject.getSubjectNameByID(lstMark1.getSubID()),lstMark1.getMark()+"",lstMark1.getGrade()};
-            //System.out.println(lstMark1.toString());
-            //System.out.println(row[1]);
-            temp.addRow(row);
+        String sql="SELECT Mark.Mark, Mark.Grade, Subject.Name FROM Mark INNER JOIN Subject ON Mark.SubId = Subject.SubId WHERE Mark.StuId=?";
+        Connection conn=null;
+        try {           
+            conn = DBConnect.connectDatabase();
+            PreparedStatement stmt=conn.prepareStatement(sql);
+            stmt.setInt(1, StuID);
+            ResultSet rs=stmt.executeQuery();
+            while (rs.next()) {                
+                String[] rows={rs.getString(3),rs.getFloat(1)+"",rs.getString(2)};
+                temp.addRow(rows);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Mark.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            if (conn!=null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(Mark.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
         return temp;
     }

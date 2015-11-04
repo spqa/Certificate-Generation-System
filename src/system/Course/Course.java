@@ -62,9 +62,12 @@ public class Course {
     }
     
     public static Vector<Course> getAllCourses(){
-        /* Vector<Course> lstTemp=new Vector<>();
-        ResultSet rs=DBConnect.ExcuteStatement("Course");
+         Vector<Course> lstTemp=new Vector<>();
+        Connection conn=null;                
         try {
+            conn = DBConnect.connectDatabase();
+            PreparedStatement pre=conn.prepareStatement("SELECT * FROM Course");
+            ResultSet rs=pre.executeQuery();
             while (rs.next()) {
                 lstTemp.add(new Course(rs.getInt(1), rs.getString(2), rs.getInt(3)));
             }
@@ -72,7 +75,7 @@ public class Course {
             Logger.getLogger(Course.class.getName()).log(Level.SEVERE, null, ex);
         }finally{
             try {
-               Connection conn= rs.getStatement().getConnection();
+               
                 if (conn!=null) {
                     conn.close();
                 }
@@ -81,8 +84,7 @@ public class Course {
             }
         }
         return lstTemp;
-                */;
-                return null;
+                        
     }
     
     public static String getCourseNameByID(int courseID){

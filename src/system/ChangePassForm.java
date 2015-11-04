@@ -203,8 +203,10 @@ public class ChangePassForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (checkRightPass()) {
             if (checkPassConfirm()) {
+                Connection conn=null;
                 try {
-                    Connection conn=DBConnect.connectDatabase();
+                    
+                    conn = DBConnect.connectDatabase();
                     try {
                         PreparedStatement pre=conn.prepareStatement("update admin set Apass=? where Aid=?");
                         pre.setString(1, Newpass);
@@ -212,12 +214,21 @@ public class ChangePassForm extends javax.swing.JFrame {
                         boolean rs=pre.execute();
                         if (rs==false) {
                             JOptionPane.showMessageDialog(this, "Update Pass Successfully!!", "Information", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("src/res/ok50.png"));
+                            this.dispose();
                         }
                     } catch (SQLException ex) {
                         Logger.getLogger(ChangePassForm.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(ChangePassForm.class.getName()).log(Level.SEVERE, null, ex);
+                }finally{
+                    if (conn!=null) {
+                        try {
+                            conn.close();
+                        } catch (SQLException ex) {
+                            Logger.getLogger(ChangePassForm.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
                 }
             }else{
             JOptionPane.showMessageDialog(null, "The passwords you entered dont match!!");

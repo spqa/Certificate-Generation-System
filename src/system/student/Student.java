@@ -21,6 +21,7 @@ import system.DBConnect;
  * @author super
  */
 public class Student {
+
     private int id;
     private String Username;
     private String Pass;
@@ -29,6 +30,17 @@ public class Student {
     private String Gender;
     private int CourseID;
     private int FeeID;
+    private String feedback;
+
+    public String getFeedback() {
+        return feedback;
+    }
+
+    public Student(int StuID, String Fullname,String feedback) {
+        this.id = StuID;
+        this.Fullname = Fullname;
+        this.feedback=feedback;
+    }
 
     public Student() {
     }
@@ -110,25 +122,24 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Student{" + "id=" + id + ", Username=" + Username + ", Pass=" + Pass + ", Fullname=" + Fullname + ", DOB=" + DOB + ", Gender=" + Gender + ", CourseID=" + CourseID + ", FeeID=" + FeeID + '}';
+        return "Name: " + this.Fullname + " - ID: " + this.id;
     }
-    
-    
-    public static Student getStudentById(int StudentId){
-        Connection connection=null;
-        
+
+    public static Student getStudentById(int StudentId) {
+        Connection connection = null;
+
         try {
             connection = DBConnect.connectDatabase();
-            PreparedStatement pre=connection.prepareStatement("Select * from Student where Stuid=?");
+            PreparedStatement pre = connection.prepareStatement("Select * from Student where Stuid=?");
             pre.setInt(1, StudentId);
-            ResultSet rs=pre.executeQuery();
+            ResultSet rs = pre.executeQuery();
             rs.next();
             return new Student(StudentId, rs.getString(2), rs.getString(3), rs.getNString(4), rs.getDate("DOB").toString(), rs.getString("Gender"), rs.getInt("CourseId"), rs.getInt("FeeId"));
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
-        }finally{
-            if (connection!=null) {
+        } finally {
+            if (connection != null) {
                 try {
                     connection.close();
                 } catch (SQLException ex) {
@@ -137,25 +148,25 @@ public class Student {
             }
         }
         return null;
-       
+
     }
-    
-    public static List<Student> getAllStudent(){
-        Connection conn=null;
-        
-        List<Student> lstStudent=new ArrayList<>();
+
+    public static List<Student> getAllStudent() {
+        Connection conn = null;
+
+        List<Student> lstStudent = new ArrayList<>();
         try {
             conn = DBConnect.connectDatabase();
-            PreparedStatement pre=conn.prepareStatement("select * from Student");
-            ResultSet rs=pre.executeQuery();
-            while (rs.next()) {                
-                lstStudent.add(new Student(rs.getInt(1),rs.getString(2), rs.getString(3),rs.getNString(4), rs.getDate(5).toString(), rs.getString(6), rs.getInt(7), rs.getInt(8)));
+            PreparedStatement pre = conn.prepareStatement("select * from Student");
+            ResultSet rs = pre.executeQuery();
+            while (rs.next()) {
+                lstStudent.add(new Student(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getNString(4), rs.getDate(5).toString(), rs.getString(6), rs.getInt(7), rs.getInt(8)));
             }
             return lstStudent;
         } catch (SQLException ex) {
             Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
-        }finally{
-            if (conn!=null) {
+        } finally {
+            if (conn != null) {
                 try {
                     conn.close();
                 } catch (SQLException ex) {
@@ -165,12 +176,13 @@ public class Student {
         }
         return null;
     }
+
     public static void main(String[] args) {
         System.out.println(Student.getStudentById(1).toString());
     }
-    
-    public static DefaultTableModel getStudentTblModel(){
-        DefaultTableModel tbl=new DefaultTableModel();
+
+    public static DefaultTableModel getStudentTblModel() {
+        DefaultTableModel tbl = new DefaultTableModel();
         tbl.addColumn("Id");
         tbl.addColumn("Fullname");
         tbl.addColumn("Gender");
