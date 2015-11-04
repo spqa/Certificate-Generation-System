@@ -45,6 +45,15 @@ public class CerPage extends javax.swing.JFrame {
     private String studentName = null;
     private String studentCourse = null;
 
+    private String string1 = null;
+    private String string2 = null;
+    private String string3 = null;
+    private String string4 = null;
+    private String string5 = null;
+    private String string6 = null;
+    private String string7 = null;
+    private String string8 = null;
+
     public CerPage(String user) {
         initComponents();
         //    lblFullName.setText(name);
@@ -60,6 +69,8 @@ public class CerPage extends javax.swing.JFrame {
         tblVerifyStudent.setModel(modeltVerifyStudent);
 
         loadSubjectDetails();
+
+        getPrintCertificate();
     }
 
     private CerPage() {
@@ -99,12 +110,9 @@ public class CerPage extends javax.swing.JFrame {
         jScrollPane5 = new javax.swing.JScrollPane();
         tblCertificateManager = new javax.swing.JTable();
         jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
         btnSearchCertificate = new javax.swing.JButton();
         txtSearchFillter = new javax.swing.JTextField();
         cmbSearchFilterCertificate = new javax.swing.JComboBox();
-        jRadioButton3 = new javax.swing.JRadioButton();
-        jRadioButton4 = new javax.swing.JRadioButton();
         jPanel6 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -166,14 +174,14 @@ public class CerPage extends javax.swing.JFrame {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        tabCertificateManager.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                tabCertificateManagerMouseEntered(evt);
-            }
-        });
         tabCertificateManager.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 tabCertificateManagerStateChanged(evt);
+            }
+        });
+        tabCertificateManager.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                tabCertificateManagerMouseEntered(evt);
             }
         });
         tabCertificateManager.addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -305,9 +313,11 @@ public class CerPage extends javax.swing.JFrame {
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/Print45.png"))); // NOI18N
         jButton5.setText("Print");
-
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/PrintPreview45.png"))); // NOI18N
-        jButton6.setText("Preview");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         btnSearchCertificate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/Search45.png"))); // NOI18N
         btnSearchCertificate.setText("Search");
@@ -325,44 +335,25 @@ public class CerPage extends javax.swing.JFrame {
 
         cmbSearchFilterCertificate.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Certificate ID", "Student ID", "Grade", "Generated Day" }));
 
-        buttonGroup1.add(jRadioButton3);
-        jRadioButton3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jRadioButton3.setText("Oldest");
-
-        buttonGroup1.add(jRadioButton4);
-        jRadioButton4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jRadioButton4.setText("Newest");
-
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnSearchCertificate)
-                        .addGap(164, 164, 164))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
+                        .addComponent(txtSearchFillter, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cmbSearchFilterCertificate, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(txtSearchFillter)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(cmbSearchFilterCertificate, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel5Layout.createSequentialGroup()
-                                        .addComponent(jRadioButton3)
-                                        .addGap(84, 84, 84)
-                                        .addComponent(jRadioButton4))
-                                    .addGroup(jPanel5Layout.createSequentialGroup()
-                                        .addComponent(jButton6)
-                                        .addGap(42, 42, 42)
-                                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 119, Short.MAX_VALUE)))
-                        .addContainerGap())))
+                            .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnSearchCertificate))
+                        .addGap(150, 150, 150)))
+                .addGap(25, 25, 25))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -370,21 +361,15 @@ public class CerPage extends javax.swing.JFrame {
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(33, 33, 33)
+                .addGap(72, 72, 72)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtSearchFillter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmbSearchFilterCertificate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(56, 56, 56)
                 .addComponent(btnSearchCertificate)
-                .addGap(40, 40, 40)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRadioButton3)
-                    .addComponent(jRadioButton4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton6)
-                    .addComponent(jButton5))
-                .addGap(21, 21, 21))
+                .addGap(74, 74, 74)
+                .addComponent(jButton5)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         tabCertificateManager.addTab("Certificate Manager", new javax.swing.ImageIcon(getClass().getResource("/res/Manager40.png")), jPanel5); // NOI18N
@@ -604,9 +589,9 @@ public class CerPage extends javax.swing.JFrame {
                 java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
                 String gender = null;
                 if (rdoInfoMale.isSelected()) {
-                    gender = "Nam";
+                    gender = "Male";
                 } else if (rdoInfoFemale.isSelected()) {
-                    gender = "Nữ";
+                    gender = "Female";
                 }
 
                 String phone = txtInfoPhone.getText();
@@ -646,7 +631,7 @@ public class CerPage extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGenerateActionPerformed
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
-        
+
     }//GEN-LAST:event_formMouseClicked
 
     private void tabCertificateManagerMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabCertificateManagerMouseEntered
@@ -672,6 +657,10 @@ public class CerPage extends javax.swing.JFrame {
         loadCertificate();
     }//GEN-LAST:event_tabCertificateManagerStateChanged
 
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        printCertificate();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
     public void loadInfo() {
         Connection conn = null;
         CallableStatement stmt = null;
@@ -689,7 +678,7 @@ public class CerPage extends javax.swing.JFrame {
                 txtInfoFullname.setText(rs.getString("CerFullName"));
                 txtInfoPhone.setText(rs.getString("CerPhone"));
                 lblFullName.setText(rs.getString("CerFullName"));
-                if (rs.getString("Gender").equals("Nam")) {
+                if (rs.getString("Gender").equals("Male")) {
                     rdoInfoMale.setSelected(true);
                 } else {
                     rdoInfoFemale.setSelected(true);
@@ -1115,6 +1104,61 @@ public class CerPage extends javax.swing.JFrame {
         }
     }
 
+    public void getPrintCertificate() {
+
+        tblCertificateManager.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+
+                Connection conn = null;
+                CallableStatement stmt = null;
+                ResultSet rs = null;
+
+                int studentID2;
+
+                try {
+                    int rows = tblCertificateManager.getSelectedRow();
+
+                    studentID2 = new Integer(tblCertificateManager.getValueAt(rows, 1).toString());
+
+                    conn = DBConnect.connectDatabase();
+                    stmt = conn.prepareCall("{call loadPrint(?) };");
+                    stmt.setInt(1, studentID2);
+                    rs = stmt.executeQuery();
+
+                    while (rs.next()) {
+                        string1 = rs.getString(1);
+                        String dateTemp = rs.getString(2);
+                        dateTemp = dateTemp.replaceAll("-", "");
+                        int date = Integer.parseInt(dateTemp);
+                        string4 = Integer.toString(date / 10000);
+                        string3 = Integer.toString((date % 10000) / 100);
+                        string2 = Integer.toString(date % 100);
+                        string5 = rs.getString(3);
+                        string6 = rs.getString(4);
+
+                        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd");
+                        java.util.Date now = new java.util.Date();
+                        String strDate = sdfDate.format(now);
+
+                        string7 = strDate;
+                        string8 = "Principal";
+                    }
+
+                } catch (Exception ex) {
+                    System.out.print(ex.getMessage());
+                }
+            }
+        });
+    }
+
+    public void printCertificate() {
+        system.Certificate.Print pr = new system.Certificate.Print(string1, string2, string3, string4, string5, string6, string7, string8);
+        pr.setVisible(true);
+
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -1129,16 +1173,21 @@ public class CerPage extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CerPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CerPage.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CerPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CerPage.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CerPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CerPage.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CerPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CerPage.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -1161,7 +1210,6 @@ public class CerPage extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JComboBox cmbSearchFilterCertificate;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1176,8 +1224,6 @@ public class CerPage extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
