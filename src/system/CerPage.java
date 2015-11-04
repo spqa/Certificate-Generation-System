@@ -145,7 +145,7 @@ public class CerPage extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblFullName, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(lblFullName, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -257,7 +257,7 @@ public class CerPage extends javax.swing.JFrame {
                             .addComponent(jLabel3)
                             .addComponent(btnGenerate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnPrintReport, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 104, Short.MAX_VALUE)))
+                        .addGap(0, 107, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -330,11 +330,11 @@ public class CerPage extends javax.swing.JFrame {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 539, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(txtSearchFillter, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                        .addComponent(txtSearchFillter, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(cmbSearchFilterCertificate, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
@@ -415,6 +415,11 @@ public class CerPage extends javax.swing.JFrame {
 
         btnInfoChange.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/ChangePass40.png"))); // NOI18N
         btnInfoChange.setText("Change Password");
+        btnInfoChange.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInfoChangeActionPerformed(evt);
+            }
+        });
 
         btnInfoLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/LogOut45.png"))); // NOI18N
         btnInfoLogout.setText("Log Out");
@@ -464,7 +469,7 @@ public class CerPage extends javax.swing.JFrame {
                             .addComponent(txtInfoEmail)
                             .addComponent(txtInfoPhone)))
                     .addComponent(btnInfoLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -506,7 +511,7 @@ public class CerPage extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(tabCertificateManager)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(0, 0, 0)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -533,9 +538,48 @@ public class CerPage extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+
+    }//GEN-LAST:event_formMouseClicked
+
+    private void tabCertificateManagerComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_tabCertificateManagerComponentShown
+        loadCertificate();
+    }//GEN-LAST:event_tabCertificateManagerComponentShown
+
+    private void tabCertificateManagerMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabCertificateManagerMouseEntered
+
+    }//GEN-LAST:event_tabCertificateManagerMouseEntered
+
+    private void tabCertificateManagerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabCertificateManagerStateChanged
+        // TODO add your handling code here:
+        loadCertificate();
+    }//GEN-LAST:event_tabCertificateManagerStateChanged
+
     private void btnInfoLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInfoLogoutActionPerformed
         logout();
     }//GEN-LAST:event_btnInfoLogoutActionPerformed
+
+    private void btnInfoChangeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInfoChangeActionPerformed
+        Connection conn = null;
+        CallableStatement stmt = null;
+        ResultSet rs = null;
+        int cerID = 0;
+
+        try {
+            conn = DBConnect.connectDatabase();
+            stmt = conn.prepareCall("SELECT CerCellId FROM [CerCell] WHERE CerCellUser = ?");
+            stmt.setString(1, cellUser);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                cerID = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        system.Certificate.ChangePassword cp =  new system.Certificate.ChangePassword(cerID);
+        cp.setVisible(true);
+    }//GEN-LAST:event_btnInfoChangeActionPerformed
 
     private void btnInfoEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInfoEditActionPerformed
         if (editState == false) {
@@ -608,25 +652,21 @@ public class CerPage extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnInfoEditActionPerformed
 
-    private void btnSearchCertificateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchCertificateActionPerformed
-        searchCertificate();
-    }//GEN-LAST:event_btnSearchCertificateActionPerformed
-
     private void txtSearchFillterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchFillterActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSearchFillterActionPerformed
 
+    private void btnSearchCertificateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchCertificateActionPerformed
+        searchCertificate();
+    }//GEN-LAST:event_btnSearchCertificateActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        printCertificate();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
     private void btnGenerateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateActionPerformed
         createCertificate();
     }//GEN-LAST:event_btnGenerateActionPerformed
-
-    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
-
-    }//GEN-LAST:event_formMouseClicked
-
-    private void tabCertificateManagerMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabCertificateManagerMouseEntered
-
-    }//GEN-LAST:event_tabCertificateManagerMouseEntered
 
     private void btnPrintReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintReportActionPerformed
         try {
@@ -637,19 +677,6 @@ public class CerPage extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_btnPrintReportActionPerformed
-
-    private void tabCertificateManagerComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_tabCertificateManagerComponentShown
-        loadCertificate();
-    }//GEN-LAST:event_tabCertificateManagerComponentShown
-
-    private void tabCertificateManagerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabCertificateManagerStateChanged
-        // TODO add your handling code here:
-        loadCertificate();
-    }//GEN-LAST:event_tabCertificateManagerStateChanged
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        printCertificate();
-    }//GEN-LAST:event_jButton5ActionPerformed
 
     public void loadInfo() {
         Connection conn = null;
