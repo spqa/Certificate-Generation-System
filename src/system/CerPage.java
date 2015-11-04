@@ -122,11 +122,6 @@ public class CerPage extends javax.swing.JFrame {
         btnInfoLogout = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                formMouseClicked(evt);
-            }
-        });
 
         jPanel2.setBackground(new java.awt.Color(0, 153, 204));
 
@@ -167,11 +162,6 @@ public class CerPage extends javax.swing.JFrame {
         tabCertificateManager.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 tabCertificateManagerStateChanged(evt);
-            }
-        });
-        tabCertificateManager.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                tabCertificateManagerMouseEntered(evt);
             }
         });
         tabCertificateManager.addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -314,12 +304,6 @@ public class CerPage extends javax.swing.JFrame {
         btnSearchCertificate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSearchCertificateActionPerformed(evt);
-            }
-        });
-
-        txtSearchFillter.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSearchFillterActionPerformed(evt);
             }
         });
 
@@ -538,20 +522,11 @@ public class CerPage extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
-
-    }//GEN-LAST:event_formMouseClicked
-
     private void tabCertificateManagerComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_tabCertificateManagerComponentShown
         loadCertificate();
     }//GEN-LAST:event_tabCertificateManagerComponentShown
 
-    private void tabCertificateManagerMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabCertificateManagerMouseEntered
-
-    }//GEN-LAST:event_tabCertificateManagerMouseEntered
-
     private void tabCertificateManagerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabCertificateManagerStateChanged
-        // TODO add your handling code here:
         loadCertificate();
     }//GEN-LAST:event_tabCertificateManagerStateChanged
 
@@ -651,10 +626,6 @@ public class CerPage extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnInfoEditActionPerformed
-
-    private void txtSearchFillterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchFillterActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtSearchFillterActionPerformed
 
     private void btnSearchCertificateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchCertificateActionPerformed
         searchCertificate();
