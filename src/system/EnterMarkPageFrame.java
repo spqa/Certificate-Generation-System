@@ -14,86 +14,91 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import system.Mark.DataTableMark;
+import system.Mark.Mark;
 
 /**
  *
  * @author super
  */
 public class EnterMarkPageFrame extends javax.swing.JFrame {
+
     DefaultTableModel tblModel;
     public List<DataTableMark> lstData;
+    List<String> lstMark;
 
     public EnterMarkPageFrame() throws HeadlessException {
     }
+
     /**
      * Creates new form EnterMarkPageFrame
+     *
      * @param CourseID
      */
-    
-    
+
     public EnterMarkPageFrame(int CourseID) {
         try {
             initComponents();
-            tblModel=new DefaultTableModel();
+            tblModel = new DefaultTableModel();
             tblModel.addColumn("Subject");
             tblModel.addColumn("Mark");
-            Connection conn=DBConnect.connectDatabase();
+            Connection conn = DBConnect.connectDatabase();
             try {
-                PreparedStatement pre=conn.prepareStatement("select * from subject where courseid=?");
+                PreparedStatement pre = conn.prepareStatement("select * from subject where courseid=?");
                 pre.setInt(1, CourseID);
-                ResultSet rs=pre.executeQuery();
-                while(rs.next()){
-                    String[] tempRow={rs.getString("name"),""};
+                ResultSet rs = pre.executeQuery();
+                while (rs.next()) {
+                    String[] tempRow = {rs.getString("name"), ""};
                     tblModel.addRow(tempRow);
                 }
-                
+
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
             jTable1.setModel(tblModel);
             jTable1.getColumnModel().getColumn(0).setMinWidth(300);
             setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(EnterMarkPageFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public List<DataTableMark> getMarkInformation(){
-           List<DataTableMark> lstDataTableMark=new ArrayList<>();
-           List<String> lstSubjectName=new ArrayList<>();
-           List<String> lstMark=new ArrayList<>();
-           for (int i = 0; i < jTable1.getModel().getRowCount(); i++) {
-            lstSubjectName.add((String)jTable1.getValueAt(i, 0));
+
+    public List<DataTableMark> getMarkInformation() {
+        List<DataTableMark> lstDataTableMark = new ArrayList<>();
+        List<String> lstSubjectName = new ArrayList<>();
+        lstMark = new ArrayList<>();
+        for (int i = 0; i < jTable1.getModel().getRowCount(); i++) {
+            lstSubjectName.add((String) jTable1.getValueAt(i, 0));
         }
-           for (int i = 0; i < jTable1.getModel().getRowCount(); i++) {
-            lstMark.add((String)jTable1.getValueAt(i, 1));
+        for (int i = 0; i < jTable1.getModel().getRowCount(); i++) {
+            lstMark.add((String) jTable1.getValueAt(i, 1));
         }
-           for (int i=0;i<lstSubjectName.size();i++) {
-            int tempID=getIdFromName(lstSubjectName.get(i));            
-            DataTableMark markData=new DataTableMark(tempID,lstMark.get(i) );
+        for (int i = 0; i < lstSubjectName.size(); i++) {
+            int tempID = getIdFromName(lstSubjectName.get(i));
+            DataTableMark markData = new DataTableMark(tempID, lstMark.get(i));
             lstDataTableMark.add(markData);
         }
-           
-           return lstDataTableMark;
+
+        return lstDataTableMark;
     }
 
-    private int getIdFromName(String name){
-        Connection conn= null;
+    private int getIdFromName(String name) {
+        Connection conn = null;
         try {
             conn = DBConnect.connectDatabase();
-            PreparedStatement pre=conn.prepareStatement("select * from subject where name=?");
+            PreparedStatement pre = conn.prepareStatement("select * from subject where name=?");
             pre.setString(1, name);
-            ResultSet rs=pre.executeQuery();
+            ResultSet rs = pre.executeQuery();
             rs.next();
             return rs.getInt(1);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         return 0;
-        
+
     }
 
     /**
@@ -108,6 +113,7 @@ public class EnterMarkPageFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -132,23 +138,40 @@ public class EnterMarkPageFrame extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/Delete25.png"))); // NOI18N
+        jButton2.setText("Cancel");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 594, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(243, 243, 243)
+                .addGap(163, 163, 163)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(80, 80, 80)
+                .addComponent(jButton2)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton1, jButton2});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2)))
         );
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton1, jButton2});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -156,9 +179,30 @@ public class EnterMarkPageFrame extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         //this.setVisible(false);
-        lstData=getMarkInformation();
-        this.setVisible(false);
+        lstData = getMarkInformation();
+        boolean checkMark = true;
+        try {
+            for (String lstData : lstMark) {
+                Float temp = Float.parseFloat(lstData);
+                if (temp > 100) {
+                    checkMark = false;
+                    JOptionPane.showMessageDialog(null, "Mark should below 100");
+                    break;
+                }
+            }
+            if (checkMark) {              
+                this.setVisible(false);
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, "The Mark(s) you entered contain invalid character");
+        }
+
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -197,6 +241,7 @@ public class EnterMarkPageFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables

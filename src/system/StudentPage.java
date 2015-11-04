@@ -266,6 +266,11 @@ public class StudentPage extends javax.swing.JFrame {
         jButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/Login60.png"))); // NOI18N
         jButton2.setText("Change Password");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         txtStudentStatus.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtStudentStatus.setText("Ready");
@@ -570,6 +575,11 @@ public class StudentPage extends javax.swing.JFrame {
     private void txtBalanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBalanceActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtBalanceActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        ChangePassStudent ch=new ChangePassStudent(studentID);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
