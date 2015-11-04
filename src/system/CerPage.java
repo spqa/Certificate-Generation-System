@@ -796,7 +796,7 @@ public class CerPage extends javax.swing.JFrame {
 
         try {
             conn = DBConnect.connectDatabase();
-            stmt = conn.prepareCall("SELECT * FROM [Student]");
+            stmt = conn.prepareCall("SELECT  Student.StuId, Student.FullName, Student.DOB, Course.Name, FeeStructure.FeeName FROM Student INNER JOIN Course ON Student.CourseId = Course.CourseId INNER JOIN FeeStructure ON Student.FeeId = FeeStructure.FeeId");
 
             rs = stmt.executeQuery();
             //Column
