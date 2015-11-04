@@ -135,10 +135,12 @@ public class MarkEdit extends javax.swing.JPanel {
             PreparedStatement pre = conn.prepareStatement("UPDATE Mark SET Mark.Mark = ? FROM Subject INNER JOIN Mark ON Subject.SubId = Mark.SubId "
                     + "WHERE  Subject.Name = ? AND Mark.StuId = ?");
             for (int i = 0; i < jTable1.getRowCount(); i++) {
-                pre.setFloat(1, Float.parseFloat(jTable1.getValueAt(i, 1).toString()));
-                pre.setString(2, jTable1.getValueAt(i, 0).toString());
-                pre.setInt(3, StuID);
-                pre.addBatch();
+                if (Float.parseFloat(jTable1.getValueAt(i, 1).toString()) != 0.0) {
+                    pre.setFloat(1, Float.parseFloat(jTable1.getValueAt(i, 1).toString()));
+                    pre.setString(2, jTable1.getValueAt(i, 0).toString());
+                    pre.setInt(3, StuID);
+                    pre.addBatch();
+                }
             }
             pre.executeBatch();
             JOptionPane.showMessageDialog(null, "Edit mark successfully!", "Message", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("src/res/ok40.png"));

@@ -5,6 +5,8 @@
  */
 package system;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -38,8 +40,27 @@ public class StudentPage extends javax.swing.JFrame {
         LoadStudentData();
         LoadTableData();
         lblHeadName.setText(CurrentStudent.getFullname());
+        addWindowListener(new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+               int rs= JOptionPane.showConfirmDialog(null,"Are sure you want to close?");
+                if (rs==0) {
+                    System.exit(0);
+                }
+            }
+             
+         });
     }
     
+    private float calBalance(){
+        float Total=Float.parseFloat(txtFee.getText());
+        for (int i = 0; i < tblPayment.getRowCount(); i++) {
+            float temp=Float.parseFloat(tblPayment.getValueAt(i, 0).toString());
+            Total-=temp;
+        }
+        return Total;
+    }
      private void LoadStudentData() {
         CurrentStudent = Student.getStudentById(studentID);
         txtStudentFullName.setText(CurrentStudent.getFullname());
@@ -47,9 +68,9 @@ public class StudentPage extends javax.swing.JFrame {
         txtStudentDOB.setText(CurrentStudent.getDOB() + "");     
         //txtStudentEmail.setText(CurrentStudent.get);
         if (CurrentStudent.getGender() != null) {
-            if (CurrentStudent.getGender().equals("Nam")) {
+            if (CurrentStudent.getGender().equals("Male")) {
                 txtGender.setText("Male");
-            } else if (CurrentStudent.getGender().equals("Nữ")) {
+            } else if (CurrentStudent.getGender().equals("Female")) {
                 txtGender.setText("Female");
             }
         }
@@ -59,7 +80,31 @@ public class StudentPage extends javax.swing.JFrame {
             txtStudentFeeType.setText("Monthly");
         }
         
+        Connection conn=null;
+         try {
+             
+            conn = DBConnect.connectDatabase();
+            PreparedStatement pre=conn.prepareStatement("SELECT * FROM Certificate WHERE StuId=?");
+            pre.setInt(1, studentID);
+            ResultSet rs=pre.executeQuery();
+             if (rs.next()) {
+                 txtStudentStatus.setText("Certificate Ready");
+             }else{
+                 txtStudentStatus.setText("Certificate not ready");
+             }
+         } catch (SQLException ex) {
+             Logger.getLogger(StudentPage.class.getName()).log(Level.SEVERE, null, ex);
+         }finally{
+             if (conn!=null) {
+                 try {
+                     conn.close();
+                 } catch (SQLException ex) {
+                     Logger.getLogger(StudentPage.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+             }
+         }
         
+         
     }
      
     private void LoadTableData()
@@ -78,7 +123,6 @@ public class StudentPage extends javax.swing.JFrame {
             }
             tblSubject.setModel(StuTblMode);
             tblSubject.getColumnModel().getColumn(0).setMinWidth(250);
-            //return StuTblMode;
             txtCourseName.setText(txtStudentCourseName.getText());
             
             Connection conn = DBConnect.connectDatabase();
@@ -100,7 +144,7 @@ public class StudentPage extends javax.swing.JFrame {
             StuTblPayment.addRow(row1);
         }
         tblPayment.setModel(StuTblPayment);
-        
+        txtBalance.setText(calBalance()+"");
     }
     
 
@@ -143,6 +187,8 @@ public class StudentPage extends javax.swing.JFrame {
         txtCourseName = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         txtFee = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        txtBalance = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtFeedBack = new javax.swing.JTextPane();
@@ -218,7 +264,6 @@ public class StudentPage extends javax.swing.JFrame {
         jButton2.setText("Change Password");
 
         txtStudentStatus.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtStudentStatus.setForeground(new java.awt.Color(0, 204, 102));
         txtStudentStatus.setText("Ready");
         txtStudentStatus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -349,10 +394,20 @@ public class StudentPage extends javax.swing.JFrame {
 
         txtCourseName.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
 
-        jLabel12.setFont(new java.awt.Font("Vani", 0, 11)); // NOI18N
+        jLabel12.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
         jLabel12.setText("Total Fee:");
 
         txtFee.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+
+        jLabel2.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
+        jLabel2.setText("Balance:");
+
+        txtBalance.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        txtBalance.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBalanceActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -372,9 +427,16 @@ public class StudentPage extends javax.swing.JFrame {
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel12)
                         .addGap(18, 18, 18)
-                        .addComponent(txtFee, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtFee, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtBalance, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
+
+        jPanel6Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtBalance, txtFee});
+
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
@@ -383,13 +445,17 @@ public class StudentPage extends javax.swing.JFrame {
                     .addComponent(jLabel11)
                     .addComponent(txtCourseName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12)
-                    .addComponent(txtFee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtFee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtBalance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
+
+        jPanel6Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {txtBalance, txtFee});
 
         jTabbedPane1.addTab("Mark And Payment", new javax.swing.ImageIcon(getClass().getResource("/res/Performance40.png")), jPanel6); // NOI18N
 
@@ -497,6 +563,10 @@ public class StudentPage extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void txtBalanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBalanceActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBalanceActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -527,7 +597,7 @@ public class StudentPage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new StudentPage(2).setVisible(true);
+                new StudentPage(4).setVisible(true);
             }
         });
     }
@@ -540,6 +610,7 @@ public class StudentPage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -558,6 +629,7 @@ public class StudentPage extends javax.swing.JFrame {
     private javax.swing.JLabel lblHeadName;
     private javax.swing.JTable tblPayment;
     private javax.swing.JTable tblSubject;
+    private javax.swing.JTextField txtBalance;
     private javax.swing.JTextField txtCourseName;
     private javax.swing.JTextField txtFee;
     private javax.swing.JTextPane txtFeedBack;
