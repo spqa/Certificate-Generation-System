@@ -183,11 +183,13 @@ public class EnterMarkPageFrame extends javax.swing.JFrame {
         boolean checkMark = true;
         try {
             for (String lstData : lstMark) {
-                Float temp = Float.parseFloat(lstData);
+                if (!lstData.equals("")) {
+                    Float temp = Float.parseFloat(lstData);
                 if (temp > 100) {
                     checkMark = false;
                     JOptionPane.showMessageDialog(null, "Mark should below 100");
                     break;
+                }
                 }
             }
             if (checkMark) {              

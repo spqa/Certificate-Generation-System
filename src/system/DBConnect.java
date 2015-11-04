@@ -35,12 +35,12 @@ public class DBConnect {
         if (conn == null || conn.isClosed()) {
             Properties p = new Properties();
             File file = new File("config.properties");
-            System.out.println(file.getAbsolutePath());
+//            System.out.println(file.getAbsolutePath());
             
             // neu file khong ton tai
             if (!file.exists()) {
                 try {
-                    System.out.println("File not found!!!!!!!");
+//                    System.out.println("File not found!!!!!!!");
                     file.createNewFile();
                     p.setProperty("serverName", "localhost");
                     p.setProperty("dbName", "Certificate");

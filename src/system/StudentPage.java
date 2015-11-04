@@ -46,7 +46,7 @@ public class StudentPage extends javax.swing.JFrame {
 
             @Override
             public void windowClosing(WindowEvent e) {
-                int rs= JOptionPane.showConfirmDialog(null, "Are you sure want to exit?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.CLOSED_OPTION, new ImageIcon("src/res/help60.png"));
+                int rs= JOptionPane.showConfirmDialog(null, "Are you sure want to exit?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.CLOSED_OPTION, new ImageIcon(getClass().getResource("/res/Help60.png")));
                 System.out.println(rs);
                 if (rs==0) {
                     System.exit(0);
@@ -91,9 +91,9 @@ public class StudentPage extends javax.swing.JFrame {
             pre.setInt(1, studentID);
             ResultSet rs=pre.executeQuery();
              if (rs.next()) {
-                 txtStudentStatus.setText("Certificate Ready");
+                 txtStudentStatus.setText("Certificate ready.");
              }else{
-                 txtStudentStatus.setText("Certificate not ready");
+                 txtStudentStatus.setText("Certificate not ready.");
              }
          } catch (SQLException ex) {
              Logger.getLogger(StudentPage.class.getName()).log(Level.SEVERE, null, ex);
@@ -553,7 +553,7 @@ public class StudentPage extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        int rs = JOptionPane.showConfirmDialog(this, "Are you sure want to Logout?", "Confirm", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon("src/res/Help60.png"));
+        int rs = JOptionPane.showConfirmDialog(this, "Are you sure want to Logout?", "Confirm", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon(getClass().getResource("/res/Help60.png")));
         if (rs == 0) {
             this.dispose();
             MainPage main = new MainPage();
@@ -571,14 +571,14 @@ public class StudentPage extends javax.swing.JFrame {
             boolean bool=pre.execute();
             if(bool == false)
             {
-                JOptionPane.showMessageDialog(null, "Send Successfully");
+                JOptionPane.showMessageDialog(null, "Send Successfully!");
             }
             
         } catch (SQLException ex) {
             Logger.getLogger(StudentPage.class.getName()).log(Level.SEVERE, null, ex);
         }    
         }else{
-        JOptionPane.showMessageDialog(null, "Feedback can not be empty!");
+        JOptionPane.showMessageDialog(null, "Feedback cannot be empty!");
         }
         
     }//GEN-LAST:event_jButton1ActionPerformed

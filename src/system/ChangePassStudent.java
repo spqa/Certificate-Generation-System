@@ -221,7 +221,7 @@ public class ChangePassStudent extends javax.swing.JFrame {
                         pre.setInt(2, StuID);
                         boolean rs=pre.execute();
                         if (rs==false) {
-                            JOptionPane.showMessageDialog(this, "Update Pass Successfully!!", "Information", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("src/res/ok50.png"));
+                            JOptionPane.showMessageDialog(this, "Update Pass Successfully!!", "Information", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(getClass().getResource("/res/ok50.png")));
                             this.dispose();
                         }
                     } catch (SQLException ex) {

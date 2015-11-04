@@ -140,7 +140,7 @@ public class Admin {
             temp.setPhone(rs.getString("Phone"));
             temp.setEmail(rs.getString("Email"));
             temp.setUser(rs.getString("AUser"));
-            System.out.println(temp.toString());
+//            System.out.println(temp.toString());
             return temp;
         } catch (SQLException ex) {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);

@@ -143,13 +143,13 @@ public class MarkEdit extends javax.swing.JPanel {
                 }
             }
             pre.executeBatch();
-            JOptionPane.showMessageDialog(null, "Edit mark successfully!", "Message", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("src/res/ok40.png"));
+            JOptionPane.showMessageDialog(null, "Edit mark successfully!", "Message", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(getClass().getResource("/res/ok40.png")));
             jTable1.setModel(Mark.getTableMark(StuID));
             jTable1.getColumnModel().getColumn(0).setMinWidth(300);
         } catch (SQLException ex) {
             Logger.getLogger(MarkEdit.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(null, "The mark(s) you entered contain invalid character!", "Error", JOptionPane.ERROR_MESSAGE, new ImageIcon("src/res/delete45.png"));
+            JOptionPane.showMessageDialog(null, "The mark(s) you entered contain invalid character!", "Error", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/res/Delete45.png")));
             ex.printStackTrace();
         } finally {
             if (conn != null) {

@@ -94,7 +94,7 @@ public class AdminPage extends javax.swing.JFrame {
 
             @Override
             public void windowClosing(WindowEvent e) {
-                int rs = JOptionPane.showConfirmDialog(null, "Are you sure want to exit?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.CLOSED_OPTION, new ImageIcon("src/res/help60.png"));
+                int rs = JOptionPane.showConfirmDialog(null, "Are you sure want to exit?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.CLOSED_OPTION, new ImageIcon(getClass().getResource("/res/Help60.png")));
                 if (rs == 0) {
                     System.exit(0);
                 }
@@ -139,6 +139,23 @@ public class AdminPage extends javax.swing.JFrame {
             return 2;
         }
         return 0;
+    }
+    
+    private boolean validateForm() {
+
+        if (txtStudentName.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(null, "The Fullname can not be empty!", "Error", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/res/Delete40.png")));
+            return false;
+        } else if (grGender.getSelection() == null) {
+            JOptionPane.showMessageDialog(null, "Please choose type of Gender!", "Error", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/res/Delete40.png")));
+            return false;
+        } else if (grPayment.getSelection() == null) {
+            JOptionPane.showMessageDialog(null, "Please choose student Payment!", "Error", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/res/Delete40.png")));
+            return false;
+        } else {
+            return true;
+        }
+
     }
 
     private void ComboBoxData() {
@@ -226,22 +243,7 @@ public class AdminPage extends javax.swing.JFrame {
 //        lblFee.setText("Total Fee: " + ((Course) JListCourse.getSelectedValue()).getMoney());
     }
 
-    private boolean validateForm() {
-
-        if (txtStudentName.getText().trim().equals("")) {
-            JOptionPane.showMessageDialog(null, "The Fullname can not be empty!", "Error", JOptionPane.ERROR_MESSAGE, new ImageIcon("src/res/delete40.png"));
-            return false;
-        } else if (grGender.getSelection() == null) {
-            JOptionPane.showMessageDialog(null, "Please choose type of Gender!", "Error", JOptionPane.ERROR_MESSAGE, new ImageIcon("src/res/delete40.png"));
-            return false;
-        } else if (grPayment.getSelection() == null) {
-            JOptionPane.showMessageDialog(null, "Please choose student Payment!", "Error", JOptionPane.ERROR_MESSAGE, new ImageIcon("src/res/delete40.png"));
-            return false;
-        } else {
-            return true;
-        }
-
-    }
+    
 
     private void EditSwitch(boolean bool) {
         txtAdminAddress.setEnabled(bool);
@@ -434,7 +436,7 @@ public class AdminPage extends javax.swing.JFrame {
                 LoadDataStudent();
             }
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(null, "The ID you Entered is Invalid!", "Error", JOptionPane.ERROR_MESSAGE, new ImageIcon("src/res/delete40.png"));
+            JOptionPane.showMessageDialog(null, "The ID you Entered is Invalid!", "Error", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/res/Delete40.png")));
         }
     }
 
@@ -1338,19 +1340,19 @@ public class AdminPage extends javax.swing.JFrame {
                         }
                         int[] rs1 = MarkInsert.executeBatch();
                         MarkInsert.close();
-                        JOptionPane.showMessageDialog(null, "Student and Mark add Successfully!", "Message", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("src/res/ok40.png"));
+                        JOptionPane.showMessageDialog(null, "Student and Mark add Successfully!", "Message", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(getClass().getResource("/res/ok40.png")));
                     }
                 } else if (rs == false) {
-                    JOptionPane.showMessageDialog(null, "Student add Successfully!", "Message", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("src/res/ok40.png"));
+                    JOptionPane.showMessageDialog(null, "Student add Successfully!", "Message", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(getClass().getResource("/res/ok40.png")));
                 }
 
             } catch (SQLException ex) {
                 Logger.getLogger(AdminPage.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ParseException ex) {
-                JOptionPane.showMessageDialog(null, "The date you entered is not valid", "Error", JOptionPane.ERROR_MESSAGE, new ImageIcon("src/res/delete40.png"));
+                JOptionPane.showMessageDialog(null, "The date you entered is not valid", "Error", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/res/Delete40.png")));
 
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(null, "The marks you entered contain invalid character!", "Error", JOptionPane.ERROR_MESSAGE, new ImageIcon("src/res/delete40.png"));
+                JOptionPane.showMessageDialog(null, "The marks you entered contain invalid character!", "Error", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/res/Delete40.png")));
             } finally {
                 if (connection != null) {
                     try {
@@ -1381,11 +1383,11 @@ public class AdminPage extends javax.swing.JFrame {
         if (btnEdit.getText().equals("Edit Information")) {
             btnEdit.setText("OK");
             btnEdit.setMinimumSize(new Dimension(153, 49));
-            btnEdit.setIcon(new ImageIcon("src/res/ok40.png"));
+            btnEdit.setIcon(new ImageIcon(getClass().getResource("/res/ok40.png")));
             EditSwitch(true);
         } else if (btnEdit.getText().equals("OK")) {
             btnEdit.setText("Edit Information");
-            btnEdit.setIcon(new ImageIcon("src/res/edit40.png"));
+            btnEdit.setIcon(new ImageIcon(getClass().getResource("/res/edit40.png")));
             Connection conn = null;
 
             try {
@@ -1407,12 +1409,12 @@ public class AdminPage extends javax.swing.JFrame {
                 pre.setInt(7, adminID);
                 boolean rs = pre.execute();
                 if (rs == false) {
-                    JOptionPane.showMessageDialog(this, "Edit Successfully!!", "Information", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("src/res/ok50.png"));
+                    JOptionPane.showMessageDialog(this, "Edit Successfully!!", "Information", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(getClass().getResource("/res/ok50.png")));
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(AdminPage.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ParseException ex) {
-                JOptionPane.showMessageDialog(null, "The date you entered is not valid", "Error", JOptionPane.ERROR_MESSAGE, new ImageIcon("src/res/delete40.png"));
+                JOptionPane.showMessageDialog(null, "The date you entered is not valid", "Error", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/res/Delete40.png")));
             } finally {
                 try {
                     conn.close();
@@ -1431,7 +1433,7 @@ public class AdminPage extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        int rs = JOptionPane.showConfirmDialog(this, "Are you sure want to Logout?", "Confirm", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon("src/res/Help60.png"));
+        int rs = JOptionPane.showConfirmDialog(this, "Are you sure want to Logout?", "Confirm", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon(getClass().getResource("/res/Help60.png")));
         if (rs == 0) {
             this.dispose();
             MainPage main = new MainPage();
@@ -1445,7 +1447,7 @@ public class AdminPage extends javax.swing.JFrame {
 
     private void txtFormatDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFormatDateActionPerformed
         // TODO add your handling code here:
-        System.out.println(txtFormatDate.getText());
+//        System.out.println(txtFormatDate.getText());
     }//GEN-LAST:event_txtFormatDateActionPerformed
 
     private void SearchNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchNameActionPerformed
@@ -1472,7 +1474,7 @@ public class AdminPage extends javax.swing.JFrame {
     private void mnEditStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnEditStudentActionPerformed
         // TODO add your handling code here:
         if (tblStudentData.getSelectedRow() >= 0) {
-            jTabbedPane1.addTab("Edit Student", new ImageIcon("src/res/edit40.png"), new EditTab(jTabbedPane1, Integer.parseInt(tblStudentData.getValueAt(tblStudentData.getSelectedRow(), 0).toString())));
+            jTabbedPane1.addTab("Edit Student", new ImageIcon(getClass().getResource("/res/edit40.png")), new EditTab(jTabbedPane1, Integer.parseInt(tblStudentData.getValueAt(tblStudentData.getSelectedRow(), 0).toString())));
         }
 
 
@@ -1481,7 +1483,7 @@ public class AdminPage extends javax.swing.JFrame {
     private void mnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnDeleteActionPerformed
         // TODO add your handling code here:
         if (tblStudentData.getSelectedRow() >= 0) {
-            int confirm = JOptionPane.showConfirmDialog(null, "Are you sure want to delete this Student? \n This can not be undone!", "Warning", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, new ImageIcon("src/res/warn45.png"));
+            int confirm = JOptionPane.showConfirmDialog(null, "Are you sure want to delete this Student? \n This can not be undone!", "Warning", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, new ImageIcon(getClass().getResource("/res/warn45.png")));
             if (confirm == 0) {
                 PreparedStatement pre = null;
                 try {
@@ -1492,7 +1494,7 @@ public class AdminPage extends javax.swing.JFrame {
                     LoadDataStudent();
 
                     if (rs == false) {
-                        JOptionPane.showMessageDialog(null, "Delete Successfully", "Message", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("src/res/ok40.png"));
+                        JOptionPane.showMessageDialog(null, "Delete Successfully", "Message", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(getClass().getResource("/res/ok40.png")));
                     }
 
                 } catch (SQLException ex) {
@@ -1513,7 +1515,7 @@ public class AdminPage extends javax.swing.JFrame {
     private void mnMarkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnMarkActionPerformed
         // TODO add your handling code here:
         if (tblStudentData.getSelectedRow() >= 0) {
-            jTabbedPane1.addTab("Edit Mark", new ImageIcon("src/res/edit40.png"), new MarkEdit(Integer.parseInt(tblStudentData.getValueAt(tblStudentData.getSelectedRow(), 0).toString()), jTabbedPane1));
+            jTabbedPane1.addTab("Edit Mark", new ImageIcon(getClass().getResource("/res/edit40.png")), new MarkEdit(Integer.parseInt(tblStudentData.getValueAt(tblStudentData.getSelectedRow(), 0).toString()), jTabbedPane1));
         }
     }//GEN-LAST:event_mnMarkActionPerformed
 
@@ -1538,7 +1540,7 @@ public class AdminPage extends javax.swing.JFrame {
                 Logger.getLogger(AdminPage.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
-            JOptionPane.showMessageDialog(null, "No content to print", "Error", JOptionPane.ERROR_MESSAGE, new ImageIcon("src/res/delete45.png"));
+            JOptionPane.showMessageDialog(null, "No content to print", "Error", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/res/Delete45.png")));
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -1559,7 +1561,7 @@ public class AdminPage extends javax.swing.JFrame {
             int id = Integer.parseInt(tblStudentData.getValueAt(tblStudentData.getSelectedRow(), 0).toString());
             for (Student Student1 : lstStudent) {
                 if (Student1.getId() == id) {
-                    JOptionPane.showMessageDialog(null, "Username: " + Student1.getUsername() + " - Password: " + Student1.getPass(), "Username And Password", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("src/res/changepass40.png"));
+                    JOptionPane.showMessageDialog(null, "Username: " + Student1.getUsername() + " - Password: " + Student1.getPass(), "Username And Password", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(getClass().getResource("/res/ChangePass40.png")));
                     break;
                 }
             }

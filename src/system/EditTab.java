@@ -267,7 +267,7 @@ public class EditTab extends javax.swing.JPanel {
             pre.setInt(6, StuId);
             boolean rs=pre.execute();
             if (rs==false) {
-                JOptionPane.showMessageDialog(null, "Update Successfully", "Information", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("src/res/ok40.png"));
+                JOptionPane.showMessageDialog(null, "Update Successfully", "Information", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(getClass().getResource("/res/ok40.png")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(EditTab.class.getName()).log(Level.SEVERE, null, ex);

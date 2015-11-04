@@ -217,7 +217,7 @@ public class EnterPaymentPage extends javax.swing.JFrame {
             call.setString(4,txtDes.getText());
             boolean rs = call.execute();
             if (rs == false) {
-                JOptionPane.showMessageDialog(null, "Add Successfully!", "Message", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("src/res/ok40.png"));
+                JOptionPane.showMessageDialog(null, "Add Successfully!", "Message", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(getClass().getResource("/res/ok40.png")));
                 this.dispose();
             }
         } catch (SQLException ex) {
