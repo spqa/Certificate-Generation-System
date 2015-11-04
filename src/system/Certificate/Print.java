@@ -31,6 +31,7 @@ public class Print extends javax.swing.JFrame {
     public Print() {
         JOptionPane.showMessageDialog(null, "Not supported");
         this.dispose();
+        
     }
 
     public Print(String stringReplace1, String stringReplace2, String stringReplace3, String stringReplace4, String stringReplace5, String stringReplace6, String stringReplace7, String stringReplace8) {
@@ -44,7 +45,7 @@ public class Print extends javax.swing.JFrame {
         string7 = stringReplace7;
         string8 = stringReplace8;
         preloadTemplate();
-
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
     public String string1;
     public String string2;

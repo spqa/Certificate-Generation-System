@@ -23,6 +23,7 @@ public class ChangePassword extends javax.swing.JFrame {
     public ChangePassword(int cID) {
         initComponents();
         cellID = cID;
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     public int cellID;

@@ -250,6 +250,7 @@ public class StudentPage extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         jLabel8.setText("Fee Type:");
 
+        txtStudentFullName.setEditable(false);
         txtStudentFullName.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         txtStudentFullName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -257,10 +258,13 @@ public class StudentPage extends javax.swing.JFrame {
             }
         });
 
+        txtStudentCourseName.setEditable(false);
         txtStudentCourseName.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
 
+        txtStudentFeeType.setEditable(false);
         txtStudentFeeType.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
 
+        txtStudentDOB.setEditable(false);
         txtStudentDOB.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
 
         jButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -272,6 +276,7 @@ public class StudentPage extends javax.swing.JFrame {
             }
         });
 
+        txtStudentStatus.setEditable(false);
         txtStudentStatus.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtStudentStatus.setText("Ready");
         txtStudentStatus.addActionListener(new java.awt.event.ActionListener() {
@@ -283,6 +288,7 @@ public class StudentPage extends javax.swing.JFrame {
         jLabel14.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         jLabel14.setText("Status");
 
+        txtGender.setEditable(false);
         txtGender.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         txtGender.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -555,6 +561,7 @@ public class StudentPage extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if (!txtFeedBack.getText().equals("")) {
         Connection conn = null;
         try {
             conn = DBConnect.connectDatabase();
@@ -564,12 +571,16 @@ public class StudentPage extends javax.swing.JFrame {
             boolean bool=pre.execute();
             if(bool == false)
             {
-                JOptionPane.showMessageDialog(null, "Send Successful");
+                JOptionPane.showMessageDialog(null, "Send Successfully");
             }
             
         } catch (SQLException ex) {
             Logger.getLogger(StudentPage.class.getName()).log(Level.SEVERE, null, ex);
+        }    
+        }else{
+        JOptionPane.showMessageDialog(null, "Feedback can not be empty!");
         }
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void txtBalanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBalanceActionPerformed
