@@ -246,11 +246,11 @@ public class AdminPage extends javax.swing.JFrame {
     
 
     private void EditSwitch(boolean bool) {
-        txtAdminAddress.setEnabled(bool);
-        txtAdminDOB.setEnabled(bool);
-        txtAdminEmail.setEnabled(bool);
-        txtAdmnPhone.setEnabled(bool);
-        txtAdminFullName.setEnabled(bool);
+        txtAdminAddress.setEditable(bool);
+        txtAdminDOB.setEditable(bool);
+        txtAdminEmail.setEditable(bool);
+        txtAdmnPhone.setEditable(bool);
+        txtAdminFullName.setEditable(bool);
         rdAdminFemale.setEnabled(bool);
         rdAdminMale.setEnabled(bool);
     }
@@ -1096,11 +1096,11 @@ public class AdminPage extends javax.swing.JFrame {
         rdAdminFemale.setText("Female");
         rdAdminFemale.setEnabled(false);
 
+        txtAdminDOB.setEditable(false);
         txtAdminDOB.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
-        txtAdminDOB.setEnabled(false);
 
+        txtAdminFullName.setEditable(false);
         txtAdminFullName.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
-        txtAdminFullName.setEnabled(false);
 
         jLabel12.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         jLabel12.setText("Phone:");
@@ -1111,14 +1111,14 @@ public class AdminPage extends javax.swing.JFrame {
         jLabel14.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         jLabel14.setText("Address:");
 
+        txtAdmnPhone.setEditable(false);
         txtAdmnPhone.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
-        txtAdmnPhone.setEnabled(false);
 
+        txtAdminEmail.setEditable(false);
         txtAdminEmail.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
-        txtAdminEmail.setEnabled(false);
 
+        txtAdminAddress.setEditable(false);
         txtAdminAddress.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
-        txtAdminAddress.setEnabled(false);
 
         btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/edit40.png"))); // NOI18N
         btnEdit.setText("Edit Information");
@@ -1412,9 +1412,9 @@ public class AdminPage extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Edit Successfully!!", "Information", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(getClass().getResource("/res/ok50.png")));
                 }
             } catch (SQLException ex) {
-                Logger.getLogger(AdminPage.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "Gender is not set!", "Error", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/res/Delete40.png")));
             } catch (ParseException ex) {
-                JOptionPane.showMessageDialog(null, "The date you entered is not valid", "Error", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/res/Delete40.png")));
+                JOptionPane.showMessageDialog(null, "The date you entered is not valid!", "Error", JOptionPane.ERROR_MESSAGE, new ImageIcon(getClass().getResource("/res/Delete40.png")));
             } finally {
                 try {
                     conn.close();
