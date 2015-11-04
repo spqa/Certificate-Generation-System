@@ -48,6 +48,7 @@ public class Draft extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextPane1 = new javax.swing.JTextPane();
         jButton2 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -60,28 +61,38 @@ public class Draft extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("refresh");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(114, 114, 114)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(231, 231, 231)
-                        .addComponent(jButton2)))
-                .addContainerGap(129, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(263, 263, 263)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton2)
+                .addContainerGap(377, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(54, 54, 54)
-                .addComponent(jButton2)
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 539, Short.MAX_VALUE)
+                .addGap(27, 27, 27)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2)
+                    .addComponent(jButton1))
+                .addContainerGap())
         );
 
         pack();
@@ -89,24 +100,6 @@ public class Draft extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
-            //        try {
-//            // TODO add your handling code here:
-//            jTextPane1.setPage(f.toURI().toURL());
-//            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-//            
-//        } catch (MalformedURLException ex) {
-//            Logger.getLogger(Draft.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (IOException ex) {
-//            Logger.getLogger(Draft.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (ClassNotFoundException ex) {
-//            Logger.getLogger(Draft.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            Logger.getLogger(Draft.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            Logger.getLogger(Draft.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (UnsupportedLookAndFeelException ex) {
-//            Logger.getLogger(Draft.class.getName()).log(Level.SEVERE, null, ex);
-//        }
             File  f=new File("test.html");            
             BufferedReader bfr = new BufferedReader(new InputStreamReader(new FileInputStream(f))) ;
             
@@ -117,9 +110,14 @@ public class Draft extends javax.swing.JFrame {
             
             while( null != (line = bfr.readLine()) ){
                 /* --- */
-                line = line.replace("{name}", "Hoang Dong Tien");               
-                line = line.replace("{age}", "40"); 
-                
+                line = line.replace("{STRING_REPLACE1}", "Hoang Dong Tien");               
+                line = line.replace("{STRING_REPLACE2}", "28"); 
+                line = line.replace("{STRING_REPLACE3}", "June"); 
+                line = line.replace("{STRING_REPLACE4}", "2015"); 
+                line = line.replace("{STRING_REPLACE5}", "HDSE"); 
+                line = line.replace("{STRING_REPLACE6}", "285 Đội Cấn"); 
+                line = line.replace("{STRING_REPLACE7}", "2015-11-04"); 
+                line = line.replace("{STRING_REPLACE8}", "Principal"); 
                 fw.write(line);                
             }            
             bfr.close();
@@ -139,6 +137,43 @@ public class Draft extends javax.swing.JFrame {
             Logger.getLogger(Draft.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            File  f=new File("test.html");            
+            BufferedReader bfr = new BufferedReader(new InputStreamReader(new FileInputStream(f))) ;
+            
+            File fTemp = new File("temp.html");
+            FileWriter fw = new FileWriter(fTemp);
+            
+            String line = null;
+            
+            while( null != (line = bfr.readLine()) ){
+                /* --- */
+                line = line.replace("{STRING_REPLACE1}", "Hoang Dong Tien");               
+                line = line.replace("{STRING_REPLACE2}", "28"); 
+                line = line.replace("{STRING_REPLACE3}", "June"); 
+                line = line.replace("{STRING_REPLACE4}", "2015"); 
+                line = line.replace("{STRING_REPLACE5}", "HDSE"); 
+                line = line.replace("{STRING_REPLACE6}", "285 Đội Cấn"); 
+                line = line.replace("{STRING_REPLACE7}", "2015-11-04"); 
+                line = line.replace("{STRING_REPLACE8}", "Principal"); 
+                fw.write(line);                
+            }            
+            bfr.close();
+            fw.flush();
+            fw.close();
+            
+            jTextPane1.setPage(fTemp.toURI().toURL());
+            
+            fTemp.delete();
+            
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(Draft.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Draft.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -183,6 +218,7 @@ public class Draft extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextPane jTextPane1;
