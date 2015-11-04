@@ -33,6 +33,7 @@ public class StudentPage extends javax.swing.JFrame {
     Student CurrentStudent;
     /**
      * Creates new form StudentPage
+     * @param StuID
      */
     public StudentPage(int StuID) {
         this.studentID=StuID;
@@ -40,11 +41,13 @@ public class StudentPage extends javax.swing.JFrame {
         LoadStudentData();
         LoadTableData();
         lblHeadName.setText(CurrentStudent.getFullname());
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
 
             @Override
             public void windowClosing(WindowEvent e) {
-               int rs= JOptionPane.showConfirmDialog(null,"Are sure you want to close?");
+                int rs= JOptionPane.showConfirmDialog(null, "Are you sure want to exit?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.CLOSED_OPTION, new ImageIcon("src/res/help60.png"));
+                System.out.println(rs);
                 if (rs==0) {
                     System.exit(0);
                 }
@@ -222,7 +225,8 @@ public class StudentPage extends javax.swing.JFrame {
                 .addGap(149, 149, 149)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblHeadName, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(lblHeadName, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
